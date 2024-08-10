@@ -14,7 +14,7 @@ const Login: React.FC<LoginProps> = ({ data }) => {
   const [show, setShow] = useState(false);
 
   return (
-    <div className="h-[100vh]  flex  py-20 px-4 md:py-0 md:px-0  md:items-center justify-center bg-primary">
+    <div className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
       <div className='flex flex-col md:flex-row md:w-4/5 shadow-lg rounded-lg overflow-hidden'>
         {/* Left Side - Image and Text */}
         <div className='flex flex-col md:w-1/2 md:p-10 bg-secondary text-white'>
@@ -61,11 +61,11 @@ const Login: React.FC<LoginProps> = ({ data }) => {
             {show ? 
             <EyeIcon onClick={()=>setShow(false)} className='absolute right-6 bottom-[88px] md:right-1 md:bottom-[72px] cursor-pointer'/> : <EyeOff onClick={()=>setShow(true)} className='absolute right-6 bottom-[88px] md:right-1 md:bottom-[72px] cursor-pointer'/>}
             <Button className='w-full bg-btn text-white py-2 rounded'>
-              Submit
+              Login
             </Button>
           </div>
           <div className='pt-4'>
-            <p>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></p>
+            <p className='pb-4 md:pb-0'>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></p>
           </div>
         </div>
       </div>
