@@ -1,9 +1,13 @@
-import { Button } from "./components/ui/button"
+import Login from "./components/custom/Login"
+import { loginData } from "./utils/data/user"
 
 const App = () => {
   return (
-    <div className="text-2xl text-red-500">App
-    <Button >Button</Button>
+    <div>
+   
+
+      <Login data={loginData}/>
+    
     </div>
   )
 }

@@ -17,6 +17,14 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        primary: 'var(--color-primary-bg)',
+        secondary: 'var(--color-secondary-bg)',
+        highlight : 'var(--color-highlight-text)',
+        text: 'var(--color-primary-text)',
+        para: 'var(--color-secondary-text)',
+        btn: 'var(--color-primary-btn)',
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
