@@ -64,7 +64,9 @@ const Login: React.FC<LoginProps> = ({ data }) => {
               Submit
             </Button>
           </div>
-          
+          <div className='pt-4'>
+            <p>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></p>
+          </div>
         </div>
       </div>
     </div>
