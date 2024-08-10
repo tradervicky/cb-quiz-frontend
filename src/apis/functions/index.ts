@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosError, AxiosRequestHeaders } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { MakeApiRequestParams } from 'interfaces/global';
 const baseUrl = import.meta.env.VITE_REACT_API_URL
 const api = axios.create({
