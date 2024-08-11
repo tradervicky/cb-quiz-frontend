@@ -1,14 +1,41 @@
-import { LayoutDashboard } from 'lucide-react'
+import React, { useState } from 'react';
+import MenuSideBar from './menu';
+import logo from '../../assets/logo.png'
+import { Button } from '@/components/ui/button';
+import { ChevronLeftIcon, LogOut } from 'lucide-react';
 
-import React from 'react'
 
-const MenuSidebar : React.FC = () => {
-  
+const Leftbar = () => {
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <div>
-
-    </div>
-  )
+    <div className={`  bg-primary text-text mt-0 h-screen px-4  flex flex-col  items-center pb-4 z-10 relative transition-all duration-300 ${!isCollapsed  ? "w-[220px]" : "w-20"}`}>
+      <div className='absolute right-0 top-2 bg-white px-4 py-2 rounded-l-lg cursor-pointer'>
+        <ChevronLeftIcon onClick={toggleCollapse} className={`${isCollapsed ? 'rotate-180' : ''}`}/>
+      </div>
+      {!isCollapsed && 
+      <div className='flex justify-center flex-col items-center gap-2  pb-2 border-b-4 w-full border-highlight'>
+        <img src={logo} alt="Logo" className='w-[100px] h-[100px] object-cover rounded-full cursor-pointer mt-8'/>
+      </div>
 }
+      <div className={`${isCollapsed && "mt-12"}`}>
+        <MenuSideBar isCollapsed={isCollapsed} toggleCollapse={toggleCollapse}/>
+      </div>
+      <div className='mt-2 absolute bottom-4'>
+        { !isCollapsed ? 
+          <Button>
+          Log out
+        </Button> :
+        <LogOut className='cursor-pointer'/>
+        }
+        
+      </div>
+    </div>
+  );
+};
 
-export default MenuSidebar
+export default Leftbar;
