@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 interface MenuSideBarProps {
   isCollapsed: boolean;
-  toggleCollapse : ()=>void
+  toggleCollapse : ()=>void;
 }
 
 const MenuSidebar: React.FC<MenuSideBarProps> = ( {isCollapsed, toggleCollapse }) => {
@@ -75,10 +75,10 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ( {isCollapsed, toggleCollapse }
       <ul>
        {!isCollapsed &&  <p className='text-custom-h6 text-highlight p-2'>Menu</p>}
         {menuDashboard.map((data, index) => (
-          <li key={index} >
+          <li key={index} onClick={isCollapsed ? toggleCollapse : undefined}>
             <button
               onClick={() => handleNavigation(data.toLink)}
-              className={`flex ${ isCollapsed && "w-[72px] mx-auto justify-center "}  p-4 items-center gap-4  w-full mt-2  text-left  font-medium bg-secondary rounded-lg ${activeItem === data.toLink ? 'bg-white text-highlight' : ''}`}
+              className={`flex ${ isCollapsed && "w-[70px] mx-auto justify-center "}  p-4 items-center gap-4  w-full mt-2  text-left  font-medium bg-secondary rounded-lg ${activeItem === data.toLink ? 'bg-white text-highlight' : ''}`}
             >
               {data.icon}
               
@@ -88,7 +88,7 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ( {isCollapsed, toggleCollapse }
         ))}
        {!isCollapsed && <p className=' text-highlight p-2 '>Components</p>}
         {menuItems.map((data, index) => (
-          <li key={index}>
+          <li key={index} onClick={isCollapsed ? toggleCollapse : undefined}>
             <button
               onClick={() => {
                 if (data.subMenu) {
@@ -97,7 +97,7 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ( {isCollapsed, toggleCollapse }
                   handleNavigation(data.toLink);
                 }
               }}
-              className={`flex ${ isCollapsed && "w-[72px] mx-auto justify-center "}  p-4 items-center gap-4  w-full mt-2  text-left  font-medium bg-secondary rounded-lg ${activeItem === data.toLink ? 'bg-white text-highlight' : ''}`}
+              className={`flex ${ isCollapsed && "w-[70px] mx-auto justify-center "}  p-4 items-center gap-4  w-full mt-2  text-left  font-medium bg-secondary rounded-lg ${activeItem === data.toLink ? 'bg-white text-highlight' : ''}`}
             >
               {data.icon}
               {!isCollapsed ? data.title : ""}
@@ -109,7 +109,7 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ( {isCollapsed, toggleCollapse }
               
               <ul
                 className={`overflow-hidden transition-[max-height] ml-8 duration-500 ease-in-out ${
-                  openSubMenu === data.title ? 'max-h-[500px]' : 'max-h-0'
+                  openSubMenu === data.title && !isCollapsed ? 'max-h-[500px]' : 'max-h-0'
                 }`}
               >
                 {data.subMenu.map((subItem, subIndex) => (
