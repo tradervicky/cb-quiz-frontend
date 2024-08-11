@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import {  Route, Routes } from 'react-router-dom';
 import { RouteConfig } from "interfaces/global";
 const UserLogin = lazy(()=> import("@/pages/users/login"))
@@ -28,7 +28,9 @@ const PageRoutes: React.FC= () => {
     
     <div>
        <Routes>
+       <Suspense fallback>
         {generateRoutes(allRoutes)}
+        </Suspense>
       </Routes>
     </div>
   )
