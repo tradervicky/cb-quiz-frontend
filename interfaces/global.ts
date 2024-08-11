@@ -18,3 +18,12 @@ export interface MakeApiRequestParams {
   params?: any;
   additionalHeaders?:  Record<string, string>;
 }
+
+export interface RouteConfig {
+  path: string;
+  exact?: boolean;
+  element: React.ReactNode; 
+}
+export interface childrenProps {
+  children: React.ReactNode
+}

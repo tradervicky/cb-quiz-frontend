@@ -1,21 +1,36 @@
 import React, { lazy, useEffect, useState } from "react";
-const PageRoutes = () => {
+import {  Route, Routes } from 'react-router-dom';
+import { RouteConfig } from "interfaces/global";
+const UserLogin = lazy(()=> import("@/pages/users/login"))
 
 
     //open Routes
-    const openRoutes = [
-        {path : "/", exact : true, component : ""}
-    ]
-    //admin Routes
+    const openRoutes : RouteConfig[]= [
+      {path : "/", exact : true, element : <UserLogin/>}
+  ]
+  //admin Routes
 
-    //user Routes
+  //user Routes
 
-    //super admin Routes
+  //super admin Routes
 
+const PageRoutes: React.FC= () => {
 
+  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>([])
 
+  const generateRoutes = (routes:RouteConfig[])=>{
+
+    return routes.map(({path, element}, i)=>(
+      <Route key={i} path={path} element={element}/> 
+    ))
+  }
   return (
-    <div>routes</div>
+    
+    <div>
+       <Routes>
+        {generateRoutes(allRoutes)}
+      </Routes>
+    </div>
   )
 }
 
