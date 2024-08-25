@@ -1,13 +1,8 @@
-import Leftbar from "./layout/leftbar"
-import Topbar from "./layout/topbar"
-
-
+import PageRoutes from "./routes/routes"
 const App = () => {
   return (
     <div>
-      <Topbar/>
-
-      <Leftbar/>
+      <PageRoutes/>
     
     </div>
   )
