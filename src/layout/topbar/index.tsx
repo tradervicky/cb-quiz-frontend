@@ -18,10 +18,10 @@ const Topbar = () => {
               <User />
             </PopoverTrigger>
             <PopoverContent className="mr-2 w-36">
-              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight">
+              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
                 Profile
               </p>
-              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight">
+              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
                 Log out
               </p>
             </PopoverContent>

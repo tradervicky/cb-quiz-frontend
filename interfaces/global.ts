@@ -27,3 +27,20 @@ export interface RouteConfig {
 export interface childrenProps {
   children: React.ReactNode
 }
+
+interface Invoice {
+  invoice: string;
+  paymentStatus: string;
+  paymentMethod: string;
+  totalAmount: string;
+  customStyle ?: string
+}
+interface header {
+  title : string;
+  style : string
+}
+
+export interface CustomTableProps {
+  rowsData : object[];
+  headerData : object[];
+}
