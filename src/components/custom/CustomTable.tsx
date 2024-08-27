@@ -1,39 +1,44 @@
+import React from "react";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
-import { CustomTableProps } from "interfaces/global"
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-
-
-const CustomTable:React.FC<CustomTableProps> = ({rowsData, headerData}) => {
-  return (
-    <Table>
- 
-    <TableHeader>
-    <TableRow>
-        {headerData?.map((data)=>
-        <TableHead className={`${data.style}`}>{data.title}</TableHead>
-      )}
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {rowsData?.map((invoice) => (
-        <TableRow key={invoice.invoice}>
-          <TableCell className="font-medium">{invoice.invoice}</TableCell>
-          <TableCell>{invoice.paymentStatus}</TableCell>
-          <TableCell>{invoice.paymentMethod}</TableCell>
-          <TableCell className="text-right">{invoice.totalAmount}</TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-    
-  </Table>
-  )
+interface CustomTableProps<T> {
+  rowsData: T[];
+  headerData: { title: string; key: keyof T; style?: string }[];
+  tableRef?: React.Ref<HTMLTableElement>;
 }
 
-export default CustomTable
+const CustomTable = <T,>({ rowsData, headerData, tableRef }: CustomTableProps<T>) => {
+  return (
+    <Table ref={tableRef}>
+      <TableHeader>
+        <TableRow>
+          {headerData.map((data) => (
+            <TableHead key={String(data.key)} className={data.style}>
+              {data.title}
+            </TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rowsData.map((row, rowIndex) => (
+          <TableRow key={rowIndex}>
+            {headerData.map((data) => (
+              <TableCell key={String(data.key)}>
+                {row[data.key] as React.ReactNode}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+};
+
+export default CustomTable;

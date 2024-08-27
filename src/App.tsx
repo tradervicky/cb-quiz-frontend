@@ -1,72 +1,33 @@
+// import React from "react";
+// import CustomTable from "./components/custom/CustomTable";
+import PageRoutes from "./routes/routes";
 
-import PageRoutes from "./routes/routes"
 const App = () => {
-  // const invoices = [
-  //   {
-  //     invoice: "INV001",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$250.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  //   {
-  //     invoice: "INV002",
-  //     paymentStatus: "Pending",
-  //     totalAmount: "$150.00",
-  //     paymentMethod: "PayPal",
-  //   },
-  //   {
-  //     invoice: "INV003",
-  //     paymentStatus: "Unpaid",
-  //     totalAmount: "$350.00",
-  //     paymentMethod: "Bank Transfer",
-  //   },
-  //   {
-  //     invoice: "INV004",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$450.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  //   {
-  //     invoice: "INV005",
-  //     paymentStatus: "Paid",
-  //     totalAmount: "$550.00",
-  //     paymentMethod: "PayPal",
-  //   },
-  //   {
-  //     invoice: "INV006",
-  //     paymentStatus: "Pending",
-  //     totalAmount: "$200.00",
-  //     paymentMethod: "Bank Transfer",
-  //   },
-  //   {
-  //     invoice: "INV007",
-  //     paymentStatus: "Unpaid",
-  //     totalAmount: "$300.00",
-  //     paymentMethod: "Credit Card",
-  //   },
-  // ]
+  // interface InvoiceData {
+  //   invoice: string;
+  //   paymentStatus: string;
+  //   paymentMethod: string;
+  //   totalAmount: string;
+  // }
 
-  // const header = [
-  //  { title: "Invoice",
-  //   style : "w-[100px]"
-  //  },
-  //  { title: "Status",
-  //   style : ""
-  //  },
-  //  { title: "Method",
-  //   style : ""
-  //  },
-  //  { title: "Amount",
-  //   style : "text-right"
-  //  },
-  // ]
+  // const headerData: { title: string; key: keyof InvoiceData }[] = [
+  //   { title: "Invoice", key: "invoice" },
+  //   { title: "Status", key: "paymentStatus" },
+  //   { title: "Method", key: "paymentMethod" },
+  //   { title: "Amount", key: "totalAmount" },
+  // ];
+
+  // const rowsData: InvoiceData[] = [
+  //   { invoice: "INV001", paymentStatus: "Paid", paymentMethod: "Credit Card", totalAmount: "$500.00" },
+  //   // More data can be added here
+  // ];
 
   return (
     <div>
-      <PageRoutes/>
-    
+      <PageRoutes />
+      {/* <CustomTable<InvoiceData> headerData={headerData} rowsData={rowsData} /> */}
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
