@@ -10,7 +10,7 @@ import {
 
 interface CustomTableProps<T> {
   rowsData: T[];
-  headerData: { title: string; key: keyof T; style?: string }[];
+  headerData: { title: string; key: keyof T; style?: string; cellStyle?: string }[];
   tableRef?: React.Ref<HTMLTableElement>;
 }
 
@@ -30,8 +30,8 @@ const CustomTable = <T,>({ rowsData, headerData, tableRef }: CustomTableProps<T>
         {rowsData.map((row, rowIndex) => (
           <TableRow key={rowIndex}>
             {headerData.map((data) => (
-              <TableCell key={String(data.key)}>
-                {row[data.key] as React.ReactNode}
+              <TableCell key={String(data.key)} className={data.cellStyle}>
+                {row[data.key] !== undefined ? (row[data.key] as React.ReactNode) : "-"}
               </TableCell>
             ))}
           </TableRow>

@@ -11,27 +11,26 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Plus } from "lucide-react"
-const ModalCategory = () => {
+const CustomModal = ({children,  dialogTitle, dialogDescription,placeholder, label,onClick}:any) => {
   return (
     <Dialog>
     <DialogTrigger asChild className="cursor-pointer">
-      <Plus />
+      {children}
     </DialogTrigger>
     <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>Add Category</DialogTitle>
+        <DialogTitle>{dialogTitle}</DialogTitle>
         <DialogDescription>
-          Question Category, e.g : General Knowledge, Current Affairs
+            {dialogDescription}
         </DialogDescription>
       </DialogHeader>
       <div className="grid gap-4 py-4">
-        <div className="flex flex-col  gap-4">
+        <form onSubmit={onClick} className="flex flex-col  gap-4">
           <Label htmlFor="name" className="text-left ">
-            Category
+            {label}
           </Label>
-          <Input id="name"  placeholder="Enter category" className="col-span-3" />
-        </div>
+          <Input id="name"  placeholder={placeholder} className="col-span-3" />
+        </form>
       </div>
       <DialogFooter>
         <Button type="submit">Save changes</Button>
@@ -41,4 +40,4 @@ const ModalCategory = () => {
   )
 }
 
-export default ModalCategory
+export default CustomModal

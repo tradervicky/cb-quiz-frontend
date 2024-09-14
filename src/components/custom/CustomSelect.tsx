@@ -7,21 +7,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ReactNode } from "react";
-interface CustomSelectProps<T> {
-    label?: string;
-    options: T[];
-    star?: string;
-    placeholder?: ReactNode;
-    onChange: (value: string) => void;
-    value?: string;
-    optionLabel: keyof T;
-    optionValue: keyof T;
-    name?: string;
-    disabled?: boolean;
-    style?: string;
-    styleOption?: string;
-  }
-const CustomSelect= <T,> ({
+
+interface CustomSelectProps<T extends Record<string, any>> {
+  label?: string;
+  options: T[];
+  star?: string;
+  placeholder?: ReactNode;
+  onChange: (value: string) => void;
+  value?: string;
+  optionLabel: keyof T;
+  optionValue: keyof T;
+  name?: string;
+  disabled?: boolean;
+  style?: string;
+  styleOption?: string;
+}
+
+const CustomSelect = <T extends Record<string, any>>({
   label,
   options,
   star,
@@ -47,7 +49,7 @@ const CustomSelect= <T,> ({
         name={name}
         required={star ? true : false}
         value={value}
-        onChange={onChange}
+        onValueChange={onChange} 
       >
         <SelectTrigger className={style || "w-[180px]"}>
           <SelectValue placeholder={placeholder} />
@@ -55,9 +57,12 @@ const CustomSelect= <T,> ({
         <SelectContent>
           <SelectGroup className={styleOption}>
             {Array.isArray(options) &&
-              options?.map((option, index) => (
-                <SelectItem key={index} value={option[optionValue]}>
-                  {option[optionLabel]}
+              options.map((option, index) => (
+                <SelectItem
+                  key={index}
+                  value={String(option[optionValue])} 
+                >
+                  {option[optionLabel] as ReactNode} // Ensure it's cast to a valid ReactNode
                 </SelectItem>
               ))}
           </SelectGroup>

@@ -22,13 +22,29 @@
     transition: color 3s ease, background-color 3s ease;
   }
 
-  /* [theme='dark'] {
- --color-primary-bg: #cae6d2;
-    --color-secondary-bg: #e6feed;
-    --color-highlight-text: #68a378;
-    --color-secondary-text: #7d9183;
-    --color-primary-btn: #263238;
-    transition: color 3s ease, background-color 3s ease;
-  } */
+/* Global thin scrollbar */
+::-webkit-scrollbar {
+  width: 4px; /* Thin scrollbar width */
+  height: 4px; /* For horizontal scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #68a378; /* Scrollbar color */
+  border-radius: 10px;    /* Rounded scrollbar */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #68a378; /* Darker color on hover */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background for the track */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;       /* Thin scrollbar width for Firefox */
+  scrollbar-color: #68a378 transparent; /* Scrollbar color and track color for Firefox */
+}
 
   
