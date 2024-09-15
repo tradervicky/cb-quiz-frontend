@@ -7,10 +7,13 @@ const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
 const AdminDashboard = lazy(() => import ("@/pages/admin/dashboard"));
 const UserLogin = lazy(() => import("@/pages/users/login"));
-
+const UserContainer = lazy(() => import("@/container/users"));
+const Pricing = lazy(() => import("@/pages/users/pricing"));
 // Open Routes
 const openRoutes: RouteConfig[] = [
-  { path: "/", exact: true, element: <UserLogin /> }
+  { path: "/", exact: true, element: <UserLogin /> },
+  { path: "/home", exact: true, element: < UserContainer/> },
+  { path: "/pricing", exact: true, element: < Pricing/> },
 ];
 
 // Admin Routes
@@ -26,7 +29,7 @@ const adminRoutes: RouteConfig[] = [
 // Super Admin Routes
 
 const PageRoutes: React.FC = () => {
-  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(adminRoutes);
+  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(openRoutes);
 
   const generateRoutes = (routes: RouteConfig[]) => {
     return routes.map(({ path, element }, i) => (
