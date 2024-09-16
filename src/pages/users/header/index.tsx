@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import logo from '../../../assets/logo.png'
+import { NavLink } from 'react-router-dom'
 const Header = () => {
   const [showSide, setShowSide] = useState(false)
   return (
@@ -8,9 +9,9 @@ const Header = () => {
         <div  className={`sm:flex absolute sm:static top-0 ${showSide ? "right-1 bg-gray-200 p-4 duration-300 rounded-bl-lg" : "-right-20 duration-300" }`}  >
           <button onClick={()=>setShowSide(!showSide)} className={`px-4 py-2 border border-orange-900 text-orange-900 text-sm font-medium rounded-lg mb-4 sm:hidden`}>close</button>
             <ul className='flex flex-col sm:flex-row gap-4 sm:gap-16  text-orange-900 font-medium '>
-                <li>Home</li>
-                <li>Pricing</li>
-                <li>About Us</li>
+                <NavLink to={'/home'}>Home</NavLink>
+                <NavLink to={'/pricing'}>Pricing</NavLink>
+                <NavLink to={'/about'}>About Us</NavLink>
             </ul>
         </div>
         <div className='hidden sm:flex'>
