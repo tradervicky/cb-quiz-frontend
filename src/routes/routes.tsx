@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { RouteConfig } from "interfaces/global";
 import Layout from "@/layout";
 import Checkout from "@/pages/users/buyTest";
+import ChooseTest from "@/pages/users/quiz/chooseTest";
+import InstructionsPanel from "@/pages/users/quiz/instruction";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
@@ -16,6 +18,8 @@ const openRoutes: RouteConfig[] = [
   { path: "/home", exact: true, element: < UserContainer/> },
   { path: "/pricing", exact: true, element: < Pricing/> },
   { path: "/about", exact: true, element: < Checkout/> },
+  { path: "/test-dashboard", exact: true, element: < ChooseTest/> },
+  { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
 ];
 
 // Admin Routes

@@ -62,7 +62,7 @@ const CustomSelect = <T extends Record<string, any>>({
                   key={index}
                   value={String(option[optionValue])} 
                 >
-                  {option[optionLabel] as ReactNode} // Ensure it's cast to a valid ReactNode
+                  {option[optionLabel] as ReactNode}
                 </SelectItem>
               ))}
           </SelectGroup>
