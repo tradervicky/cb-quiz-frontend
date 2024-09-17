@@ -5,6 +5,8 @@ import Layout from "@/layout";
 import Checkout from "@/pages/users/buyTest";
 import ChooseTest from "@/pages/users/quiz/chooseTest";
 import InstructionsPanel from "@/pages/users/quiz/instruction";
+import ExamInfoPage from "@/pages/users/quiz/instruction/examInfo";
+import FinalTestPage from "@/pages/users/quiz/finalPage";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
@@ -20,6 +22,8 @@ const openRoutes: RouteConfig[] = [
   { path: "/about", exact: true, element: < Checkout/> },
   { path: "/test-dashboard", exact: true, element: < ChooseTest/> },
   { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
+  { path: "/test-info", exact: true, element: < ExamInfoPage/> },
+  { path: "/final-test", exact: true, element: < FinalTestPage/> },
 ];
 
 // Admin Routes
