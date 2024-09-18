@@ -1,13 +1,16 @@
 import React from 'react';
-
+import Header from '../../header';
+import logo from '../../../../assets/logo.png'
 const FinalTestPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col p-6">
+    <div>
+      <Header/>
+    <div className="min-h-[90vh] bg-primary flex flex-col p-6">
       {/* Header Section */}
-      <header className="bg-teal-700 text-white p-4 rounded-lg flex justify-between items-center mb-4">
+      <header className="bg-secondary text-btn p-4 rounded-lg flex justify-between items-center mb-4">
         <div className="flex items-center space-x-4">
           <img
-            src="/logo.png"
+            src={logo}
             alt="Logo"
             className="w-10 h-10 rounded-full"
           />
@@ -24,7 +27,7 @@ const FinalTestPage: React.FC = () => {
 
       <div className="flex flex-col md:flex-row md:space-x-6">
         {/* Question Section */}
-        <section className="bg-white shadow-md p-6 rounded-lg flex-1">
+        <section className="bg-secondary shadow-md p-6 rounded-lg flex-1">
           <div className="flex justify-between items-center">
             <h2 className="text-xl font-bold">Question 001</h2>
             <div className="text-sm text-gray-600">SINGLE CHOICE QUESTIONS</div>
@@ -62,7 +65,7 @@ const FinalTestPage: React.FC = () => {
         {/* Sidebar */}
 
         
-        <aside className="bg-gray-200 p-4 rounded-lg shadow-md w-full md:w-1/3 mt-6 md:mt-0 overflow-y-auto h-[70vh]">
+        <aside className="bg-secondary p-4 rounded-lg shadow-md w-full md:w-1/3 mt-6 md:mt-0 overflow-y-auto h-[70vh]">
         {/* Status Key */}
         <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex items-center space-x-2">
@@ -101,7 +104,7 @@ const FinalTestPage: React.FC = () => {
       </div>
 
       {/* Bottom Action Buttons */}
-      <div className="mt-6 flex justify-between items-center">
+      <div className="mt-6 flex sm:flex-row flex-col justify-center gap-4 sm:gap-4 sm:items-center">
         <button className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
           Save
         </button>
@@ -121,6 +124,7 @@ const FinalTestPage: React.FC = () => {
           Instruction
         </button>
       </div>
+    </div>
     </div>
   );
 };

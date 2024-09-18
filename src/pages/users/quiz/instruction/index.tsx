@@ -1,8 +1,11 @@
 import React from 'react';
+import Header from '../../header';
 
 const InstructionsPanel: React.FC = () => {
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg max-w-3xl mx-auto">
+    <div className='bg-primary'>
+    <Header/>
+    <div className="p-6 bg-secondary shadow-lg rounded-lg max-w-5xl mx-auto ">
       {/* Heading */}
       <h1 className="text-2xl font-bold text-center mb-6 text-green-800">INSTRUCTIONS / निर्देश</h1>
 
@@ -119,6 +122,7 @@ const InstructionsPanel: React.FC = () => {
 
       <span className="text-2xl font-semibold text-center">All The Best / शुभकामनाएँ</span>
       </div>
+    </div>
     </div>
   );
 };
