@@ -4,7 +4,7 @@ import {loginData} from '../../../utils/data/user'
 const UserLogin= () => {
   return (
     <div>
-        <Login data={loginData}/>
+        <Login data={loginData} link='/admin-signup'/>
     </div>
   )
 }

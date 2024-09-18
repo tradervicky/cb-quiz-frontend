@@ -3,12 +3,14 @@ import { loginProps } from 'interfaces/global';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { EyeIcon, EyeOff } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
 
 interface LoginProps {
   data: loginProps;
+  link : string
 }
 
-const Login: React.FC<LoginProps> = ({ data }) => {
+const Login: React.FC<LoginProps> = ( {data, link} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -65,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ data }) => {
             </Button>
           </div>
           <div className='pt-4'>
-            <p className='pb-4 md:pb-0'>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></p>
+            <NavLink to={link} className='pb-4 md:pb-0'>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></NavLink>
           </div>
         </div>
       </div>
