@@ -1,6 +1,7 @@
 import CustomSelect from '@/components/custom/CustomSelect'
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react'
+import Header from '../../header';
 
 const ChooseTest = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
@@ -23,15 +24,18 @@ const ChooseTest = () => {
     setSelectedType(typeId);
   };
   return (
-    <div>
-      <h1 className='font-bold text-3xl'>
+    <>
+
+<Header/>
+    <div className='m-5 rounded-lg shadow-lg bg-primary'>
+      <h1 className='font-bold text-3xl p-4 border-b border-highlight '>
 
       Dashboard
       </h1>
-      <div className='flex  items-center gap-4 px-8 '>
+      <div className='flex flex-col sm:flex-row  sm:items-center gap-4 px-8 py-4'>
         <div className='w-1/12'>
 
-        <p className='font-semibold '>Category : </p> 
+        <p className='font-semibold '>Category  </p> 
         </div>
         <div className='w-full '>
 
@@ -42,14 +46,14 @@ const ChooseTest = () => {
           value={selectedCategory}
           placeholder="Select a category"
           onChange={handleCategoryChange}
-          style="w-full border p-2 rounded"
+          style="w-full border p-2 rounded bg-secondary"
         />
         </div>
       </div>
-      <div className='flex mt-4 items-center gap-4 px-8 '>
+      <div className='flex mt-4 sm:items-center gap-4 px-8 sm:flex-row flex-col '>
         <div className='w-1/12'>
 
-        <p className='font-semibold '>Types : </p> 
+        <p className='font-semibold '>Types </p> 
         </div>
         <div className='w-full '>
 
@@ -60,7 +64,7 @@ const ChooseTest = () => {
           value={selectedType}
           placeholder="Select a Type"
           onChange={handleTypeChange}
-          style="w-full border p-2 rounded"
+          style="w-full border p-2 rounded bg-secondary"
         />
         </div>
       </div>
@@ -69,10 +73,11 @@ const ChooseTest = () => {
         Captcha Board
       </div>
 
-      <div className='flex justify-center'>
+      <div className='flex justify-center pb-4'>
         <Button title='Start Test' variant={'outline'}> Start Test</Button>
       </div>
     </div>
+    </>
   )
 }
 

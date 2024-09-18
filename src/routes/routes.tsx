@@ -7,6 +7,7 @@ import ChooseTest from "@/pages/users/quiz/chooseTest";
 import InstructionsPanel from "@/pages/users/quiz/instruction";
 import ExamInfoPage from "@/pages/users/quiz/instruction/examInfo";
 import FinalTestPage from "@/pages/users/quiz/finalPage";
+import AdminCustomSignup from "@/pages/users/signup";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
@@ -15,6 +16,7 @@ const UserLogin = lazy(() => import("@/pages/users/login"));
 const UserContainer = lazy(() => import("@/container/users"));
 const Pricing = lazy(() => import("@/pages/users/pricing"));
 // Open Routes
+
 const openRoutes: RouteConfig[] = [
   { path: "/", exact: true, element: <UserLogin /> },
   { path: "/home", exact: true, element: < UserContainer/> },
@@ -24,6 +26,8 @@ const openRoutes: RouteConfig[] = [
   { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
   { path: "/test-info", exact: true, element: < ExamInfoPage/> },
   { path: "/final-test", exact: true, element: < FinalTestPage/> },
+  { path: "/admin-signup", exact: true, element: <AdminCustomSignup/> },
+
 ];
 
 // Admin Routes

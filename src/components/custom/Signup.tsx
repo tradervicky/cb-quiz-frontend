@@ -3,11 +3,13 @@ import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { signupProps } from "interfaces/global";
+import { NavLink } from "react-router-dom";
 
 interface SignupProps {
   data: signupProps;
+  link : string
 }
-const Signup: React.FC<SignupProps> = ({ data }) => {
+const Signup: React.FC<SignupProps> = ({ data, link }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -110,9 +112,9 @@ const Signup: React.FC<SignupProps> = ({ data }) => {
           <div className="pt-4">
             <p className="pb-4 md:pb-0">
               Already have an account?{" "}
-              <span className="text-highlight underline cursor-pointer ">
+              <NavLink to={link} className="text-highlight underline cursor-pointer ">
                 Login here
-              </span>
+              </NavLink>
             </p>
           </div>
         </div>
