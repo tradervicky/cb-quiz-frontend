@@ -23,7 +23,7 @@ const App = () => {
   // ];
 
   return (
-    <div>
+    <div >
       <PageRoutes />
       {/* <CustomTable<InvoiceData> headerData={headerData} rowsData={rowsData} /> */}
     </div>

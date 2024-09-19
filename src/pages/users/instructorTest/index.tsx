@@ -1,9 +1,10 @@
-import React from "react";
 
 const InstructorTest = () => {
   return (
-    <div className="flex sm:flex-row flex-col mx-4 sm:mx-24 border rounded-xl mb-8">
-      <div className="sm:w-[40%] border-r p-5">
+    <div className="flex sm:flex-row flex-col mx-4 sm:mx-24 border rounded-xl mb-8 bg-secondary">
+      <div className="flex flex-col justify-between py-4 px-2 sm:w-[40%]">
+      
+      <div className=" w-full border-r p-5">
         <div className="flex items-center gap-8">
           <img
             src="/images/usersIcons/instructor.png"
@@ -13,14 +14,14 @@ const InstructorTest = () => {
             height={50}
           />
           <div>
-            <p>Instructor Name</p>
+            <p className="text-highlight">Instructor Name</p>
             <span className="text-xs font-medium text-gray-400">
               BE in Mechanical Engineering
             </span>
           </div>
         </div>
         <div className="mt-4">
-          <h1 className="text-center font-semibold text-orange-900">
+          <h1 className="text-center font-semibold text-btn">
             React Beginner Test
           </h1>
           <span>
@@ -28,14 +29,16 @@ const InstructorTest = () => {
             short description of the test
           </span>
         </div>
-        <div className="mt-8 border bottom-0 flex flex-col justify-end">
-          <button className="px-4 py-2 bg-orange-900 rounded text-white text-sm font-medium w-full">
+        
+      </div>
+      <div className="mt-8 border bottom-0 flex flex-col justify-end">
+          <button className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full">
             Buy it
           </button>
         </div>
       </div>
       <div className="p-5 sm:w-[60%]">
-        <h3 className=" font-semibold text-orange-900 mb-4">
+        <h3 className=" font-semibold text-highlight mb-4">
           Tests Description
         </h3>
         <ul>

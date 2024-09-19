@@ -3,7 +3,7 @@ import Hero from '@/pages/users/hero'
 import InstructorTest from '@/pages/users/instructorTest'
 const UserContainer = () => {
   return (
-    <div >
+    <div className='bg-primary min-h-screen border'>
         <Header/>
         <Hero/>
         <InstructorTest/>
