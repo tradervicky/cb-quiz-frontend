@@ -7,16 +7,18 @@ import { NavLink } from 'react-router-dom';
 
 interface LoginProps {
   data: loginProps;
-  link : string
+  link : string,
+  onSubmit : any
 }
 
-const Login: React.FC<LoginProps> = ( {data, link} ) => {
+const Login: React.FC<LoginProps> = ( {data, link, onSubmit} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+  console.log(email, password)
 
   return (
-    <div className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
+    <form onSubmit={onSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
       <div className='flex flex-col md:flex-row md:w-4/5 shadow-lg rounded-lg overflow-hidden'>
         {/* Left Side - Image and Text */}
         <div className='flex flex-col md:w-1/2 md:p-10 bg-secondary text-white'>
@@ -58,11 +60,11 @@ const Login: React.FC<LoginProps> = ( {data, link} ) => {
               onChange={(e)=>setPassword(e.target.value)}
               placeholder='Enter password' 
               className='w-full mb-6 p-2 outline-none  rounded ' 
-              
+              value={password}
             />
             {show ? 
             <EyeIcon onClick={()=>setShow(false)} className='absolute right-6 bottom-[88px] md:right-1 md:bottom-[72px] cursor-pointer'/> : <EyeOff onClick={()=>setShow(true)} className='absolute right-6 bottom-[88px] md:right-1 md:bottom-[72px] cursor-pointer'/>}
-            <Button className='w-full bg-btn text-white py-2 rounded'>
+            <Button type='submit' className='w-full bg-btn text-white py-2 rounded' >
               Login
             </Button>
           </div>
@@ -71,7 +73,7 @@ const Login: React.FC<LoginProps> = ( {data, link} ) => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
