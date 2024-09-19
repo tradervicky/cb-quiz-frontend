@@ -1,10 +1,13 @@
 import React from 'react'
+import Header from '../header'
 
 const Pricing = () => {
   return (
+    <div className='bg-primary min-h-screen'>
+      <Header/>
     <div className="mx-4 sm:mx-20 py-8 sm:px-6 sm:py-12 lg:px-8 lg:py-16">
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:items-stretch md:grid-cols-3 md:gap-8">
-      <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow-sm">
+      <div className="divide-y divide-gray-200 rounded-2xl border bg-secondary border-gray-200 shadow-sm">
         <div className="p-6 sm:px-8">
           <h2 className="text-lg font-medium text-gray-900">
             Basic
@@ -18,7 +21,7 @@ const Pricing = () => {
           </p>
   
           <a
-            className="mt-4 block rounded border border-orange-900 bg-orange-900 px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-orange-900 focus:outline-none focus:ring active:text-indigo-500 sm:mt-6"
+            className="mt-4 block rounded border border-btn bg-btn px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-btn focus:outline-none focus:ring  sm:mt-6"
             href="#"
           >
             Get Started
@@ -122,7 +125,7 @@ const Pricing = () => {
         </div>
       </div>
   
-      <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow-sm">
+      <div className="divide-y divide-gray-200 rounded-2xl border bg-secondary border-gray-200 shadow-sm">
         <div className="p-6 sm:px-8">
           <h2 className="text-lg font-medium text-gray-900">
           Starter
@@ -138,7 +141,7 @@ const Pricing = () => {
           </p>
   
           <a
-            className="mt-4 block rounded border border-orange-900 bg-orange-900 px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-orange-900 focus:outline-none focus:ring active:text-indigo-500 sm:mt-6"
+            className="mt-4 block rounded border border-btn bg-btn px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-btn focus:outline-none focus:ring active:text-indigo-500 sm:mt-6"
             href="#"
           >
             Get Started
@@ -242,7 +245,7 @@ const Pricing = () => {
         </div>
       </div>
   
-      <div className="divide-y divide-gray-200 rounded-2xl border border-gray-200 shadow-sm">
+      <div className="divide-y divide-gray-200 rounded-2xl border bg-secondary border-gray-200 shadow-sm">
         <div className="p-6 sm:px-8">
           <h2 className="text-lg font-medium text-gray-900">
           Pro
@@ -258,7 +261,7 @@ const Pricing = () => {
           </p>
   
           <a
-            className="mt-4 block rounded border border-orange-900 bg-orange-900 px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-orange-900 focus:outline-none focus:ring active:text-indigo-500 sm:mt-6"
+            className="mt-4 block rounded border border-btn bg-btn px-12 py-3 text-center text-sm font-medium text-white hover:bg-transparent hover:text-btn focus:outline-none focus:ring active:text-indigo-500 sm:mt-6"
             href="#"
           >
             Get Started
@@ -376,6 +379,7 @@ const Pricing = () => {
         </div>
       </div>
     </div>
+  </div>
   </div>
   )
 }
