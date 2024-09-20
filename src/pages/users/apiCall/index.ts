@@ -5,9 +5,21 @@ import { makeApiRequest } from "@/apis/functions";
 import {userSignup, userLogin} from '../../../../interfaces/users'
 import { toast } from "sonner";
 //userLogin 
+
+
+interface LoginResponse {
+  status: number;
+  token: string;
+  data: {
+    id: number;
+    email: string;
+    name: string;
+    // Add more fields if necessary
+  };
+}
 export const handleLogin = async ({ email, password}:userLogin) => {
     try {
-      const response = await makeApiRequest({
+      const response = await makeApiRequest<LoginResponse>({
         method: "POST",
         url: authUrl.USER_LOGIN,
         data: { email, password },

@@ -5,6 +5,9 @@ import { Button } from '../ui/button';
 import { EyeIcon, EyeOff } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import { userLogin  } from 'interfaces/users';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/store/reducers/reducer';
+import { AppDispatch, RootState } from '@/store/store';
 interface LoginProps {
   data: loginProps;
   routeLink : string,
@@ -15,11 +18,12 @@ const Login: React.FC<LoginProps> = ( {data, routeLink, onSubmit} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-
+  const dispatch = useDispatch<AppDispatch>(); 
+  const dataSelector = useSelector(state=>state)
+  console.log(dataSelector)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({email, password}); 
-    console.log(email, password)
+    dispatch(login({ email, password }));
   };
 
   return (
