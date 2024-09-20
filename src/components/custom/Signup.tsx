@@ -4,17 +4,38 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { signupProps } from "interfaces/global";
 import { NavLink } from "react-router-dom";
+import { userSignup } from "interfaces/users";
 
 interface SignupProps {
   data: signupProps;
-  link : string
+  routeLink : string,
+  onSubmit : ({firstName,lastName,email,password}:userSignup) => void;
 }
-const Signup: React.FC<SignupProps> = ({ data, link }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
+const Signup: React.FC<SignupProps> = ({ data, routeLink, onSubmit }) => {
+  const [state, setState] = useState<{ [key: string]: string }>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const [show, setShow] = useState(false)
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState(prevState => ({
+      ...prevState,
+      [name]: value, 
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(state); 
+    const { firstName, lastName, email, password } = state;
+    onSubmit({ firstName, lastName, email, password });
+  };
   return (
-    <div className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
+    <form onSubmit={handleSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
       <div className="flex flex-col md:flex-row md:w-4/5 shadow-lg rounded-lg overflow-hidden">
         {/* Left Side - Image and Text */}
         <div className="flex flex-col md:w-1/2 md:p-10 bg-secondary text-white">
@@ -48,11 +69,12 @@ const Signup: React.FC<SignupProps> = ({ data, link }) => {
             </label>
             <Input
               id="fname"
+              name="firstName"
               type="text"
               placeholder="Enter first name"
               className="w-full mb-4 p-2 outline-none rounded"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.firstName || ""}
+              onChange={handleChange}
             />
             <label
               
@@ -65,8 +87,9 @@ const Signup: React.FC<SignupProps> = ({ data, link }) => {
               type="text"
               placeholder="Enter last name"
               className="w-full mb-4 p-2 outline-none rounded"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.lastName || ""}
+              name="lastName"
+              onChange={handleChange}
             />
             <label
               className="block text-sm font-medium text-gray-700 mb-2"
@@ -78,8 +101,9 @@ const Signup: React.FC<SignupProps> = ({ data, link }) => {
               type="email"
               placeholder="Enter email"
               className="w-full mb-4 p-2 outline-none rounded"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={state.email || ""}
+              name="email"
+              onChange={handleChange}
             />
             <label
               htmlFor="password"
@@ -90,8 +114,10 @@ const Signup: React.FC<SignupProps> = ({ data, link }) => {
             <Input
               id="password"
               type={show ? "text" : "password"}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
+              value={state.password || ""}
               placeholder="Enter password"
+              name="password"
               className="w-full mb-6 p-2 outline-none  rounded "
             />
             {show ? (
@@ -105,21 +131,21 @@ const Signup: React.FC<SignupProps> = ({ data, link }) => {
                 className="absolute right-6 bottom-[88px] md:right-1 md:bottom-[72px] cursor-pointer"
               />
             )}
-            <Button className="w-full bg-btn text-white py-2 rounded">
+            <Button type="submit" className="w-full bg-btn text-white py-2 rounded">
               Signup
             </Button>
           </div>
           <div className="pt-4">
             <p className="pb-4 md:pb-0">
               Already have an account?{" "}
-              <NavLink to={link} className="text-highlight underline cursor-pointer ">
+              <NavLink to={routeLink} className="text-highlight underline cursor-pointer ">
                 Login here
               </NavLink>
             </p>
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

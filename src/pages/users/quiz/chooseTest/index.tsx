@@ -27,7 +27,7 @@ const ChooseTest = () => {
     <>
 
 <Header/>
-    <div className='m-5 rounded-lg shadow-lg bg-primary'>
+    <div className='m-5 rounded-lg shadow-lg bg-secondary'>
       <h1 className='font-bold text-3xl p-4 border-b border-highlight '>
 
       Dashboard

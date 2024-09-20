@@ -4,21 +4,26 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { EyeIcon, EyeOff } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-
+import { userLogin  } from 'interfaces/users';
 interface LoginProps {
   data: loginProps;
-  link : string,
-  onSubmit : any
+  routeLink : string,
+  onSubmit: ({email, password}:userLogin) => void;
 }
 
-const Login: React.FC<LoginProps> = ( {data, link, onSubmit} ) => {
+const Login: React.FC<LoginProps> = ( {data, routeLink, onSubmit} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
-  console.log(email, password)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({email, password}); 
+    console.log(email, password)
+  };
 
   return (
-    <form onSubmit={onSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
+    <form onSubmit={handleSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
       <div className='flex flex-col md:flex-row md:w-4/5 shadow-lg rounded-lg overflow-hidden'>
         {/* Left Side - Image and Text */}
         <div className='flex flex-col md:w-1/2 md:p-10 bg-secondary text-white'>
@@ -69,7 +74,7 @@ const Login: React.FC<LoginProps> = ( {data, link, onSubmit} ) => {
             </Button>
           </div>
           <div className='pt-4'>
-            <NavLink to={link} className='pb-4 md:pb-0'>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></NavLink>
+            <NavLink to={routeLink} className='pb-4 md:pb-0'>Don't have an account? <span className='text-highlight underline cursor-pointer '>Sign up here</span></NavLink>
           </div>
         </div>
       </div>

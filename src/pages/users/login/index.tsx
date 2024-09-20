@@ -1,14 +1,14 @@
 import Login from '@/components/custom/Login'
 import {loginData} from '../../../utils/data/user'
-import { makeApiRequest } from '@/apis/functions'
+import { handleLogin } from '../apiCall'
 
 const UserLogin= () => {
-  const handleSubmit = (e:Event) => {
-    e.preventDefault()
-  }
+
+
+
   return (
     <div>
-        <Login data={loginData} link='/admin-signup' onSubmit={handleSubmit}/>
+        <Login data={loginData} routeLink='/admin-signup' onSubmit={handleLogin}/>
     </div>
   )
 }
