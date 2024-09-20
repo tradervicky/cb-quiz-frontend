@@ -3,6 +3,7 @@
 import { authUrl } from "@/apis/auth";
 import { makeApiRequest } from "@/apis/functions";
 import {userSignup, userLogin} from '../../../../interfaces/users'
+import { toast } from "sonner";
 //userLogin 
 export const handleLogin = async ({ email, password}:userLogin) => {
     try {
@@ -12,6 +13,12 @@ export const handleLogin = async ({ email, password}:userLogin) => {
         data: { email, password },
       });
       console.log("Login successful:", response);
+     
+      if(response.status === 200){
+        localStorage.setItem("token" , response.token)
+        localStorage.setItem("data" , JSON.stringify(response.data))
+        toast("Login Successfully")
+      }
       
     } catch (error) {
       console.error("Login failed:", error);
