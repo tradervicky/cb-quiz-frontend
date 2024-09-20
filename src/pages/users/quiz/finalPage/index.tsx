@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../header';
-import logo from '../../../../assets/logo.png'
 const FinalTestPage: React.FC = () => {
+  const [showSide, setShowSide] = useState(true)
   return (
     <div>
       <Header/>
-    <div className="min-h-[90vh] bg-primary flex flex-col p-6">
+    <div className="min-h-[91.5vh] bg-primary flex flex-col  p-6 relative">
       {/* Header Section */}
-      <header className="bg-secondary text-btn p-4 rounded-lg flex justify-between items-center mb-4">
-        <div className="flex items-center space-x-4">
-          <img
-            src={logo}
-            alt="Logo"
-            className="w-10 h-10 rounded-full"
-          />
-          <h1 className="text-lg font-bold">BOR EXAM | 16/09/2024</h1>
+      <header className="bg-secondary text-btn p-4 rounded-lg flex justify-between gap-4 items-center mb-4">
+        <div className="flex sm:flex-row flex-col sm:items-center sm:space-x-2 ">
+          <h1 className="text-xs sm:text-lg font-semibold">EXAM_Name</h1>
+          <span className="text-xs sm:text-lg mt-2">16/09/2024</span>
         </div>
-        <p className="text-sm">
-          Remaining Time: <span className="font-bold">02:29:54</span>
+        <div className='flex sm:flex-row flex-col sm:items-center sm:space-x-2 '>
+        <p className="text-xs sm:text-sm font-semibold sm:font-bold ">
+          Remaining Time  
         </p>
-        <div className="flex items-center space-x-2">
+        <span className=" text-xs sm:text-lg mt-2 ">02:29:54</span>
+        </div>
+       
+        <div className="flex sm:flex-row flex-col sm:items-center space-x-2 ">
           <div className="bg-green-500 px-3 py-1 rounded-full text-xs">Online</div>
-          <div className="text-sm font-bold">Mock user</div>
+          <div className="text-xs sm:text-xs  w-full mt-1">Mock_user</div>
         </div>
       </header>
 
@@ -65,7 +65,7 @@ const FinalTestPage: React.FC = () => {
         {/* Sidebar */}
 
         
-        <aside className="bg-secondary p-4 rounded-lg shadow-md w-full md:w-1/3 mt-6 md:mt-0 overflow-y-auto h-[70vh]">
+        <aside className={`bg-secondary ${!showSide ? "absolute right-0 -top-20 ml-4" : "hidden"} sm:block p-4 rounded-lg shadow-md w-full md:w-1/3 mt-6 md:mt-0 sm:overflow-y-auto sm:h-[70vh]`}>
         {/* Status Key */}
         <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex items-center space-x-2">
