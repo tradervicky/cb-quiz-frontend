@@ -52,6 +52,8 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      toast('Logout Successful!');
     },
     // Check authentication status
     checkAuth: (state) => {
@@ -77,7 +79,6 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.user = action.payload.data;
         state.token = action.payload.token
-        console.log(action.payload)
         localStorage.setItem('user', JSON.stringify(action.payload.data));
         localStorage.setItem('token', JSON.stringify(action.payload.token));
         toast('Login Successful!');
