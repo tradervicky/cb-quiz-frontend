@@ -4,38 +4,39 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { EyeIcon, EyeOff } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
-import { userLogin  } from 'interfaces/users';
+
 interface LoginProps {
-  data: loginProps;
+  loginData: loginProps;
   routeLink : string,
-  onSubmit: ({email, password}:userLogin) => void;
+  onSubmit: (email:string, password:string) => void;
 }
 
-const Login: React.FC<LoginProps> = ( {data, routeLink, onSubmit} ) => {
+const Login: React.FC<LoginProps> = ( {loginData, routeLink, onSubmit} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
+ 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({email, password}); 
-    console.log(email, password)
+    onSubmit(email,password)
+    
   };
 
   return (
-    <form onSubmit={handleSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
+    <form onSubmit={handleSubmit} className="min-h-screen md:min-h-[100vh] flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
       <div className='flex flex-col md:flex-row md:w-4/5 shadow-lg rounded-lg overflow-hidden'>
         {/* Left Side - Image and Text */}
         <div className='flex flex-col md:w-1/2 md:p-10 bg-secondary text-white'>
           <div className='h-full rounded-lg flex flex-col justify-center items-center gap-4'>
             <img 
-              src={data.image} 
+              src={loginData.image} 
               alt="Login image" 
               className='w-3/4 h-3/4 object-contain mix-blend-multiply rounded-md' 
             />
             <div className='text-center'>
               <h2 className='text-xl font-semibold text-text tracking-wide'>cbQuiz Hub</h2>
-              <p className='text-md pb-4 text-para'>{data.desc}</p>
+              <p className='text-md pb-4 text-para'>{loginData.desc}</p>
             </div>
           </div>
         </div>

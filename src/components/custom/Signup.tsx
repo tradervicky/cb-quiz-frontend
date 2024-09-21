@@ -32,7 +32,7 @@ const Signup: React.FC<SignupProps> = ({ data, routeLink, onSubmit }) => {
     e.preventDefault();
     console.log(state); 
     const { firstName, lastName, email, password } = state;
-    onSubmit({ firstName, lastName, email, password });
+    onSubmit( {firstName, lastName, email, password} );
   };
   return (
     <form onSubmit={handleSubmit} className="md:h-[100vh]  flex  py-4 px-2 md:py-0 md:px-0  md:items-center justify-center bg-primary">
