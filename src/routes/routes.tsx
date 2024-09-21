@@ -27,7 +27,6 @@ const openRoutes: RouteConfig[] = [
   { path: "/test-info", exact: true, element: < ExamInfoPage/> },
   { path: "/final-test", exact: true, element: < FinalTestPage/> },
   { path: "/admin-signup", exact: true, element: <AdminCustomSignup/> },
-
 ];
 
 // Admin Routes

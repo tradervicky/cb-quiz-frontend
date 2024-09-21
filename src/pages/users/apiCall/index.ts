@@ -18,6 +18,7 @@ export const handleLogin = async ({ email, password}:userLogin) => {
         localStorage.setItem("token" , response.token)
         localStorage.setItem("data" , JSON.stringify(response.data))
         toast("Login Successfully")
+        window.location.href = '/home'
       }
       
     } catch (error) {
