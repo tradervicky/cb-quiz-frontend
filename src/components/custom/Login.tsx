@@ -4,6 +4,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { EyeIcon, EyeOff } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 interface LoginProps {
   loginData: loginProps;
@@ -15,8 +16,8 @@ const Login: React.FC<LoginProps> = ( {loginData, routeLink, onSubmit} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
- 
-
+ const state = useSelector(state=>state)
+console.log(state)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(email,password)
