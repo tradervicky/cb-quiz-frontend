@@ -1,5 +1,6 @@
 // import React from "react";
 // import CustomTable from "./components/custom/CustomTable";
+import { Toaster } from "sonner";
 import PageRoutes from "./routes/routes";
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
 
   return (
     <div >
+       <Toaster />
       <PageRoutes />
       {/* <CustomTable<InvoiceData> headerData={headerData} rowsData={rowsData} /> */}
     </div>

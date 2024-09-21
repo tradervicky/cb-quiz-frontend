@@ -3,6 +3,7 @@ import { authUrl } from '@/apis/auth';
 import { makeApiRequest } from '@/apis/functions';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { AuthState,  Credentials, UserInfo, ApiResponse } from '../../../interfaces/userReducer';
+import { toast } from 'sonner';
 
 // Initial state with typed values
 const initialState: AuthState = {
@@ -79,10 +80,12 @@ const authSlice = createSlice({
         console.log(action.payload)
         localStorage.setItem('user', JSON.stringify(action.payload.data));
         localStorage.setItem('token', JSON.stringify(action.payload.token));
+        toast('Login Successful!');
       })
       .addCase(login.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.status = 'failed';
         state.error = action.payload || 'Login failed';
+        toast(state.error);
       })
 
       // Handle register states
