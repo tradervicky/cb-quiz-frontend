@@ -5,4 +5,7 @@ export const authUrl = {
     //user
     USER_SIGNUP : "user/signup",
     USER_LOGIN : "user/login",
+
+    //category CRUD
+    CREATE_CATEGORY : "admin/create-category"
 }

@@ -32,7 +32,7 @@ const AddCategory = () => {
       },
     ];
   return (
-    <div className='w-full  border-2 border-blue-500 h-[90vh]'>
+    <div className='w-full   h-[90vh]'>
         <div className='flex justify-end w-full px-6 pr-8'>
         <CustomModal dialogTitle="Add Category" dialogDescription="Question Category, e.g : General Knowledge, Current Affairs" label="Category" placeholder="Enter category"><Plus/></CustomModal> 
         </div>

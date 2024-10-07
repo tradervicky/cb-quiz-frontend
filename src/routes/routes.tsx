@@ -8,6 +8,8 @@ import InstructionsPanel from "@/pages/users/quiz/instruction";
 import ExamInfoPage from "@/pages/users/quiz/instruction/examInfo";
 import FinalTestPage from "@/pages/users/quiz/finalPage";
 import AdminCustomSignup from "@/pages/users/signup";
+import AdminLogin from "@/pages/admin/loginpage";
+import AdminSignup from "@/pages/admin/signup";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
@@ -36,11 +38,14 @@ const openRoutes: RouteConfig[] = [
 
 // Admin Routes
 const adminRoutes: RouteConfig[] = [
+  { path: "/login", exact: true, element: <AdminLogin /> },
+  { path: "/signup", exact: true, element: <AdminSignup /> },
   { path: "/dashboard", exact: true, element: < AdminDashboard/> },
   { path: "/quiz/category", exact: true, element: < AddCategory/> },
   { path: "/quiz/type", exact: true, element: < AddTypes/> },
   { path: "/quiz/questions", exact: true, element: < AddQuestions/> },
   { path: "/create-quiz", exact: true, element: <CreateQuiz/> },
+  { path: "*", exact: true, element: < AdminDashboard/> },
   
 ]
 

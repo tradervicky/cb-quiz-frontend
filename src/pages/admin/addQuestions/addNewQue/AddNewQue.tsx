@@ -34,7 +34,7 @@ const AddNewQue = () => {
         <div className="w-full">
           <CustomSelect 
           label="Select Question Type" 
-          style="w-full" star="*"
+          style="w-full" 
           options={countryOptions}
         optionLabel="name"      
         optionValue="code"     
@@ -76,8 +76,8 @@ const AddNewQue = () => {
 
         <div className="w-full">
           <CustomSelect 
-          label="Select Correct Option" 
-          style="w-full" star="*"
+          label="Select Correct Options" 
+          style="w-full"
           options={countryOptions}
         optionLabel="name"      
         optionValue="code"     
