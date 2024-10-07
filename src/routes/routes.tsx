@@ -16,6 +16,8 @@ const UserLogin = lazy(() => import("@/pages/users/login"));
 const UserContainer = lazy(() => import("@/container/users"));
 const Pricing = lazy(() => import("@/pages/users/pricing"));
 const MyTests = lazy(() => import("@/pages/users/mytest"));
+const CreateQuiz = lazy(() => import("@/pages/admin/createQuiz"));
+const AddQuiz = lazy(() => import("@/pages/admin/createQuiz/AddQuiz"));
 // Open Routes
 
 const openRoutes: RouteConfig[] = [
@@ -38,6 +40,8 @@ const adminRoutes: RouteConfig[] = [
   { path: "/quiz/category", exact: true, element: < AddCategory/> },
   { path: "/quiz/type", exact: true, element: < AddTypes/> },
   { path: "/quiz/questions", exact: true, element: < AddQuestions/> },
+  { path: "/create-quiz", exact: true, element: <CreateQuiz/> },
+  
 ]
 
 // User Routes
@@ -46,7 +50,7 @@ const adminRoutes: RouteConfig[] = [
 
 const user = localStorage.getItem("user")
 const PageRoutes: React.FC = () => {
-  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(openRoutes);
+  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(adminRoutes);
 
   // if (user && JSON.parse(user).role === "admin") {
   //   setAllRoutes([...allRoutes,...adminRoutes]);

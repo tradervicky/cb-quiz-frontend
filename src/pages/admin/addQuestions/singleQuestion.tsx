@@ -29,7 +29,7 @@ const SingleQuestion: React.FC<QuestionProps> = ({
       <div className='flex gap-2 justify-between'>
       <h3 className="text-btn text-lg font-semibold mb-4">{questionNumber}. {question}</h3>
       <div className='text-sm font-normal'>
-      <Edit size={20}/>
+      <Edit size={20} className='cursor-pointer' />
       </div>
       </div>
       <div className="space-y-2 mb-4">

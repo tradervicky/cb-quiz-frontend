@@ -38,6 +38,10 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ({ isCollapsed, toggleCollapse }
           title: "Questions",
           toLink: "/quiz/questions",
         },
+        {
+          title: "createQuiz",
+          toLink: "/create-quiz",
+        },
       ],
     },
     {

@@ -40,8 +40,8 @@ const CustomSelect = <T extends Record<string, any>>({
   return (
     <div>
       {label && (
-        <label>
-          {label} <span>{star}</span>
+        <label className="text-sm font-medium">
+          {label} <span className="text-red-500">{star}</span>
         </label>
       )}
       <Select

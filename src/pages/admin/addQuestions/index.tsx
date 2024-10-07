@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import SingleQuestion from './singleQuestion'
 import CustomSelect from '@/components/custom/CustomSelect';
+import AddNewQue from './addNewQue/AddNewQue';
 const questions = [
   {
     question: 'What is the capital of France?',
@@ -84,6 +85,7 @@ export const countryOptions: CountryOption[] = [
 
 const AddQuestions = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [isAddQuestion, setIsAddQuestion] = useState(false)
 
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
@@ -93,20 +95,22 @@ const AddQuestions = () => {
     <div>
       <div className='flex justify-between px-6 pt-2'>
       <div className='flex gap-4 pl-4 pt-2 pb-4'>
-        <p className='border-highlight cursor-pointer border-b-[4px] rounded-lg text-medium font-medium text-highlight'>Questions</p>
-        <p className='border-highlight cursor-pointer border-b-[4px] rounded-lg text-medium font-medium text-highlight'>Add questions</p>
+        <p onClick={()=>setIsAddQuestion(false)} className={`${!isAddQuestion && 'border-highlight border-b-[4px]'} cursor-pointer  rounded-lg text-medium font-medium text-highlight`}>Questions</p>
+        <p onClick={()=>setIsAddQuestion(true)} className={`${isAddQuestion && 'border-highlight border-b-[4px]'} cursor-pointer  rounded-lg text-medium font-medium text-highlight`}>Add questions</p>
       </div>
+     {!isAddQuestion && 
       <CustomSelect
         options={countryOptions}
-        optionLabel="name"      // Key for option label
-        optionValue="code"      // Key for option value
+        optionLabel="name"      
+        optionValue="code"     
         onChange={handleCountryChange}
         value={selectedCountry}
         placeholder="Choose a country"
         style="w-[200px]"
         styleOption="text-blue-600"
-      />
+      />}
       </div>
+      {!isAddQuestion ?
       <div className='grid grid-cols-2 gap-4 px-4 overflow-y-auto h-[82vh] '>
 
       
@@ -120,7 +124,7 @@ const AddQuestions = () => {
           
         />
       ))}
-      </div>
+      </div> : <AddNewQue/>}
     </div>
   )
 }

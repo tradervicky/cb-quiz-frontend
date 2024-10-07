@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Header from '../../header';
+import { Button } from '@/components/ui/button';
+import { ArrowBigLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 const FinalTestPage: React.FC = () => {
   const [showSide, setShowSide] = useState(true)
   return (
@@ -10,18 +12,18 @@ const FinalTestPage: React.FC = () => {
       <header className="bg-secondary text-btn p-4 rounded-lg flex justify-between gap-4 items-center mb-4">
         <div className="flex sm:flex-row flex-col sm:items-center sm:space-x-2 ">
           <h1 className="text-xs sm:text-lg font-semibold">EXAM_Name</h1>
-          <span className="text-xs sm:text-lg mt-2">16/09/2024</span>
+          <span className="text-xs sm:text-lg mt-2 sm:mt-0">16/09/2024</span>
         </div>
         <div className='flex sm:flex-row flex-col sm:items-center sm:space-x-2 '>
         <p className="text-xs sm:text-sm font-semibold sm:font-bold ">
           Remaining Time  
         </p>
-        <span className=" text-xs sm:text-lg mt-2 ">02:29:54</span>
+        <span className=" text-xs sm:text-lg mt-2 sm:mt-0">02:29:54</span>
         </div>
        
         <div className="flex sm:flex-row flex-col sm:items-center space-x-2 ">
           <div className="bg-green-500 px-3 py-1 rounded-full text-xs">Online</div>
-          <div className="text-xs sm:text-xs  w-full mt-1">Mock_user</div>
+          <div className="text-xs sm:text-xs  w-full mt-1 sm:mt-0">Mock_user</div>
         </div>
       </header>
 
@@ -105,24 +107,27 @@ const FinalTestPage: React.FC = () => {
 
       {/* Bottom Action Buttons */}
       <div className="mt-6 flex sm:flex-row flex-col justify-center gap-4 sm:gap-4 sm:items-center">
-        <button className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
-          Save
-        </button>
-        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        <Button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
           Save & Next
-        </button>
-        <button className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600">
-          Save & Mark as Review
-        </button>
-        <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+        </Button>
+        
+       <Button>
+       <ChevronLeft/>
+       </Button>
+        <Button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
           Clear
-        </button>
-        <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-          Finish Exam
-        </button>
-        <button className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-          Instruction
-        </button>
+        </Button>
+        <Button>
+       <ChevronRight/>
+       </Button>
+
+      
+          <Button className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600">
+          Mark For Review
+          </Button>
+        
+       
+        
       </div>
     </div>
     </div>
