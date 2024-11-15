@@ -1,26 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../../assets/logo.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { logout } from "@/store/reducers/reducer";
+import { checkAuth, logout } from "@/store/reducers/reducer";
 const Header = () => {
   const [showSide, setShowSide] = useState(false);
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
+  const userData = useSelector((state: RootState)=>state?.auth.user)
+  console.log("UserData", userData)
+  console.log(isAuthenticated)
   const navigate = useNavigate();
-  console.log(isAuthenticated);
   const dispatch = useDispatch<AppDispatch>(); 
-
+  useEffect(()=>{
+    dispatch(checkAuth())
+  },[])
   const handleLoginLogout = () => {
-    isAuthenticated ? dispatch(logout()) :  navigate("/login");
-
+    isAuthenticated ? dispatch(logout()) :  navigate("/user/login");
   };
+
   return (
     <div className="flex justify-between px-4 sm:px-16 bg-primary h-20 items-center relative">
-      <div className="flex items-center text-sm font-semibold text-btn">
+      <div className="flex items-center gap-4 text-sm font-semibold text-btn">
         <img
           src={logo}
           alt=""
@@ -47,7 +51,8 @@ const Header = () => {
           <NavLink to={"/"}>Home</NavLink>
           <NavLink to={"/pricing"}>Pricing</NavLink>
           <NavLink to={"/about"}>About Us</NavLink>
-          {isAuthenticated && <NavLink to={"/my-tests"}>My Purchase</NavLink>}
+          {userData?.role === "user" && <NavLink to={"/user/tests"}>My Purchase</NavLink>}
+          
         </ul>
       </div>
       <div className="hidden sm:flex">

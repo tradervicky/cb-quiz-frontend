@@ -21,7 +21,6 @@ console.log(state)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(email,password)
-    
   };
 
   return (

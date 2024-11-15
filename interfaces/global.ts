@@ -44,3 +44,10 @@ export interface CustomTableProps {
   rowsData : object[];
   headerData : object[];
 }
+
+export interface UserStateRedux {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user'; 
+}

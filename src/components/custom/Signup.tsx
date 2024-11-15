@@ -12,6 +12,7 @@ interface SignupProps {
   onSubmit : ({firstName,lastName,email,password}:userSignup) => void;
 }
 const Signup: React.FC<SignupProps> = ({ data, routeLink, onSubmit }) => {
+  console.log(routeLink)
   const [state, setState] = useState<{ [key: string]: string }>({
     firstName: "",
     lastName: "",

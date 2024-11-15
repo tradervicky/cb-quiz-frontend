@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/store/store'
 import { register } from '@/store/reducers/reducer'
 import { userSignup } from "interfaces/users";
-const AdminCustomSignup = () => {
+const UserCustomSignup = () => {
   const dispatch = useDispatch<AppDispatch>()
   const handleSubmit = ({firstName, lastName, email, password} :userSignup)=>{
     dispatch(register({firstName, lastName, email, password }))
@@ -12,9 +12,9 @@ const AdminCustomSignup = () => {
   
   return (
     <div>
-        <Signup data = {signupData} routeLink='/'onSubmit={handleSubmit}/>
+        <Signup data = {signupData} routeLink='/user/login'onSubmit={handleSubmit}/>
     </div>
   )
 }
 
-export default AdminCustomSignup
+export default UserCustomSignup

@@ -15,7 +15,7 @@ const initialState: AuthState = {
 };
 
 // Async thunk for login
-export const login = createAsyncThunk<ApiResponse, Credentials, { rejectValue: string }>(
+export const login = createAsyncThunk<ApiResponse, Credentials,{ rejectValue: string }>(
   'auth/login',
   async (credentials, thunkAPI) => {
     try {
@@ -81,7 +81,14 @@ const authSlice = createSlice({
         state.token = action.payload.token
         localStorage.setItem('user', JSON.stringify(action.payload.data));
         localStorage.setItem('token', JSON.stringify(action.payload.token));
-        toast('Login Successful!');
+        
+        if (action.payload.data.role === 'super-admin') {
+          toast('Super Admin Login Successful!');
+        } else if (action.payload.data.role === 'admin') {
+          toast('Admin Login Successful!');
+        } else {
+          toast('User Login Successful!');
+        }
       })
       .addCase(login.rejected, (state, action: PayloadAction<string | undefined>) => {
         state.status = 'failed';

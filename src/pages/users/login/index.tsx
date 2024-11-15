@@ -23,7 +23,7 @@ const UserLogin= () => {
  
   return (
     <div>
-        <Login loginData={loginData} routeLink='/admin-signup' onSubmit={handleSubmit} />
+        <Login loginData={loginData} routeLink='/user/signup' onSubmit={handleSubmit} />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
 import { RouteConfig } from "interfaces/global";
 import Layout from "@/layout";
@@ -7,7 +7,7 @@ import ChooseTest from "@/pages/users/quiz/chooseTest";
 import InstructionsPanel from "@/pages/users/quiz/instruction";
 import ExamInfoPage from "@/pages/users/quiz/instruction/examInfo";
 import FinalTestPage from "@/pages/users/quiz/finalPage";
-import AdminCustomSignup from "@/pages/users/signup";
+import UserCustomSignup from "@/pages/users/signup";
 import AdminLogin from "@/pages/admin/loginpage";
 import AdminSignup from "@/pages/admin/signup";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
@@ -19,24 +19,59 @@ const UserContainer = lazy(() => import("@/container/users"));
 const Pricing = lazy(() => import("@/pages/users/pricing"));
 const MyTests = lazy(() => import("@/pages/users/mytest"));
 const CreateQuiz = lazy(() => import("@/pages/admin/createQuiz"));
-const AddQuiz = lazy(() => import("@/pages/admin/createQuiz/AddQuiz"));
-// Open Routes
+// const AddQuiz = lazy(() => import("@/pages/admin/createQuiz/AddQuiz"));
 
+
+// Open Routes
 const openRoutes: RouteConfig[] = [
-  { path: "/login", exact: true, element: <UserLogin /> },
+  //user open routes
+  { path: "/user/login", exact: true, element: <UserLogin /> },
+  { path: "/user/signup", exact: true, element: <UserCustomSignup/> },
   { path: "/", exact: true, element: < UserContainer/> },
   { path: "/pricing", exact: true, element: < Pricing/> },
   { path: "/about", exact: true, element: < Checkout/> },
-  { path: "/test-dashboard", exact: true, element: < ChooseTest/> },
-  { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
-  { path: "/test-info", exact: true, element: < ExamInfoPage/> },
-  { path: "/final-test", exact: true, element: < FinalTestPage/> },
-  { path: "/admin-signup", exact: true, element: <AdminCustomSignup/> },
-  { path: "/my-tests", exact: true, element: <MyTests/> },
-];
+  { path: "*", exact: true, element: < UserContainer/> },
+  //adminopen routes
+  { path: "admin/signup", exact: true, element: <AdminSignup /> },
+  { path: "/admin/login", exact: true, element: <AdminLogin /> },
+  //super admin open routes 
+]
+// users Routes
+const usersRoutes: RouteConfig[] =[
+  { path: "/user/test-dashboard", exact: true, element: < ChooseTest/> },
+  { path: "/user/test-instruction", exact: true, element: < InstructionsPanel/> },
+  { path: "/user/test-info", exact: true, element: < ExamInfoPage/> },
+  { path: "/user/final-test", exact: true, element: < FinalTestPage/> },
+  { path: "/user/tests", exact: true, element: <MyTests/> },
+  { path: "/pricing", exact: true, element: < Pricing/> },
+  { path: "/about", exact: true, element: < Checkout/> },
+  { path: "/", exact: true, element: < UserContainer/> },
+  { path: "*", exact: true, element: < UserContainer/> },
+]
+
+// const usersRoutes: RouteConfig[] =[
+//   { path: "/test-dashboard", exact: true, element: < ChooseTest/> },
+//   { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
+//   { path: "/test-info", exact: true, element: < ExamInfoPage/> },
+//   { path: "/final-test", exact: true, element: < FinalTestPage/> },
+//   { path: "/my-tests", exact: true, element: <MyTests/> },
+// ]
+
+// const openRoutes: RouteConfig[] = [
+//   { path: "/user/login", exact: true, element: <UserLogin /> },
+//   { path: "/user/signup", exact: true, element: <UserCustomSignup/> },
+//   { path: "/", exact: true, element: < UserContainer/> },
+//   { path: "/pricing", exact: true, element: < Pricing/> },
+//   { path: "/about", exact: true, element: < Checkout/> },
+//   { path: "/test-dashboard", exact: true, element: < ChooseTest/> },
+//   { path: "/test-instruction", exact: true, element: < InstructionsPanel/> },
+//   { path: "/test-info", exact: true, element: < ExamInfoPage/> },
+//   { path: "/final-test", exact: true, element: < FinalTestPage/> },
+//   { path: "/my-tests", exact: true, element: <MyTests/> },
+// ];
 
 
-// Admin Routes
+// Admin(Instructor) Routes
 const adminRoutes: RouteConfig[] = [
   { path: "/login", exact: true, element: <AdminLogin /> },
   { path: "/signup", exact: true, element: <AdminSignup /> },
@@ -52,10 +87,8 @@ const adminRoutes: RouteConfig[] = [
 // User Routes
 
 // Super Admin Routes
-
-const user = localStorage.getItem("user")
 const PageRoutes: React.FC = () => {
-  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(adminRoutes);
+  const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(openRoutes);
 
   // if (user && JSON.parse(user).role === "admin") {
   //   setAllRoutes([...allRoutes,...adminRoutes]);
@@ -63,6 +96,26 @@ const PageRoutes: React.FC = () => {
   //   setAllRoutes([...allRoutes,...userRoutes]);
   // }
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    console.log(user)
+    if (user) {
+      const userData = JSON.parse(user);
+      const role = userData.role;
+      console.log(role)
+
+      if (role === "admin") {
+        setAllRoutes(adminRoutes); 
+      } else if (role ==="user") {
+        setAllRoutes(usersRoutes); 
+      // } else if (role === "super-admin") {
+      //   setAllRoutes([...openRoutes, ...superAdminRoutes]); 
+      }
+    } else {
+      setAllRoutes(openRoutes); 
+    }
+  }, []);
+console.log(allRoutes)
   const generateRoutes = (routes: RouteConfig[]) => {
     return routes.map(({ path, element }, i) => (
       <Route key={i} path={path} element={element} />

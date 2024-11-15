@@ -1,3 +1,4 @@
+import Footer from '@/pages/users/footer'
 import Header from '@/pages/users/header'
 import Hero from '@/pages/users/hero'
 import InstructorTest from '@/pages/users/instructorTest'
@@ -8,7 +9,7 @@ const UserContainer = () => {
         <Header/>
         <Hero/>
         <InstructorTest/>
-
+        <Footer/>
     </div>
   )
 }

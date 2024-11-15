@@ -4,7 +4,7 @@ import Topbar from "./topbar";
 import Rightbar from "./rightbar";
 
 const Layout: React.FC<childrenProps> = ({children }) => {
-  const isAuthenticated = true
+  const isAuthenticated = false
   return <div>
     {
       isAuthenticated ? 

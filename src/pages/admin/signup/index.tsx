@@ -8,7 +8,7 @@ const AdminSignup = () => {
   }
   return (
     <div>
-      <Signup data = {signupData} routeLink='/'onSubmit={handleSubmit}/>
+      <Signup data = {signupData} routeLink='/admin/login'onSubmit={handleSubmit}/>
     </div>
   )
 }
