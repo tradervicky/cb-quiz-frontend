@@ -126,7 +126,7 @@ console.log(allRoutes)
     <Layout>
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        {generateRoutes(allRoutes)}
+        {generateRoutes(adminRoutes)}
       </Routes>
     </Suspense>
     </Layout>

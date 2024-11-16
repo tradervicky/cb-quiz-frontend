@@ -1,11 +1,33 @@
+import { ADDRCONFIG } from "dns";
+
 export const authUrl = {
     //admin
     ADMIN_LOGIN : "admin/login",
+    INSTRUCTOR_QUIZ:"/admin/get-all-quiz",
 
     //user
     USER_SIGNUP : "user/signup",
     USER_LOGIN : "user/login",
+    USER_ALL_QUIZ:"/user/get-all-quizes",
 
     //category CRUD
-    CREATE_CATEGORY : "admin/create-category"
+    CREATE_CATEGORY : "admin/create-category",
+    UPDATE_CATEGORY : "admin/update-category/",
+    GET_CATEGORY : "/admin/get-category",
+    CREATE_TYPE : "/admin/create-type",
+    GET_TYPE : "/admin/get-type",
+    //admin questions 
+    ADD_QUESTION : "/admin/add-question",
+    GET_ALL_QUESTION : "/admin/get-questions",
+    GET_QUESTION_BY_ID : "/admin/get-question/",
+
+    //admin quizes
+    CREATE_QUIZ : "/admin/quiz-create",
+    UPDATE_QUIZ : "/admin/quiz-update/",
+    GET_ALL_QUIZ : "/admin/get-all-quiz",
+    GET_QUIZ_BY_ID : "/admin/get-quiz/",
+    DELETE_QUIZ : "/admin/delete-quiz",
+    RETRIVE_QUIZ : "/admin/retrive-quiz",
+  
+   
 }

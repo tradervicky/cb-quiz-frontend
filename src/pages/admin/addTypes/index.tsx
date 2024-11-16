@@ -13,11 +13,10 @@ interface CountryOption {
 }
 
 export const countryOptions: CountryOption[] = [
-  { name: 'United States', code: 'US' },
-  { name: 'Canada', code: 'CA' },
-  { name: 'United Kingdom', code: 'GB' },
-  { name: 'Australia', code: 'AU' },
-  { name: 'Germany', code: 'DE' },
+  { name: 'Single Choice', code: 'single' },
+  { name: 'Multiple Choice', code: 'multiple' },
+  { name: 'Mixed Choice', code: 'mixed' },
+
 ];
 const AddTypes = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
@@ -75,7 +74,7 @@ const AddTypes = () => {
         optionValue="code"     
         onChange={handleCountryChange}
         value={selectedCountry}
-        placeholder="Choose a country"
+        placeholder="Choose Question Types"
         styleOption="text-blue-600"
         />
       

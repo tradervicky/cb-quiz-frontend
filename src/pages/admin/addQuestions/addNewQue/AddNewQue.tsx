@@ -11,28 +11,42 @@ interface CountryOption {
     code: string;
   }
 export const countryOptions: CountryOption[] = [
-    { name: 'United States', code: 'US' },
-    { name: 'Canada', code: 'CA' },
-    { name: 'United Kingdom', code: 'GB' },
-    { name: 'Australia', code: 'AU' },
-    { name: 'Germany', code: 'DE' },
+  { name: 'Single Choice', code: 'single' },
+  { name: 'Multiple Choice', code: 'multiple' },
+  { name: 'Mixed Choice', code: 'mixed' },
   ];
 
 const AddNewQue = () => {
+  const [questionData, setQuestionData] = useState({
+    "title": "",
+    "type": null,
+    "typeTitle": "",
+    "category": "",
+    "categoryTitle": "",
+    "options": [],
+    "answer": []
+  })
+  const handleSubmit = async()=>{
+    // const response = await 
+  }
     const [selectedCountry, setSelectedCountry] = useState<string>('');
     const handleCountryChange = (value: string) => {
         setSelectedCountry(value);
         console.log('Selected Country Code:', value);
       };
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setQuestionData({...questionData, title: e.target.value})
+      }
   return (
     <>
     <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2">
         <div>
           <Label>Question Title</Label>
-          <Input placeholder="Enter Question Title" />
+          <Input placeholder="Enter Question Title"  onChange={handleChange} name="title"/>
         </div>
         <div className="w-full">
           <CustomSelect 
+          name="type"
           label="Select Question Type" 
           style="w-full" 
           options={countryOptions}
@@ -40,12 +54,13 @@ const AddNewQue = () => {
         optionValue="code"     
         onChange={handleCountryChange}
         value={selectedCountry}
-        placeholder="Choose a country"
+        placeholder="Select Question Type"
         styleOption="text-blue-600"
           />
         </div>
         <div className="w-full">
           <CustomSelect 
+          name="category"
           label="Select Question Category" 
           style="w-full" star="*"
           options={countryOptions}
@@ -53,29 +68,30 @@ const AddNewQue = () => {
         optionValue="code"     
         onChange={handleCountryChange}
         value={selectedCountry}
-        placeholder="Choose a country"
+        placeholder="Select Question Category"
         styleOption="text-blue-600"
           />
         </div>
         <div>
           <Label>Option 1</Label>
-          <Input placeholder="Enter Option 1" />
+          <Input placeholder="Enter Option 1" name="options"/>
         </div>
         <div>
           <Label>Option 2</Label>
-          <Input placeholder="Enter Option 2" />
+          <Input placeholder="Enter Option 2" name="options"/>
         </div>
         <div>
           <Label>Option 3</Label>
-          <Input placeholder="Enter Option 3" />
+          <Input placeholder="Enter Option 3" name="options"/>
         </div>
         <div>
           <Label>Option 4</Label>
-          <Input placeholder="Enter Option 4" />
+          <Input placeholder="Enter Option 4" name="options"/>
         </div>
 
         <div className="w-full">
           <CustomSelect 
+          name="answer"
           label="Select Correct Options" 
           style="w-full"
           options={countryOptions}
@@ -83,7 +99,7 @@ const AddNewQue = () => {
         optionValue="code"     
         onChange={handleCountryChange}
         value={selectedCountry}
-        placeholder="Choose a country"
+        placeholder="Select Correct Options"
         styleOption="text-blue-600"
           />
         </div>
