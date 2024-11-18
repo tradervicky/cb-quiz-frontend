@@ -1,8 +1,13 @@
 import { ADDRCONFIG } from "dns";
 
 export const authUrl = {
+    //super admin
+    SUPER_LOGIN : "/super/signin",
+    APPROVED_ADMIN:"/super/approve-admin/",
+    GET_APPROVED_ADMIN : "approval-admins",
     //admin
     ADMIN_LOGIN : "admin/login",
+    ADMIN_SIGNUP : "/admin/signup",
     INSTRUCTOR_QUIZ:"/admin/get-all-quiz",
 
     //user

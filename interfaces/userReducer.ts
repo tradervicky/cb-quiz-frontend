@@ -19,6 +19,10 @@ export interface AuthState {
     email: string;
     password: string;
   }
+  export interface LoginRequest {
+    url: string;
+    credentials: Credentials;
+  }
   
   export interface UserInfo {
     firstName: string;

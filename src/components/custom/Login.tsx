@@ -10,9 +10,10 @@ interface LoginProps {
   loginData: loginProps;
   routeLink : string,
   onSubmit: (email:string, password:string) => void;
+  loginfor: string;
 }
 
-const Login: React.FC<LoginProps> = ( {loginData, routeLink, onSubmit} ) => {
+const Login: React.FC<LoginProps> = ( {loginData, routeLink, onSubmit,loginfor} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -36,6 +37,7 @@ console.log(state)
             />
             <div className='text-center'>
               <h2 className='text-xl font-semibold text-text tracking-wide'>cbQuiz Hub</h2>
+              
               <p className='text-md pb-4 text-para'>{loginData.desc}</p>
             </div>
           </div>
@@ -45,6 +47,7 @@ console.log(state)
         <div className='pb-8'>
             <p className='text-text text-2xl'>cbQuiz <span className='text-highlight'>Hub</span></p>
         </div>
+        <p className='text-xl text-highlight'>{loginfor} Login</p>
           <div className='w-full p-4 md:p-0 md:w-4/5 relative'>
             <label htmlFor="email" className='block text-sm font-medium text-gray-700 mb-2'>
               Email

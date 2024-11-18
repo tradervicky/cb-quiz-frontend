@@ -10,6 +10,9 @@ import FinalTestPage from "@/pages/users/quiz/finalPage";
 import UserCustomSignup from "@/pages/users/signup";
 import AdminLogin from "@/pages/admin/loginpage";
 import AdminSignup from "@/pages/admin/signup";
+import { AppDispatch, RootState } from "@/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "@/store/reducers/reducer";
 const AddCategory = lazy(() => import ("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import ("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import ("@/pages/admin/addQuestions"));
@@ -73,8 +76,6 @@ const usersRoutes: RouteConfig[] =[
 
 // Admin(Instructor) Routes
 const adminRoutes: RouteConfig[] = [
-  { path: "/login", exact: true, element: <AdminLogin /> },
-  { path: "/signup", exact: true, element: <AdminSignup /> },
   { path: "/dashboard", exact: true, element: < AdminDashboard/> },
   { path: "/quiz/category", exact: true, element: < AddCategory/> },
   { path: "/quiz/type", exact: true, element: < AddTypes/> },
@@ -89,15 +90,15 @@ const adminRoutes: RouteConfig[] = [
 // Super Admin Routes
 const PageRoutes: React.FC = () => {
   const [allRoutes, setAllRoutes] = useState<RouteConfig[]>(openRoutes);
-
-  // if (user && JSON.parse(user).role === "admin") {
-  //   setAllRoutes([...allRoutes,...adminRoutes]);
-  // } else if (user && JSON.parse(user).role === "user") {
-  //   setAllRoutes([...allRoutes,...userRoutes]);
-  // }
+  // const userRole =  useSelector((state: RootState) => state?.auth.user);
+  const isAuthenticated = useSelector((state: RootState) => state?.auth.isAuthenticated);
+  const dispatch = useDispatch<AppDispatch>(); 
+  useEffect(()=>{
+    dispatch(checkAuth())
+  },[dispatch])
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    let user = localStorage.getItem("user");
     console.log(user)
     if (user) {
       const userData = JSON.parse(user);
@@ -114,7 +115,7 @@ const PageRoutes: React.FC = () => {
     } else {
       setAllRoutes(openRoutes); 
     }
-  }, []);
+  }, [isAuthenticated]);
 console.log(allRoutes)
   const generateRoutes = (routes: RouteConfig[]) => {
     return routes.map(({ path, element }, i) => (
@@ -126,7 +127,7 @@ console.log(allRoutes)
     <Layout>
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        {generateRoutes(adminRoutes)}
+        {generateRoutes(allRoutes)}
       </Routes>
     </Suspense>
     </Layout>

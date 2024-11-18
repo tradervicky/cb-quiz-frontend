@@ -2,7 +2,7 @@
 import { authUrl } from '@/apis/auth';
 import { makeApiRequest } from '@/apis/functions';
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState,  Credentials, UserInfo, ApiResponse } from '../../../interfaces/userReducer';
+import { AuthState,  UserInfo, ApiResponse, LoginRequest } from '../../../interfaces/userReducer';
 import { toast } from 'sonner';
 
 // Initial state with typed values
@@ -15,11 +15,11 @@ const initialState: AuthState = {
 };
 
 // Async thunk for login
-export const login = createAsyncThunk<ApiResponse, Credentials,{ rejectValue: string }>(
+export const login = createAsyncThunk<ApiResponse, LoginRequest,{ rejectValue: string }>(
   'auth/login',
-  async (credentials, thunkAPI) => {
+  async ({url, credentials}, thunkAPI) => {
     try {
-      const data = await makeApiRequest<ApiResponse>({method:'POST', url:authUrl.USER_LOGIN, data:credentials});
+      const data = await makeApiRequest<ApiResponse>({method:'POST', url:url, data:credentials});
       return data;
     } catch (error: any) {
       // Return the error message as reject value
@@ -27,6 +27,8 @@ export const login = createAsyncThunk<ApiResponse, Credentials,{ rejectValue: st
     }
   }
 );
+
+
 
 // Async thunk for registration
 export const register = createAsyncThunk<ApiResponse, UserInfo, { rejectValue: string }>(
@@ -41,6 +43,7 @@ export const register = createAsyncThunk<ApiResponse, UserInfo, { rejectValue: s
     }
   }
 );
+
 
 // Auth slice
 const authSlice = createSlice({
@@ -80,7 +83,7 @@ const authSlice = createSlice({
         state.user = action.payload.data;
         state.token = action.payload.token
         localStorage.setItem('user', JSON.stringify(action.payload.data));
-        localStorage.setItem('token', JSON.stringify(action.payload.token));
+        localStorage.setItem('token', action.payload.token);
         
         if (action.payload.data.role === 'super-admin') {
           toast('Super Admin Login Successful!');

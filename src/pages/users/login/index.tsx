@@ -5,13 +5,16 @@ import { AppDispatch } from '@/store/store';
 import { checkAuth, login, logout } from '@/store/reducers/reducer';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { authUrl } from '@/apis/auth';
+import { Credentials } from 'interfaces/userReducer';
 
 
 const UserLogin= () => {
   const dispatch = useDispatch<AppDispatch>(); 
   const navigate = useNavigate()
-  const handleSubmit =(email:string, password:string)=>{
-    dispatch(login({ email, password }))
+  const handleSubmit =( email:string, password:string)=>{
+    const credentials: Credentials = { email: email, password: password };
+    dispatch(login({url: authUrl.USER_LOGIN,credentials}))
     .then((action)=>{
       if (action.meta.requestStatus === 'fulfilled') {
           navigate('/');
@@ -23,7 +26,7 @@ const UserLogin= () => {
  
   return (
     <div>
-        <Login loginData={loginData} routeLink='/user/signup' onSubmit={handleSubmit} />
+        <Login loginfor='User' loginData={loginData} routeLink='/user/signup' onSubmit={handleSubmit} />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ApiError, apiRequestConfig, ApiResponse } from './interface';
+import { ApiError, apiRequestConfig } from './interface';
 
 const baseUrl = import.meta.env.VITE_REACT_API_URL;
 
@@ -10,14 +10,18 @@ const api = axios.create({
   },
 });
 
-const token = localStorage.getItem("token");
-
 export const makeApiRequest = async <T>({
   method,
   url,
   data,
   additionalHeaders = {},
 }: apiRequestConfig): Promise<T> => {
+  // Retrieve token from localStorage
+  const token = localStorage.getItem('token');
+  
+  // Log the token for debugging purposes
+  console.log('Token:', token);
+
   // Ensure additionalHeaders is an object
   if (typeof additionalHeaders !== 'object' || additionalHeaders === null) {
     throw new Error('additionalHeaders should be an object');
@@ -25,12 +29,15 @@ export const makeApiRequest = async <T>({
 
   // Construct the headers object
   const headers = {
-    Authorization: token ? `Bearer ${token}` : '',
-    ...additionalHeaders,
+    Token: token ? `${token}` : '', // Add token if available
+    ...additionalHeaders, // Include any additional headers
   };
 
+  // Make sure headers are correctly set
+  console.log('Headers:', headers);
+
   try {
-    // Make the API request
+    // Request configuration
     const config: AxiosRequestConfig = {
       method,
       url,
@@ -38,13 +45,15 @@ export const makeApiRequest = async <T>({
       headers,
     };
 
+    // Make the API request and await response
     const response: AxiosResponse<T> = await api.request<T>(config);
-    
+
     // Return the response data
     return response.data;
   } catch (error: any) {
+    // Handle the error by checking if response data exists
     const apiError = error as ApiError;
-    // Throw error response data if available, otherwise throw the error object
     throw apiError.response ? apiError.response.data : apiError;
   }
 };
+
