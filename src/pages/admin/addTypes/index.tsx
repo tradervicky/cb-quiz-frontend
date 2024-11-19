@@ -6,7 +6,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { addTypes, getAdminTypes, getAvailableTypes } from '../apiCall';
 interface CountryOption {
   name: string;
   code: string;
@@ -19,11 +20,12 @@ export const countryOptions: CountryOption[] = [
 
 ];
 const AddTypes = () => {
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
-
+  const [selectedType, setSelectedType] = useState<string>('');
+  const [availableTypes, setAvailableTypes] = useState([])
+  const [adminTypes, setAdminTypes] = useState([])
   const handleCountryChange = (value: string) => {
-    setSelectedCountry(value);
-    console.log('Selected Country Code:', value);
+    setSelectedType(value);
+    console.log('Selected Type:', value);
   };
 
   const headerData = [
@@ -33,21 +35,34 @@ const AddTypes = () => {
     { title: 'Actions', key: 'actions' as const},
   ];
   
-    const rowData = [
-      {
-        serialNo: '1',
-        queType: 'Single Choice',
-        noOfQue: '250',
-        actions: 'Credit Card',
-      },
-      {
-        serialNo: '2',
-        queType: 'Multiple Choice',
-        noOfQue: '150',
-        actions: 'PayPal',
-      },
+
+    const fetchQuestionTypes = async()=>{
+      const response = await getAvailableTypes()
    
-    ];
+      setAvailableTypes(response?.types.map((data)=>
+       ( {name:data.title,code:data.title})
+      ))
+    }
+    
+    const fetchAdminQuestionTypes = async ()=>{
+     const response = await getAdminTypes()
+     console.log(response)
+     setAdminTypes(response?.data.map((data, index)=>
+      ({serialNo: index+1, queType: data.title, noOfQue:data.noOfQue, actions: (
+        <div>
+          <Button>delete</Button>
+        </div>
+      ) })
+    ))
+  }
+  console.log(adminTypes)
+    useEffect(()=>{
+      fetchAdminQuestionTypes()
+      fetchQuestionTypes()
+    },[])
+    const handleAddType = async()=>{
+      const response = await addTypes({title:selectedType})
+    }
   return (
     <div>
       <div className='flex justify-end pr-6 pt-4 cursor-pointer'>
@@ -69,11 +84,11 @@ const AddTypes = () => {
         <CustomSelect 
         label='Select Type' 
         style="w-full"
-        options={countryOptions}
+        options={availableTypes}
         optionLabel="name"      
         optionValue="code"     
         onChange={handleCountryChange}
-        value={selectedCountry}
+        value={selectedType}
         placeholder="Choose Question Types"
         styleOption="text-blue-600"
         />
@@ -81,12 +96,12 @@ const AddTypes = () => {
        
        
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button type="submit" onClick={handleAddType}>Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
       </div>
-      <CustomTable headerData={headerData} rowsData={rowData}/>
+      <CustomTable headerData={headerData} rowsData={adminTypes}/>
     </div>
   )
 }

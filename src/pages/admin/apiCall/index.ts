@@ -17,6 +17,16 @@ export const addTypes = async (data: Object) => {
   const response = makeApiRequest({ method: "POST",url: authUrl.CREATE_TYPE,data: data,});
   return response;
 };
+//get admin types
+export const getAdminTypes = async () => {
+  const response = makeApiRequest({ method: "GET",url: authUrl.GET_ADMIN_TYPES});
+  return response;
+};
+//get available types
+export const getAvailableTypes = async () => {
+  const response = makeApiRequest({ method: "GET",url: authUrl.GET_TYPE});
+  return response;
+};
 //add question
 export const addQuestion = async (data: Object) => {
   const response = makeApiRequest({ method: "POST",url: authUrl.ADD_QUESTION,data: data,});

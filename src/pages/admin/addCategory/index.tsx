@@ -22,28 +22,10 @@ const AddCategory = () => {
     { title: 'Actions', key: 'actions' as const},
   ];
   
-    const invoices = [
-      {
-        serialNo: '1',
-        categoryName: 'General knowledge',
-        noOfQue: '250',
-        actions: 'Credit Card',
-      },
-      {
-        serialNo: '2',
-        categoryName: 'General Science',
-        noOfQue: '150',
-        actions: 'PayPal',
-      },
-      {
-        serialNo: '3',
-        categoryName: 'Mathematics',
-        noOfQue: '50',
-        actions: 'Bank Transfer',
-      },
-    ];
+
     const handleClick= ()=>{
       addCategory({title:categoryTitle})
+      handleGetCategory();
     }
     const handleGetCategory = async () => {
       const response = await getAdminCategory();
@@ -51,7 +33,7 @@ const AddCategory = () => {
         response?.data.map((d:any, index:number) => ({
           serialNo: index + 1,
           categoryName: d.title,
-          noOfQue: '150',
+          noOfQue: d.noOfQue,
           actions: (
             <div>
               <Button>delete</Button>

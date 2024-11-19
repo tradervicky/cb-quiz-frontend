@@ -1,3 +1,4 @@
+import CustomMultiSelect from "@/components/custom/CustomMultiSelect"
 import CustomSelect from "@/components/custom/CustomSelect"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,7 +17,18 @@ export const countryOptions: CountryOption[] = [
   { name: 'Mixed Choice', code: 'mixed' },
   ];
 
+  const countryOption: CountryOption[] = [
+    { name: 'Option 1', code: '1' },
+    { name: 'Option 2', code: '2' },
+    { name: 'Option 3', code: '3' },
+  ];
+
 const AddNewQue = () => {
+  const countryOption: CountryOption[] = [
+    { name: 'Option 1', code: '1' },
+    { name: 'Option 2', code: '2' },
+    { name: 'Option 3', code: '3' },
+  ];
   const [questionData, setQuestionData] = useState({
     "title": "",
     "type": null,
@@ -30,9 +42,13 @@ const AddNewQue = () => {
     // const response = await 
   }
     const [selectedCountry, setSelectedCountry] = useState<string>('');
+    const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
     const handleCountryChange = (value: string) => {
         setSelectedCountry(value);
         console.log('Selected Country Code:', value);
+      };
+      const handleMultiCountryChange = (selectedOptions: string[]) => {
+        setSelectedCountries(selectedOptions);
       };
       const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuestionData({...questionData, title: e.target.value})
@@ -90,18 +106,18 @@ const AddNewQue = () => {
         </div>
 
         <div className="w-full">
-          <CustomSelect 
-          name="answer"
-          label="Select Correct Options" 
-          style="w-full"
-          options={countryOptions}
-        optionLabel="name"      
-        optionValue="code"     
-        onChange={handleCountryChange}
-        value={selectedCountry}
+        <CustomMultiSelect
+        name="answer"
+        label="Select Correct Options"
+        style="w-full"
+        options={countryOption}
+        optionLabel="name"
+        optionValue="code"
+        onChange={handleMultiCountryChange}
+        value={selectedCountries}
         placeholder="Select Correct Options"
         styleOption="text-blue-600"
-          />
+      />
         </div>
        
       </div>
