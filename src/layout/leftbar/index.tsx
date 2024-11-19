@@ -25,15 +25,7 @@ const Leftbar = () => {
       <div className={`${isCollapsed && "mt-12"}`}>
         <MenuSideBar isCollapsed={isCollapsed} toggleCollapse={toggleCollapse}/>
       </div>
-      <div className='mt-2 absolute bottom-4'>
-        { !isCollapsed ? 
-          <Button>
-          Log out
-        </Button> :
-        <LogOut className='cursor-pointer'/>
-        }
-        
-      </div>
+     
     </div>
   );
 };

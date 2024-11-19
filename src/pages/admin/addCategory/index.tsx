@@ -1,12 +1,20 @@
 import { Plus, Table } from 'lucide-react'
 import CustomTable from '@/components/custom/CustomTable'
 import CustomModal from '@/components/custom/customModal';
-import { addCategory } from '../apiCall';
-import { useState } from 'react';
+import { addCategory, getAdminCategory } from '../apiCall';
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
 
+type Category = {
+  serialNo: number;
+  categoryName: string;
+  noOfQue: string;
+  actions: JSX.Element;
+};
 
 const AddCategory = () => {
   const [categoryTitle, setCategoryTitle] = useState("")
+  const [categoryList, setCategoryList] = useState<Category[]>([])
   const headerData = [
     { title: 'SL No.', key: 'serialNo' as const},
     { title: 'Category Name', key: 'categoryName' as const },
@@ -37,13 +45,31 @@ const AddCategory = () => {
     const handleClick= ()=>{
       addCategory({title:categoryTitle})
     }
-    console.log(categoryTitle)
+    const handleGetCategory = async () => {
+      const response = await getAdminCategory();
+      setCategoryList(
+        response?.data.map((d:any, index:number) => ({
+          serialNo: index + 1,
+          categoryName: d.title,
+          noOfQue: '150',
+          actions: (
+            <div>
+              <Button>delete</Button>
+            </div>
+          ),
+        }))
+      );
+    };
+    
+    useEffect(()=>{
+      handleGetCategory()
+    },[])
   return (
     <div className='w-full   h-[90vh]'>
         <div className='flex justify-end w-full px-6 pr-8'>
         <CustomModal dialogTitle="Add Category" dialogDescription="Question Category, e.g : General Knowledge, Current Affairs" label="Category" placeholder="Enter category" onClick={handleClick} setCategoryTitle={setCategoryTitle}><Plus/></CustomModal> 
         </div>
-        <CustomTable rowsData={invoices} headerData={headerData} />
+        <CustomTable rowsData={categoryList} headerData={headerData} />
     </div>
   )
 }

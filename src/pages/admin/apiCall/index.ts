@@ -1,10 +1,18 @@
 import { authUrl } from "@/apis/auth";
 import { makeApiRequest } from "@/apis/functions";
 
+//add category
 export const addCategory = async (data: Object) => {
   const response = makeApiRequest({ method: "POST",url: authUrl.CREATE_CATEGORY,data: data,});
   return response;
 };
+
+//get category
+export const getAdminCategory = async () => {
+  const response = makeApiRequest({ method: "GET",url: authUrl.GET_CATEGORY});
+  return response;
+};
+//add types
 export const addTypes = async (data: Object) => {
   const response = makeApiRequest({ method: "POST",url: authUrl.CREATE_TYPE,data: data,});
   return response;

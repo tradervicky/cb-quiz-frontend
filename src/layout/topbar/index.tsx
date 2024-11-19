@@ -4,8 +4,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/reducers/reducer";
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
+  const dispatch = useDispatch()
+  const handleLogOut=()=>{
+    dispatch(logout())
+  }
   return (
     <div className="border-b-[3px] border-black">
       <div className="flex justify-between items-center mx-6 h-20">
@@ -18,12 +26,12 @@ const Topbar = () => {
               <User />
             </PopoverTrigger>
             <PopoverContent className="mr-2 w-36">
-              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
+              <Link to={'/profile'} className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
                 Profile
-              </p>
-              <p className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
+              </Link>
+              <Button onClick={handleLogOut} variant="ghost" className="hover:bg-slate-300 px-2 py-2 rounded-xl hover:text-highlight cursor-pointer">
                 Log out
-              </p>
+              </Button>
             </PopoverContent>
           </Popover>
         </div>
