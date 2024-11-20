@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
-import { getAdminCategory, getAdminTypes } from "../../apiCall";
+import { addQuestion, getAdminCategory, getAdminTypes } from "../../apiCall";
 
 // Define the types for the options
 interface Option {
@@ -19,36 +19,36 @@ export const questionTypeOptions: Option[] = [
 ];
 
 const AddNewQue = () => {
-  // State for types and categories fetched from the API
   const [types, setTypes] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
 
-  // State to manage question data
   const [questionData, setQuestionData] = useState<{
     title: string;
     type: string;
-    typeTitle: string;
     category: string;
-    categoryTitle: string;
     options: string[];
     answer: string[];
   }>({
     title: "",
     type: "",
-    typeTitle: "",
     category: "",
-    categoryTitle: "",
-    options: ["", "", "", ""], // Predefined for four options
+    options: ["", "", "", ""], 
     answer: [],
   });
+  // title": "Who is the Prime minister of india",
+  //   "type": 1,
+  //   "typeTitle": "Single choice",
+  //   "category": "66b3502cf42ed79eb20860a8",
+  //   "categoryTitle": "General Knowledge Questions",
+  //   "options": ["Mangal Panday", "Narendra Modi", "Rahul Gandhi", "Amit Shah"],
+  //   "answer": "Narendra Modi"
 
-  // Function to handle form submission
+  
+
   const handleSubmit = async () => {
-    // Handle form submission here
-    console.log("Submitted Question Data: ", questionData);
+    addQuestion(questionData)
   };
 
-  // Function to handle the changes in inputs dynamically
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -59,28 +59,43 @@ const AddNewQue = () => {
     }));
   };
 
-  // Function to handle changes in options input fields
   const handleOptionChange = (
     index: number,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const updatedOptions = [...questionData.options];
     updatedOptions[index] = e.target.value;
-    setQuestionData((prevData) => ({
-      ...prevData,
-      options: updatedOptions,
-    }));
+    setQuestionData((prevData) => {
+      const updatedAnswer = prevData.answer.filter((ans) =>
+        updatedOptions.includes(ans)
+      );
+      return {
+        ...prevData,
+        options: updatedOptions,
+        answer: updatedAnswer,
+      };
+    });
   };
 
-  // Function to handle changes for select components
   const handleSelectChange = (name: string, value: string) => {
     setQuestionData((prevData) => ({
       ...prevData,
       [name]: value,
+      ...(name === "type" && { answer: [] }), 
     }));
   };
+  const handleAnsSelectChange = (name: string, value: string | string[]) => {
+    setQuestionData((prevData) => {
+      const updatedAnswer = Array.isArray(value) ? value : [value]; 
+      const updatedData = {
+        ...prevData,
+        [name]: updatedAnswer,
+      };
+      console.log("Updated questionData:", updatedData); 
+      return updatedData;
+    });
+  };
 
-  // Function to handle multi-select changes
   const handleMultiSelectChange = (selectedOptions: string[]) => {
     setQuestionData((prevData) => ({
       ...prevData,
@@ -88,7 +103,6 @@ const AddNewQue = () => {
     }));
   };
 
-  // Fetching types and categories from API
   const fetchQuestionTypeAndCategory = async () => {
     try {
       const response = await getAdminTypes();
@@ -111,15 +125,15 @@ const AddNewQue = () => {
     }
   };
 
-  // Fetch data on component mount
   useEffect(() => {
     fetchQuestionTypeAndCategory();
   }, []);
-console.log(questionData)
+
+  const validOptions = questionData.options.filter((opt) => opt.trim() !== "");
+
   return (
     <>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2">
-        {/* Question Title */}
         <div>
           <Label>Question Title</Label>
           <Input
@@ -130,7 +144,6 @@ console.log(questionData)
           />
         </div>
 
-        {/* Question Type Selection */}
         <div className="w-full">
           <CustomSelect
             name="type"
@@ -142,11 +155,9 @@ console.log(questionData)
             onChange={(value) => handleSelectChange("type", value)}
             value={questionData.type}
             placeholder="Select Question Type"
-            styleOption="text-blue-600"
           />
         </div>
 
-        {/* Question Category Selection */}
         <div className="w-full">
           <CustomSelect
             name="category"
@@ -158,11 +169,9 @@ console.log(questionData)
             onChange={(value) => handleSelectChange("category", value)}
             value={questionData.category}
             placeholder="Select Question Category"
-            styleOption="text-blue-600"
           />
         </div>
 
-        {/* Options Input Fields */}
         {questionData.options.map((option, index) => (
           <div key={index}>
             <Label>Option {index + 1}</Label>
@@ -175,39 +184,36 @@ console.log(questionData)
           </div>
         ))}
 
-        {/* Correct Answer Selection */}
         <div className="w-full">
-          {questionData.type === "Multiple Choice" ? (
+          {questionData.type === "Multiple choice" ? (
             <CustomMultiSelect
               name="answer"
               label="Select Correct Options"
               style="w-full"
-              options={questionTypeOptions}
+              options={validOptions.map((opt) => ({ name: opt, code: opt }))}
               optionLabel="name"
               optionValue="code"
               onChange={handleMultiSelectChange}
               value={questionData.answer}
               placeholder="Select Correct Options"
-              styleOption="text-blue-600"
             />
           ) : (
             <CustomSelect
               name="answer"
               label="Select Correct Option"
               style="w-full"
-              options={questionTypeOptions}
+              options={validOptions.map((opt) => ({ name: opt, code: opt }))}
               optionLabel="name"
               optionValue="code"
-              onChange={(value) => handleSelectChange("answer", value)}
-              value={questionData.answer[0] || ""}
+              onChange={(value) => handleAnsSelectChange("answer", value)}
+              value={questionData.answer[0]}
               placeholder="Select Correct Option"
-              styleOption="text-blue-600"
             />
+            
           )}
         </div>
       </div>
 
-      {/* Submit Button */}
       <div className="w-full flex justify-end pr-4">
         <Button onClick={handleSubmit}>Submit</Button>
       </div>
