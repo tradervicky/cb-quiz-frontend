@@ -48,7 +48,7 @@ console.log(question)
       </div>
       <div className='flex justify-between'>
         <p className='bg-secondary px-4 py-1 rounded'>
-          Correct Ans: {answer.map((d)=><span>{d}</span>)}
+          Correct Ans: {answer.map((d)=><span>{d}{type === "Multiple choice" && ", "}</span>)}
         </p>
         <p className='bg-secondary px-4 py-1 rounded'>
           Category: {category}
