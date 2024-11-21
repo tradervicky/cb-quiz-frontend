@@ -1,69 +1,70 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SingleQuestion from './singleQuestion'
 import CustomSelect from '@/components/custom/CustomSelect';
 import AddNewQue from './addNewQue/AddNewQue';
-const questions = [
-  {
-    question: 'What is the capital of France?',
-    options: [
-      { text: 'Berlin', isCorrect: false },
-      { text: 'Madrid', isCorrect: false },
-      { text: 'Paris', isCorrect: true },
-      { text: 'Rome', isCorrect: false },
-    ],
-    allowMultiple: false,
-  },
-  {
-    question: 'Which planet is known as the Red Planet?',
-    options: [
-      { text: 'Earth', isCorrect: false },
-      { text: 'Mars', isCorrect: true },
-      { text: 'Jupiter', isCorrect: false },
-      { text: 'Venus', isCorrect: false },
-    ],
-    allowMultiple: false,
-  },
-  {
-    question: 'Which is the largest ocean on Earth?',
-    options: [
-      { text: 'Atlantic Ocean', isCorrect: false },
-      { text: 'Indian Ocean', isCorrect: false },
-      { text: 'Arctic Ocean', isCorrect: false },
-      { text: 'Pacific Ocean', isCorrect: true },
-    ],
-    allowMultiple: false,
-  },
-  {
-    question: 'Who developed the theory of relativity?',
-    options: [
-      { text: 'Isaac Newton', isCorrect: false },
-      { text: 'Albert Einstein', isCorrect: true },
-      { text: 'Galileo Galilei', isCorrect: false },
-      { text: 'Nikola Tesla', isCorrect: false },
-    ],
-    allowMultiple: false,
-  },
-  {
-    question: 'Which is the smallest country in the world by area?',
-    options: [
-      { text: 'Monaco', isCorrect: false },
-      { text: 'Vatican City', isCorrect: true },
-      { text: 'Liechtenstein', isCorrect: false },
-      { text: 'San Marino', isCorrect: false },
-    ],
-    allowMultiple: false,
-  },
-  {
-    question: 'Which state has capital chandigadh?',
-    options: [
-      { text: 'Bihar', isCorrect: false },
-      { text: 'Punjab', isCorrect: true },
-      { text: 'Uttar Pradesh', isCorrect: false },
-      { text: 'Haryana', isCorrect: true },
-    ],
-    allowMultiple: true,
-  },
-];
+import { getAllQuestions } from '../apiCall';
+// const questions = [
+//   {
+//     question: 'What is the capital of France?',
+//     options: [
+//       { text: 'Berlin', isCorrect: false },
+//       { text: 'Madrid', isCorrect: false },
+//       { text: 'Paris', isCorrect: true },
+//       { text: 'Rome', isCorrect: false },
+//     ],
+//     allowMultiple: false,
+//   },
+//   {
+//     question: 'Which planet is known as the Red Planet?',
+//     options: [
+//       { text: 'Earth', isCorrect: false },
+//       { text: 'Mars', isCorrect: true },
+//       { text: 'Jupiter', isCorrect: false },
+//       { text: 'Venus', isCorrect: false },
+//     ],
+//     allowMultiple: false,
+//   },
+//   {
+//     question: 'Which is the largest ocean on Earth?',
+//     options: [
+//       { text: 'Atlantic Ocean', isCorrect: false },
+//       { text: 'Indian Ocean', isCorrect: false },
+//       { text: 'Arctic Ocean', isCorrect: false },
+//       { text: 'Pacific Ocean', isCorrect: true },
+//     ],
+//     allowMultiple: false,
+//   },
+//   {
+//     question: 'Who developed the theory of relativity?',
+//     options: [
+//       { text: 'Isaac Newton', isCorrect: false },
+//       { text: 'Albert Einstein', isCorrect: true },
+//       { text: 'Galileo Galilei', isCorrect: false },
+//       { text: 'Nikola Tesla', isCorrect: false },
+//     ],
+//     allowMultiple: false,
+//   },
+//   {
+//     question: 'Which is the smallest country in the world by area?',
+//     options: [
+//       { text: 'Monaco', isCorrect: false },
+//       { text: 'Vatican City', isCorrect: true },
+//       { text: 'Liechtenstein', isCorrect: false },
+//       { text: 'San Marino', isCorrect: false },
+//     ],
+//     allowMultiple: false,
+//   },
+//   {
+//     question: 'Which state has capital chandigadh?',
+//     options: [
+//       { text: 'Bihar', isCorrect: false },
+//       { text: 'Punjab', isCorrect: true },
+//       { text: 'Uttar Pradesh', isCorrect: false },
+//       { text: 'Haryana', isCorrect: true },
+//     ],
+//     allowMultiple: true,
+//   },
+// ];
 
 //select options
 
@@ -86,11 +87,19 @@ export const countryOptions: CountryOption[] = [
 const AddQuestions = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [isAddQuestion, setIsAddQuestion] = useState(false)
-
+  const [questions, setQuestions] = useState([])
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
     console.log('Selected Country Code:', value);
   };
+  const fetchQuestions = async()=>{
+    const response = await getAllQuestions()
+    setQuestions(response?.Allquestions)
+  }
+  useEffect(()=>{
+    fetchQuestions()
+  },[])
+  console.log(questions)
   return (
     <div>
       <div className='flex justify-between px-6 pt-2'>
@@ -115,14 +124,14 @@ const AddQuestions = () => {
 
       
       {questions.map((q, index) => (
-        <SingleQuestion
-          key={index}
-          question={q.question}
-          options={q.options}
-          allowMultiple={q.allowMultiple}
-          questionNumber={index + 1}
-          
-        />
+         <SingleQuestion
+         key={index}
+         question={q.title}
+         options={q.options}
+         category={q.category}
+         type={q.type}
+         answer={q.answer}
+       />
       ))}
       </div> : <AddNewQue/>}
     </div>

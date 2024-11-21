@@ -33,7 +33,7 @@ export const addQuestion = async (data: Object) => {
   return response;
 };
 
-//get all questions
+//get all admin's questions
 
 export const getAllQuestions = async () => {
   const response = makeApiRequest({ method: "GET",url: authUrl.GET_ALL_QUESTION});
