@@ -22,7 +22,7 @@ const InstructorTest = (data) => {
           </div>
           {data?.data?.quizShortDesc.map((d) => 
             <div className="mt-4">
-              <h1 className="text-center font-semibold text-btn">{d.title}</h1>
+              <h1 className=" font-semibold text-btn">{d.title}</h1>
               <span>{d.content}</span>
             </div>
           )}
