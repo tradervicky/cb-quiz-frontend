@@ -1,5 +1,27 @@
+import { Button } from "@/components/ui/button";
+import { checkAuth } from "@/store/reducers/reducer";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const InstructorTest = (data) => {
-  console.log(data);
+  // const role = useSelector(state=>state?.auth?.user?.role)
+  const isAuth = useSelector(state=>state?.auth?.isAuthenticated);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(()=>{
+    dispatch(checkAuth())
+  },[])
+  const handleBuy = (d)=>{
+    if(!isAuth){
+      navigate("/user/login")
+      return;
+    }else{
+
+      navigate(`/instructor-test-details/${d}`)
+    }
+    console.log(d)
+  }
 
   return (
     <div className="flex sm:flex-row flex-col mx-4 sm:mx-24 border rounded-xl mb-8 bg-secondary">
@@ -28,9 +50,9 @@ const InstructorTest = (data) => {
           )}
         </div>
         <div className="mt-8 border bottom-0 flex flex-col justify-end">
-          <button className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full">
+          <Button onClick={()=>handleBuy(data?.data?._id)} className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full">
             Buy it
-          </button>
+          </Button>
         </div>
       </div>
      
