@@ -27,7 +27,6 @@ const SingleQuestion: React.FC<QuestionProps> = ({
     .map((option, index) => (option.isCorrect ? String.fromCharCode(65 + index) : ''))
     .filter((char) => char !== '')
     .join(', ');
-console.log(question)
   return (
     <div className="p-4 bg-primary rounded-lg shadow-md mb-6">
       <div className='flex gap-2 justify-between'>
@@ -46,9 +45,10 @@ console.log(question)
           </div>
         ))}
       </div>
-      <div className='flex justify-between'>
+      <div className='flex justify-between gap-2'>
         <p className='bg-secondary px-4 py-1 rounded'>
-          Correct Ans: {answer.map((d)=><span>{d}{type === "Multiple choice" && ", "}</span>)}
+          
+          Correct Ans: {answer.map((d, i)=><span>{d}{(type === "Multiple choice" && i !== answer.length-1) && ", "}</span>)}
         </p>
         <p className='bg-secondary px-4 py-1 rounded'>
           Category: {category}
