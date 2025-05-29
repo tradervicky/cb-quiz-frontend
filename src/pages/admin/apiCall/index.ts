@@ -6,6 +6,10 @@ export const addCategory = async (data: Object) => {
   const response = makeApiRequest({ method: "POST",url: authUrl.CREATE_CATEGORY,data: data,});
   return response;
 };
+export const updateCategory = async (data: Object, id : string) => {
+  const response = makeApiRequest({ method: "PUT",url: authUrl.UPDATE_CATEGORY+id,data: data,});
+  return response;
+};
 
 //get category
 export const getAdminCategory = async () => {

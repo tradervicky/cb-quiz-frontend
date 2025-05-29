@@ -212,6 +212,34 @@ const AddNewQue = () => {
             
           )}
         </div>
+        
+        <div className="w-full">
+          <CustomSelect
+            name="category"
+            label="Select Quiz"
+            style="w-full"
+            options={categories}
+            optionLabel="name"
+            optionValue="code"
+            onChange={(value) => handleSelectChange("category", value)}
+            value={questionData.category}
+            placeholder="Select Quiz"
+          />
+        </div>
+        
+        <div className="w-full">
+          <CustomSelect
+            name="category"
+            label="Question For"
+            style="w-full"
+            options={categories}
+            optionLabel="name"
+            optionValue="code"
+            onChange={(value) => handleSelectChange("category", value)}
+            value={questionData.category}
+            placeholder="Select Question For"
+          />
+        </div>
       </div>
 
       <div className="w-full flex justify-end pr-4">

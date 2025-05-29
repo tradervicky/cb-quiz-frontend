@@ -12,7 +12,7 @@ export const authUrl = {
   INSTRUCTOR_QUIZ: "/admin/get-all-quiz",
   //admin category CRUD
   CREATE_CATEGORY: "admin/create-category",
-  UPDATE_CATEGORY: "admin/update-category/",
+  UPDATE_CATEGORY: "/admin/update-category/",
   GET_CATEGORY: "/admin/get-category",
   CREATE_TYPE: "/admin/create-type",
   GET_TYPE: "/admin/get-type",
