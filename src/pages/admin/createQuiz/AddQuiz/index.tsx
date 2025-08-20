@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
 import { addQuiz } from "../../apiCall";
+import { useSelector } from "react-redux";
 
 interface Description {
   title: string;
@@ -11,16 +12,19 @@ interface Description {
 }
 
 const AddQuiz = () => {
+  const state = useSelector((state: any) => state?.auth?.user);
+  console.log(state);
   // State for Instructor Name, Bio, Short Descriptions, and Full Descriptions
-  const [instructorName, setInstructorName] = useState<string>("");
+  const [instructorName, setInstructorName] = useState<string>(
+    state?.name || ""
+  );
+  const [title, setTitle] = useState<string>("");
   const [instructorBio, setInstructorBio] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
   const [shortDescriptions, setShortDescriptions] = useState<Description[]>([
-    { title: "", content: "" },
     { title: "", content: "" },
   ]);
   const [fullDescriptions, setFullDescriptions] = useState<Description[]>([
-    { title: "", content: "" },
-    { title: "", content: "" },
     { title: "", content: "" },
   ]);
 
@@ -30,7 +34,9 @@ const AddQuiz = () => {
   };
 
   const handleRemoveShortDescription = (index: number) => {
-    const updatedDescriptions = shortDescriptions.filter((_, idx) => idx !== index);
+    const updatedDescriptions = shortDescriptions.filter(
+      (_, idx) => idx !== index
+    );
     setShortDescriptions(updatedDescriptions);
   };
 
@@ -39,28 +45,39 @@ const AddQuiz = () => {
   };
 
   const handleRemoveFullDescription = (index: number) => {
-    const updatedDescriptions = fullDescriptions.filter((_, idx) => idx !== index);
+    const updatedDescriptions = fullDescriptions.filter(
+      (_, idx) => idx !== index
+    );
     setFullDescriptions(updatedDescriptions);
   };
 
   // Handler for form submission
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     // Collect all data and handle form submission here
     const quizData = {
+      title,
       instructorName,
       instructorBio,
       quizShortDesc: shortDescriptions,
       quizFullDesc: fullDescriptions,
+      price,
     };
-    const response = await addQuiz(quizData)
-    console.log(response)
-    // Add your submit logic here (e.g., send to an API)
+    const response = await addQuiz(quizData);
+    console.log(response);
   };
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2">
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2 sm:pb-0pb-0">
         {/* Instructor Name and Bio */}
+        <div>
+          <Label>Quiz Title</Label>
+          <Input
+            placeholder="Enter Quiz Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
         <div>
           <Label>Instructor Name</Label>
           <Input
@@ -75,6 +92,15 @@ const AddQuiz = () => {
             placeholder="Enter Instructor bio"
             value={instructorBio}
             onChange={(e) => setInstructorBio(e.target.value)}
+          />
+        </div>
+        <div>
+          <Label>Quiz Price</Label>
+          <Input
+            placeholder="Enter Price of the Quiz"
+            value={price}
+            type="number"
+            onChange={(e) => setPrice(e.target.value)}
           />
         </div>
 
@@ -104,8 +130,11 @@ const AddQuiz = () => {
                     setShortDescriptions(updatedDescriptions);
                   }}
                 />
-                {shortDescriptions.length > 2 && (
-                  <Button variant={"outline"} onClick={() => handleRemoveShortDescription(index)}>
+                {shortDescriptions.length > 1 && (
+                  <Button
+                    variant={"outline"}
+                    onClick={() => handleRemoveShortDescription(index)}
+                  >
                     <Minus />
                   </Button>
                 )}
@@ -145,14 +174,18 @@ const AddQuiz = () => {
                     setFullDescriptions(updatedDescriptions);
                   }}
                 />
-                {fullDescriptions.length > 3 && (
-                  <Button variant={"outline"} onClick={() => handleRemoveFullDescription(index)}>
+                {fullDescriptions.length > 1 && (
+                  <Button
+                    variant={"outline"}
+                    onClick={() => handleRemoveFullDescription(index)}
+                  >
                     <Minus />
                   </Button>
                 )}
               </div>
             </div>
           ))}
+
           <div className="flex justify-end">
             <Button variant={"outline"} onClick={handleAddFullDescription}>
               <Plus />
@@ -160,6 +193,9 @@ const AddQuiz = () => {
           </div>
         </div>
       </div>
+      {/* <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:pl-4 pl-2">
+        
+      </div> */}
 
       {/* Submit Button */}
       <div className="w-full flex justify-end pr-4">

@@ -1,16 +1,19 @@
 import CustomTable from "@/components/custom/CustomTable";
-import { Plus } from "lucide-react";
+import { ChevronLeft, DeleteIcon, PenLine, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddQuiz from "./AddQuiz";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAllQuiz } from "../apiCall";
+import LoaderTable from "@/components/custom/LoaderTable";
 
 const CreateQuiz = () => {
   const [isAddQuiz, setIsAddQuiz] = useState(false);
-
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
   const headerData = [
     { title: "SL No.", key: "serialNo" as const },
-    { title: "Question Type", key: "queType" as const },
-    { title: "No. of Questions", key: "noOfQue" as const },
+    { title: "Quiz Name", key: "name" as const },
+    // { title: "No. of Questions", key: "noOfQue" as const },
     { title: "Actions", key: "actions" as const },
   ];
 
@@ -28,11 +31,54 @@ const CreateQuiz = () => {
       actions: "PayPal",
     },
   ];
-  const handleClick = ()=>{
-    setIsAddQuiz(true)
-  }
+  const fetchQuizes = async () => {
+    try {
+      setLoading(true);
+      const res = await getAllQuiz();
+
+      if (res) {
+        let _data = res?.data?.map((item: any, index: number) => ({
+          ...item,
+          serialNo: index + 1,
+          name: item?.title || item?.quizShortDesc?.[0]?.title,
+          actions: (
+            <div className="flex gap-2">
+              <PenLine
+                // onClick={() => handleSelect(d)}
+                size={20}
+                className="cursor-pointer text-yellow-500 hover:text-yellow-700"
+              />
+              <Trash2
+                size={20}
+                className="text-red-500 hover:text-red-700 cursor-pointer"
+              />
+            </div>
+          ),
+        }));
+        setData(_data);
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuizes();
+  }, []);
+  const handleClick = () => {
+    setIsAddQuiz(true);
+  };
   return (
     <div>
+      {isAddQuiz && (
+        <div
+          className="flex gap-2 items-center mt-2 cursor-pointer"
+          onClick={() => setIsAddQuiz(false)}
+        >
+          <ChevronLeft className="cursor-pointer hover:scale-110" /> Back
+        </div>
+      )}
       {isAddQuiz ? (
         <AddQuiz />
       ) : (
@@ -42,7 +88,11 @@ const CreateQuiz = () => {
               <Plus />
             </Button>
           </div>
-          <CustomTable headerData={headerData} rowsData={rowData} />
+          {loading ? (
+            <LoaderTable />
+          ) : (
+            <CustomTable headerData={headerData} rowsData={data} />
+          )}
         </div>
       )}
     </div>

@@ -1,12 +1,12 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { ApiError, apiRequestConfig } from './interface';
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { ApiError, apiRequestConfig } from "./interface";
 
 const baseUrl = import.meta.env.VITE_REACT_API_URL;
 
 const api = axios.create({
   baseURL: baseUrl,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -17,24 +17,23 @@ export const makeApiRequest = async <T>({
   additionalHeaders = {},
 }: apiRequestConfig): Promise<T> => {
   // Retrieve token from localStorage
-  const token = localStorage.getItem('token');
-  
+  const token = localStorage.getItem("token");
+
   // Log the token for debugging purposes
-  console.log('Token:', token);
+  // console.log('Token:', token);
 
   // Ensure additionalHeaders is an object
-  if (typeof additionalHeaders !== 'object' || additionalHeaders === null) {
-    throw new Error('additionalHeaders should be an object');
+  if (typeof additionalHeaders !== "object" || additionalHeaders === null) {
+    throw new Error("additionalHeaders should be an object");
   }
 
   // Construct the headers object
   const headers = {
-    Token: token ? `${token}` : '', // Add token if available
+    Token: token ? `${token}` : "", // Add token if available
     ...additionalHeaders, // Include any additional headers
   };
 
   // Make sure headers are correctly set
-  console.log('Headers:', headers);
 
   try {
     // Request configuration
@@ -56,4 +55,3 @@ export const makeApiRequest = async <T>({
     throw apiError.response ? apiError.response.data : apiError;
   }
 };
-
