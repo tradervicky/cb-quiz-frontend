@@ -90,7 +90,13 @@ const AddQuestions = () => {
     console.log("Selected Country Code:", value);
   };
   const fetchQuestions = async () => {
-    const response = await getAllQuestions();
+    let _payload = {
+      page: 2,
+      limit: 10,
+      filter: "",
+      search: "",
+    };
+    const response = await getAllQuestions(_payload);
     setQuestions(response?.Allquestions);
   };
   useEffect(() => {
