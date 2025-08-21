@@ -13,7 +13,7 @@ const CreateQuiz = () => {
   const headerData = [
     { title: "SL No.", key: "serialNo" as const },
     { title: "Quiz Name", key: "name" as const },
-    // { title: "No. of Questions", key: "noOfQue" as const },
+    { title: "Price", key: "price" as const },
     { title: "Actions", key: "actions" as const },
   ];
 
@@ -41,6 +41,7 @@ const CreateQuiz = () => {
           ...item,
           serialNo: index + 1,
           name: item?.title || item?.quizShortDesc?.[0]?.title,
+          price: "₹" + (item?.price || 0),
           actions: (
             <div className="flex gap-2">
               <PenLine
@@ -64,8 +65,10 @@ const CreateQuiz = () => {
   };
 
   useEffect(() => {
-    fetchQuizes();
-  }, []);
+    if (!isAddQuiz) {
+      fetchQuizes();
+    }
+  }, [isAddQuiz]);
   const handleClick = () => {
     setIsAddQuiz(true);
   };

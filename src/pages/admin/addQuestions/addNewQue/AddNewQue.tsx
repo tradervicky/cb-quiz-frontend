@@ -4,9 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
-import { addQuestion, getAdminCategory, getAdminTypes } from "../../apiCall";
-
-// Define the types for the options
+import {
+  addQuestion,
+  getAdminCategory,
+  getAdminTypes,
+  getAllQuiz,
+} from "../../apiCall";
 interface Option {
   name: string;
   code: string;
@@ -17,36 +20,46 @@ export const questionTypeOptions: Option[] = [
   { name: "Multiple Choice", code: "multiple" },
   { name: "Mixed Choice", code: "mixed" },
 ];
+export const quizFor: Option[] = [
+  { name: "Paid", code: "paid" },
+  { name: "Free", code: "free" },
+];
 
 const AddNewQue = () => {
   const [types, setTypes] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
-
+  const [quizes, setQuizes] = useState([]);
   const [questionData, setQuestionData] = useState<{
     title: string;
     type: string;
     category: string;
     options: string[];
     answer: string[];
+    QuestionFor: string;
+    quizId: string;
   }>({
     title: "",
     type: "",
     category: "",
-    options: ["", "", "", ""], 
+    options: ["", "", "", ""],
     answer: [],
+    QuestionFor: "paid",
+    quizId: "",
   });
-  // title": "Who is the Prime minister of india",
-  //   "type": 1,
-  //   "typeTitle": "Single choice",
-  //   "category": "66b3502cf42ed79eb20860a8",
-  //   "categoryTitle": "General Knowledge Questions",
-  //   "options": ["Mangal Panday", "Narendra Modi", "Rahul Gandhi", "Amit Shah"],
-  //   "answer": "Narendra Modi"
-
-  
+  const [quizOption, setQuizOption] = useState<Option[]>([]);
+  const fetchQuiz = async () => {
+    const res = await getAllQuiz();
+    if (res) {
+      let _option = res?.data?.map((item: any) => ({
+        name: item?.title || item?.quizShortDesc?.[0]?.title,
+        code: item?._id,
+      }));
+      setQuizOption(_option);
+    }
+  };
 
   const handleSubmit = async () => {
-    addQuestion(questionData)
+    addQuestion(questionData);
   };
 
   const handleChange = (
@@ -81,17 +94,17 @@ const AddNewQue = () => {
     setQuestionData((prevData) => ({
       ...prevData,
       [name]: value,
-      ...(name === "type" && { answer: [] }), 
+      ...(name === "type" && { answer: [] }),
     }));
   };
   const handleAnsSelectChange = (name: string, value: string | string[]) => {
     setQuestionData((prevData) => {
-      const updatedAnswer = Array.isArray(value) ? value : [value]; 
+      const updatedAnswer = Array.isArray(value) ? value : [value];
       const updatedData = {
         ...prevData,
         [name]: updatedAnswer,
       };
-      console.log("Updated questionData:", updatedData); 
+      console.log("Updated questionData:", updatedData);
       return updatedData;
     });
   };
@@ -127,6 +140,7 @@ const AddNewQue = () => {
 
   useEffect(() => {
     fetchQuestionTypeAndCategory();
+    fetchQuiz();
   }, []);
 
   const validOptions = questionData.options.filter((opt) => opt.trim() !== "");
@@ -209,35 +223,35 @@ const AddNewQue = () => {
               value={questionData.answer[0]}
               placeholder="Select Correct Option"
             />
-            
           )}
         </div>
-        
+
         <div className="w-full">
           <CustomSelect
-            name="category"
+            name="quizId"
             label="Select Quiz"
             style="w-full"
-            options={categories}
+            options={quizOption}
             optionLabel="name"
             optionValue="code"
-            onChange={(value) => handleSelectChange("category", value)}
-            value={questionData.category}
+            onChange={(value) => handleSelectChange("quizId", value)}
+            value={questionData.quizId}
             placeholder="Select Quiz"
           />
         </div>
-        
+
         <div className="w-full">
           <CustomSelect
-            name="category"
-            label="Question For"
+            name="QuestionFor"
+            label="Paid or Free"
             style="w-full"
-            options={categories}
+            options={quizFor}
             optionLabel="name"
             optionValue="code"
-            onChange={(value) => handleSelectChange("category", value)}
-            value={questionData.category}
-            placeholder="Select Question For"
+            disabled
+            onChange={(value) => handleSelectChange("QuestionFor", value)}
+            value={"paid"}
+            placeholder="Select Paid/Free"
           />
         </div>
       </div>
