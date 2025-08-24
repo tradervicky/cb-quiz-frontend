@@ -62,6 +62,8 @@ const AddQuiz = () => {
       quizFullDesc: fullDescriptions,
       price,
     };
+    console.log(quizData);
+    console.log(title);
     const response = await addQuiz(quizData);
     console.log(response);
   };

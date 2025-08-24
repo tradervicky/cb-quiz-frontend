@@ -3,6 +3,7 @@ import InstructorTest from "../../instructorTest";
 import { createOrder, getInstructorQuiz, getPrivateQuiz } from "../../apiCall";
 // @ts-ignore
 import { load } from "@cashfreepayments/cashfree-js";
+import QuizLoader from "@/components/custom/quizLoader";
 const AllTests = () => {
   const [instructorData, setInstructorData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,8 +15,10 @@ const AllTests = () => {
       filter: "",
       search: "",
     };
+    setLoading(true);
     const response = await getPrivateQuiz(_payload);
     setInstructorData(response?.data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchQuiz();
@@ -53,6 +56,7 @@ const AllTests = () => {
   };
   return (
     <div className="mt-4   overflow-y-scroll h-[80vh]">
+      {loading && <QuizLoader />}
       {instructorData?.map((d) => (
         <InstructorTest
           data={d}

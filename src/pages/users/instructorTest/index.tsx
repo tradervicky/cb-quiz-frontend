@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 //@ts-ignore
 import { load } from "@cashfreepayments/cashfree-js";
 import { useNavigate } from "react-router-dom";
+import { EqualSquareIcon } from "lucide-react";
 const InstructorTest = ({ data, ...props }: any) => {
   const [cashfree, setCashfree] = useState(null);
   const navigate = useNavigate();
@@ -15,8 +16,11 @@ const InstructorTest = ({ data, ...props }: any) => {
     loadCashfree();
   }, []);
   const handleBuy = (data: any) => {
-    if (!props.isAuthenticated) {
+    console.log(data);
+    if (!props.isAuthenticated && !props.purchased) {
       navigate("/user/login");
+    } else if (props.purchased) {
+      navigate(`/user/test-info/${data._id}`);
     } else {
       props.handleBuy(data);
     }

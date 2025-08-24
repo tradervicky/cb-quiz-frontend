@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { getMyQuiz } from "../../apiCall";
 import InstructorTest from "../../instructorTest";
+import QuizLoader from "@/components/custom/quizLoader";
 
 const MyTests = () => {
   const [instructorData, setInstructorData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const fetchMyTests = async () => {
     try {
       let _payload = {
@@ -12,10 +14,12 @@ const MyTests = () => {
         filter: "",
         search: "",
       };
+      setLoading(true);
       const response = await getMyQuiz(_payload);
       setInstructorData(response?.data);
     } catch (error) {
     } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -24,6 +28,7 @@ const MyTests = () => {
   return (
     <div>
       <div className=" mt-4 max-h-[80vh] overflow-y-scroll">
+        {loading && <QuizLoader />}
         {instructorData?.map((d) => (
           <InstructorTest
             data={d}

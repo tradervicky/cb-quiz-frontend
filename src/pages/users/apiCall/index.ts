@@ -1,6 +1,7 @@
 import { authUrl } from "@/apis/auth";
 import { toast } from "sonner";
 import { makeApiRequest } from "../../../apis/functions";
+import { Params } from "react-router-dom";
 
 export const getInstructorQuiz = async () => {
   const response = await makeApiRequest({
@@ -52,6 +53,13 @@ export const getMyQuiz = async (data) => {
     method: "POST",
     url: authUrl.USER_MY_QUIZES,
     data: data,
+  });
+  return response;
+};
+export const getQuizById = async (id: Params) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.USER_QUIZ_BY_ID + id,
   });
   return response;
 };

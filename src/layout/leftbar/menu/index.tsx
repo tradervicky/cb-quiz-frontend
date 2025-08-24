@@ -1,15 +1,18 @@
 import { RootState } from "@/store/store";
 import {
+  BookOpenCheck,
   BookOpenIcon,
   ChevronRight,
+  ClipboardMinus,
+  GraduationCap,
   LayoutDashboard,
+  ShoppingBag,
   User,
 } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-
 interface MenuSideBarProps {
   isCollapsed: boolean;
   toggleCollapse: () => void;
@@ -54,25 +57,25 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ({
     {
       title: "All Tests",
       role: ["user"],
-      icon: <User />,
+      icon: <ShoppingBag />,
       toLink: "/user/all-tests",
     },
     {
       title: "My Tests",
       role: ["user"],
-      icon: <User />,
+      icon: <BookOpenCheck />,
       toLink: "/user/my-tests",
     },
     {
       title: "Reports",
       role: ["user"],
-      icon: <User />,
+      icon: <ClipboardMinus />,
       toLink: "/user/reports",
     },
     {
       title: "Students",
       role: ["admin"],
-      icon: <User />,
+      icon: <GraduationCap />,
       toLink: "/admin/students",
     },
     {
