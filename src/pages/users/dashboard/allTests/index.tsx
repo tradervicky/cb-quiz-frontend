@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import InstructorTest from "../../instructorTest";
-import { createOrder, getInstructorQuiz } from "../../apiCall";
+import { createOrder, getInstructorQuiz, getPrivateQuiz } from "../../apiCall";
 // @ts-ignore
 import { load } from "@cashfreepayments/cashfree-js";
 const AllTests = () => {
@@ -8,7 +8,13 @@ const AllTests = () => {
   const [loading, setLoading] = useState(false);
   const [cashfree, setCashfree] = useState(null);
   const fetchQuiz = async () => {
-    const response = await getInstructorQuiz();
+    let _payload = {
+      page: 1,
+      limit: 10,
+      filter: "",
+      search: "",
+    };
+    const response = await getPrivateQuiz(_payload);
     setInstructorData(response?.data);
   };
   useEffect(() => {

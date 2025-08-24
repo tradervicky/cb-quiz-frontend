@@ -36,3 +36,22 @@ export const verifyPayment = async (data: any) => {
   });
   return response;
 };
+
+// get Quiz
+
+export const getPrivateQuiz = async (data) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.USER_ALL_PRIVATE_QUIZES,
+    data: data,
+  });
+  return response;
+};
+export const getMyQuiz = async (data) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.USER_MY_QUIZES,
+    data: data,
+  });
+  return response;
+};

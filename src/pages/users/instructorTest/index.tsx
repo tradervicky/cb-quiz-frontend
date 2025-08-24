@@ -53,8 +53,9 @@ const InstructorTest = ({ data, ...props }: any) => {
             onClick={() => handleBuy(data)}
             className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full"
           >
-            Buy {data?.price && "₹"}
-            {data?.price}
+            {props.purchased
+              ? "Start Test"
+              : "Buy" + " " + data?.price && "₹" + data?.price}
           </button>
         </div>
       </div>

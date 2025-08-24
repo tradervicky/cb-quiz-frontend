@@ -32,7 +32,11 @@ export const authUrl = {
   //user
   USER_SIGNUP: "user/signup",
   USER_LOGIN: "user/login",
+  //public quizes
   USER_ALL_QUIZ: "/user/get-all-quizes",
+  //private quizes
+  USER_ALL_PRIVATE_QUIZES: "/user/get-all-quiz",
+  USER_MY_QUIZES: "/user/get-my-quiz",
 
   //payment
   GET_SESSION_ID: "user/payment",
