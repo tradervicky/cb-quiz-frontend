@@ -10,21 +10,24 @@ const Header = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
-  const userData = useSelector((state: RootState)=>state?.auth.user)
-  console.log("UserData", userData)
-  console.log(isAuthenticated)
+  const userData = useSelector((state: RootState) => state?.auth.user);
+  console.log("UserData", userData);
+  console.log(isAuthenticated);
   const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>(); 
-  useEffect(()=>{
-    dispatch(checkAuth())
-  },[])
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, []);
   const handleLoginLogout = () => {
-    isAuthenticated ? dispatch(logout()) :  navigate("/user/login");
+    isAuthenticated ? dispatch(logout()) : navigate("/user/login");
   };
 
   return (
     <div className="flex justify-between px-4 sm:px-16 bg-primary h-20 items-center relative">
-      <div className="flex items-center gap-4 text-sm font-semibold text-btn">
+      <div
+        className="flex items-center gap-4 text-sm font-semibold text-btn cursor-pointer"
+        onClick={() => navigate("/")}
+      >
         <img
           src={logo}
           alt=""
@@ -51,8 +54,9 @@ const Header = () => {
           <NavLink to={"/"}>Home</NavLink>
           <NavLink to={"/pricing"}>Pricing</NavLink>
           <NavLink to={"/about"}>About Us</NavLink>
-          {userData?.role === "user" && <NavLink to={"/user/tests"}>My Purchase</NavLink>}
-          
+          {userData?.role === "user" && (
+            <NavLink to={"/user/tests"}>My Purchase</NavLink>
+          )}
         </ul>
       </div>
       <div className="hidden sm:flex">

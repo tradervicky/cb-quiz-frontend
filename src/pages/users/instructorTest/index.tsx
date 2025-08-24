@@ -1,5 +1,26 @@
-const InstructorTest = (data) => {
-  console.log(data);
+import { useEffect, useState } from "react";
+//@ts-ignore
+import { load } from "@cashfreepayments/cashfree-js";
+import { useNavigate } from "react-router-dom";
+const InstructorTest = ({ data, ...props }: any) => {
+  const [cashfree, setCashfree] = useState(null);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const loadCashfree = async () => {
+      const cf = await load({
+        mode: process.env.REACT_APP_ENV === "prod" ? "production" : "sandbox",
+      }); // or "production"
+      setCashfree(cf);
+    };
+    loadCashfree();
+  }, []);
+  const handleBuy = (data: any) => {
+    if (!props.isAuthenticated) {
+      navigate("/user/login");
+    } else {
+      props.handleBuy(data);
+    }
+  };
 
   return (
     <div className="flex sm:flex-row flex-col mx-4 sm:mx-24 border rounded-xl mb-8 bg-secondary">
@@ -14,37 +35,41 @@ const InstructorTest = (data) => {
               height={50}
             />
             <div>
-              <p className="text-highlight">{data?.data?.instructorName}</p>
+              <p className="text-highlight">{data?.instructorName}</p>
               <span className="text-xs font-medium text-gray-400">
-                {data?.data?.instructorBio}
+                {data?.instructorBio}
               </span>
             </div>
           </div>
-          {data?.data?.quizShortDesc.map((d) => 
+          {data?.quizShortDesc.map((d: any) => (
             <div className="mt-4">
               <h1 className=" font-semibold text-btn">{d.title}</h1>
               <span>{d.content}</span>
             </div>
-          )}
+          ))}
         </div>
         <div className="mt-8 border bottom-0 flex flex-col justify-end">
-          <button className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full">
-            Buy it
+          <button
+            onClick={() => handleBuy(data)}
+            className="px-4 py-2 bg-btn rounded text-white text-sm font-medium w-full"
+          >
+            Buy {data?.price && "₹"}
+            {data?.price}
           </button>
         </div>
       </div>
-     
+
       <div className="p-5 sm:w-[60%]">
         <h3 className=" font-semibold text-highlight mb-4">
           Tests Description
         </h3>
-        {data?.data?.quizFullDesc?.map((d) => 
-        <ul>
-          <li className="mb-2">
-            <strong>{d.title}:</strong> {d.content}
-          </li>
-          
-        </ul>)}
+        {data?.quizFullDesc?.map((d: any) => (
+          <ul>
+            <li className="mb-2">
+              <strong>{d.title}:</strong> {d.content}
+            </li>
+          </ul>
+        ))}
       </div>
     </div>
   );

@@ -13,6 +13,13 @@ import AdminSignup from "@/pages/admin/signup";
 import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "@/store/reducers/reducer";
+import UserDashboard from "@/pages/users/dashboard";
+import AllTests from "@/pages/users/dashboard/allTests";
+import Reports from "@/pages/users/dashboard/reports";
+import MyTests from "@/pages/users/dashboard/myTests";
+import SuccessPage from "@/components/custom/SuccessPage";
+import FailedPage from "@/components/custom/FailedPage";
+import PaymentStatus from "@/components/custom/paymentStatus";
 const AddCategory = lazy(() => import("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import("@/pages/admin/addQuestions"));
@@ -20,9 +27,8 @@ const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 const UserLogin = lazy(() => import("@/pages/users/login"));
 const UserContainer = lazy(() => import("@/container/users"));
 const Pricing = lazy(() => import("@/pages/users/pricing"));
-const MyTests = lazy(() => import("@/pages/users/mytest"));
+const MyTest = lazy(() => import("@/pages/users/mytest"));
 const CreateQuiz = lazy(() => import("@/pages/admin/createQuiz"));
-// const AddQuiz = lazy(() => import("@/pages/admin/createQuiz/AddQuiz"));
 
 // Open Routes
 const openRoutes: RouteConfig[] = [
@@ -46,13 +52,21 @@ const usersRoutes: RouteConfig[] = [
     exact: true,
     element: <InstructionsPanel />,
   },
+  { path: "/dashboard", exact: true, element: <UserDashboard /> },
+  { path: "/user/all-tests", exact: true, element: <AllTests /> },
+  { path: "/user/my-tests", exact: true, element: <MyTests /> },
+  { path: "/user/reports", exact: true, element: <Reports /> },
   { path: "/user/test-info", exact: true, element: <ExamInfoPage /> },
   { path: "/user/final-test", exact: true, element: <FinalTestPage /> },
-  { path: "/user/tests", exact: true, element: <MyTests /> },
+  { path: "/user/tests", exact: true, element: <MyTest /> },
   { path: "/pricing", exact: true, element: <Pricing /> },
   { path: "/about", exact: true, element: <Checkout /> },
-  { path: "/", exact: true, element: <UserContainer /> },
-  { path: "*", exact: true, element: <UserContainer /> },
+  //payment
+  { path: "/user/payment-success", exact: true, element: <SuccessPage /> },
+  { path: "/user/payment-failed", exact: true, element: <FailedPage /> },
+  { path: "/user/payment-status", exact: true, element: <PaymentStatus /> },
+  { path: "/", exact: true, element: <UserDashboard /> },
+  { path: "*", exact: true, element: <UserDashboard /> },
 ];
 
 // const usersRoutes: RouteConfig[] =[

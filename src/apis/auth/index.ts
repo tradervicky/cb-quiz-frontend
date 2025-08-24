@@ -5,7 +5,7 @@ export const authUrl = {
   SUPER_LOGIN: "/super/signin",
   APPROVED_ADMIN: "/super/approve-admin/",
   GET_APPROVED_ADMIN: "approval-admins",
-  
+
   //admin
   ADMIN_LOGIN: "admin/login",
   ADMIN_SIGNUP: "/admin/signup",
@@ -35,5 +35,8 @@ export const authUrl = {
   USER_ALL_QUIZ: "/user/get-all-quizes",
 
   //payment
-  GET_SESSION_ID:"user/payment",
+  GET_SESSION_ID: "user/payment",
+  //cashfree
+  CREATE_ORDER: "payments/create-order",
+  VERIFY_ORDER: "payments/verify",
 };
