@@ -1,23 +1,76 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import useTimer from "@/hooks/useTimer";
+import { useNavigate, useParams } from "react-router-dom";
+import { startQuiz } from "../../apiCall";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { getToday } from "@/shared/date";
 const FinalTestPage: React.FC = () => {
   const [showSide, setShowSide] = useState(true);
-  useEffect(() => {}, []);
+  const { ...params } = useParams();
+  const auth = useSelector((state: RootState) => state?.auth);
+  const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate();
+  const { minutes, seconds } = useTimer(15 * 60, () => {});
+  const [answer, setAnswer] = useState<[string]>([""]);
+  const handleStartQuiz = async () => {
+    try {
+      const res = await startQuiz(params.params);
+      setQuestions(res?.attempt?.questions);
+      console.log(res);
+    } catch (error) {}
+  };
+  console.log(questions[parseInt(params.id) - 1]?.questionId);
+  console.log(auth?.user?.firstName);
+  useEffect(() => {
+    if (questions?.length === 0) {
+      handleStartQuiz();
+    }
+  }, []);
+  const handleSaveAndNext = () => {
+    if (parseInt(params.id) === questions.length) {
+      navigate(`/user/final-test/${params.params}/1`);
+    } else {
+      navigate(`/user/final-test/${params.params}/${parseInt(params.id) + 1}`);
+    }
+  };
+  const handleBack = () => {
+    if (parseInt(params.id) === 1) {
+      return;
+    } else {
+      navigate(`/user/final-test/${params.params}/${parseInt(params.id) - 1}`);
+    }
+  };
+  const handleSelectAnswer = (ans: string, type: string) => {
+    if (type === "single") {
+      setAnswer([ans]);
+    }
+  };
+  // {minutes}:{seconds.toString().padStart(2, "0")}
+  console.log(answer);
   return (
     <div>
       <div className="min-h-[88vh] bg-primary flex flex-col  p-6 relative">
         {/* Header Section */}
         <header className="bg-secondary text-btn p-4 rounded-lg flex justify-between gap-4 items-center mb-4">
           <div className="flex sm:flex-row flex-col sm:items-center sm:space-x-2 ">
-            <h1 className="text-xs sm:text-lg font-semibold">EXAM_Name</h1>
-            <span className="text-xs sm:text-lg mt-2 sm:mt-0">16/09/2024</span>
+            <h1 className="text-xs sm:text-lg font-semibold">
+              {questions[parseInt(params.id) - 1]?.questionId?.category}
+            </h1>
+            <span className="text-xs sm:text-lg mt-2 sm:mt-0">
+              {getToday()}
+            </span>
           </div>
           <div className="flex sm:flex-row flex-col sm:items-center sm:space-x-2 ">
             <p className="text-xs sm:text-sm font-semibold sm:font-bold ">
               Remaining Time
             </p>
-            <span className=" text-xs sm:text-lg mt-2 sm:mt-0">02:29:54</span>
+            <span className=" text-xs sm:text-lg mt-2 sm:mt-0">
+              {minutes.toString().padStart(2, "0")}:
+              {seconds.toString().padStart(2, "0")}
+            </span>
           </div>
 
           <div className="flex sm:flex-row flex-col sm:items-center space-x-2 ">
@@ -25,7 +78,7 @@ const FinalTestPage: React.FC = () => {
               Online
             </div>
             <div className="text-xs sm:text-xs  w-full mt-1 sm:mt-0">
-              Mock_user
+              {auth?.user?.firstName + " " + auth?.user?.lastName}
             </div>
           </div>
         </header>
@@ -34,38 +87,36 @@ const FinalTestPage: React.FC = () => {
           {/* Question Section */}
           <section className="bg-secondary shadow-md p-6 rounded-lg flex-1 h-[60vh] overflow-y-scroll">
             <div className="flex justify-between items-center">
-              <h2 className="text-xl font-bold">Question 001</h2>
+              <h2 className="text-xl font-bold">Question {params.id}</h2>
               <div className="text-sm text-gray-600">
-                SINGLE CHOICE QUESTIONS
+                {questions[parseInt(params.id) - 1]?.questionId?.type}
               </div>
             </div>
 
             <div className="mt-4">
               <p className="text-red-600 font-semibold">
-                Q) When the offense of kidnapping is committed with the
-                intention to cause wrongful confinement or to put the person in
-                fear of death or hurt, it is classified as:
+                Q) {questions[parseInt(params.id) - 1]?.questionId?.title}
               </p>
               <hr className="my-4" />
 
               <div className="space-y-4">
                 {/* Options */}
-                <div className="flex items-center space-x-2">
-                  <input type="radio" name="answer" className="form-radio" />
-                  <label>Simple kidnapping</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input type="radio" name="answer" className="form-radio" />
-                  <label>Kidnapping for ransom</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input type="radio" name="answer" className="form-radio" />
-                  <label>Kidnapping to compel marriage</label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <input type="radio" name="answer" className="form-radio" />
-                  <label>Kidnapping with murder</label>
-                </div>
+                {questions[parseInt(params.id) - 1]?.questionId?.options?.map(
+                  (option, index) => (
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name="answer"
+                        className="form-radio"
+                        value={option}
+                        onChange={(e) =>
+                          handleSelectAnswer(e.target.value, "single")
+                        }
+                      />
+                      <label>{option}</label>
+                    </div>
+                  )
+                )}
               </div>
             </div>
           </section>
@@ -99,12 +150,17 @@ const FinalTestPage: React.FC = () => {
 
             <div className="grid grid-cols-6 gap-2 mb-4">
               {/* Question Navigator */}
-              {Array.from({ length: 100 }, (_, i) => (
+              {Array.from({ length: questions.length || 10 }, (_, i) => (
                 <div
+                  onClick={() =>
+                    navigate(`/user/final-test/${params.params}/${i + 1}`)
+                  }
                   key={i + 1}
                   className={`h-10 w-10 flex items-center justify-center rounded-full 
                 ${
-                  i === 0 ? "bg-yellow-500 text-black" : "bg-gray-300"
+                  i === parseInt(params.id) - 1
+                    ? "bg-yellow-500 text-black"
+                    : "bg-gray-300"
                 } cursor-pointer`}
                 >
                   {i + 1}
@@ -116,22 +172,23 @@ const FinalTestPage: React.FC = () => {
 
         {/* Bottom Action Buttons */}
         <div className="mt-6 flex sm:flex-row flex-col justify-center gap-4 sm:gap-4 sm:items-center">
-          <Button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-            Save & Next
+          <Button
+            disabled={parseInt(params.id) === 1}
+            onClick={handleBack}
+            className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600"
+          >
+            Back
           </Button>
 
-          <Button>
-            <ChevronLeft />
-          </Button>
           <Button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
             Clear
           </Button>
-          <Button>
-            <ChevronRight />
-          </Button>
 
-          <Button className="bg-purple-500 text-white px-4 py-2 rounded-md hover:bg-purple-600">
-            Mark For Review
+          <Button
+            onClick={handleSaveAndNext}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Next
           </Button>
         </div>
       </div>

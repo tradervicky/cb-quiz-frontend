@@ -44,4 +44,9 @@ export const authUrl = {
   //cashfree
   CREATE_ORDER: "payments/create-order",
   VERIFY_ORDER: "payments/verify",
+  //start quiz
+  START_QUIZ: "/user/start/",
+  SUBMIT_ANSWER: "/user/attempt/submit-answer",
+  FINAL_SUBMIT: "/user/quiz/final-submit",
+  LEADERBOARD: "/user/quiz/leaderboard",
 };

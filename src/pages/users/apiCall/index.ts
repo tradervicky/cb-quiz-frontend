@@ -63,3 +63,10 @@ export const getQuizById = async (id: Params) => {
   });
   return response;
 };
+export const startQuiz = async (id: Params) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.START_QUIZ + id,
+  });
+  return response;
+};

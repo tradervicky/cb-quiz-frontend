@@ -57,7 +57,11 @@ const usersRoutes: RouteConfig[] = [
   { path: "/user/my-tests", exact: true, element: <MyTests /> },
   { path: "/user/reports", exact: true, element: <Reports /> },
   { path: "user/test-info/:id", exact: true, element: <ExamInfoPage /> },
-  { path: "/user/final-test/:id", exact: true, element: <FinalTestPage /> },
+  {
+    path: "/user/final-test/:params/:id",
+    exact: true,
+    element: <FinalTestPage />,
+  },
   { path: "/user/tests", exact: true, element: <MyTest /> },
   { path: "/pricing", exact: true, element: <Pricing /> },
   { path: "/about", exact: true, element: <Checkout /> },

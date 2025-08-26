@@ -32,7 +32,9 @@ const ExamInfoPage = () => {
   const handleAttempt = () => {
     if (quizInfo.quiestionId && quizInfo.quizId) {
       navigate(
-        `/user/final-test/${sessionStorage.getItem("attemptedQuestionId")}`
+        `/user/final-test/${state?._id}/${sessionStorage.getItem(
+          "attemptedQuestionId"
+        )}`
       );
     } else {
       navigate(`/user/final-test/1`);
