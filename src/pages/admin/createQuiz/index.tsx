@@ -1,10 +1,18 @@
 import CustomTable from "@/components/custom/CustomTable";
-import { ChevronLeft, DeleteIcon, PenLine, Plus, Trash2 } from "lucide-react";
+import {
+  ChevronLeft,
+  Clipboard,
+  DeleteIcon,
+  PenLine,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddQuiz from "./AddQuiz";
 import { useEffect, useState } from "react";
 import { getAllQuiz } from "../apiCall";
 import LoaderTable from "@/components/custom/LoaderTable";
+import { copyToClipboard } from "@/shared/function";
 
 const CreateQuiz = () => {
   const [isAddQuiz, setIsAddQuiz] = useState(false);
@@ -13,23 +21,9 @@ const CreateQuiz = () => {
   const headerData = [
     { title: "SL No.", key: "serialNo" as const },
     { title: "Quiz Name", key: "name" as const },
+    { title: "Quiz Id", key: "_id" as const },
     { title: "Price", key: "price" as const },
     { title: "Actions", key: "actions" as const },
-  ];
-
-  const rowData = [
-    {
-      serialNo: "1",
-      queType: "Single Choice",
-      noOfQue: "250",
-      actions: "Credit Card",
-    },
-    {
-      serialNo: "2",
-      queType: "Multiple Choice",
-      noOfQue: "150",
-      actions: "PayPal",
-    },
   ];
   const fetchQuizes = async () => {
     try {
@@ -42,6 +36,16 @@ const CreateQuiz = () => {
           serialNo: index + 1,
           name: item?.title || item?.quizShortDesc?.[0]?.title,
           price: "₹" + (item?.price || 0),
+          _id: (
+            <div className="flex gap-2">
+              {item?._id}
+              <Clipboard
+                size={20}
+                className="cursor-pointer"
+                onClick={() => copyToClipboard(item?._id)}
+              />
+            </div>
+          ),
           actions: (
             <div className="flex gap-2">
               <PenLine

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useTimer from "@/hooks/useTimer";
 import { useNavigate, useParams } from "react-router-dom";
-import { startQuiz } from "../../apiCall";
+import { attemptQuestion, finalSubmit, startQuiz } from "../../apiCall";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { getToday } from "@/shared/date";
@@ -11,6 +11,7 @@ const FinalTestPage: React.FC = () => {
   const [showSide, setShowSide] = useState(true);
   const { ...params } = useParams();
   const auth = useSelector((state: RootState) => state?.auth);
+  const [allData, setAllData] = useState([]);
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
   const { minutes, seconds } = useTimer(15 * 60, () => {});
@@ -19,22 +20,26 @@ const FinalTestPage: React.FC = () => {
     try {
       const res = await startQuiz(params.params);
       setQuestions(res?.attempt?.questions);
-      console.log(res);
+      setAllData(res?.attempt);
     } catch (error) {}
   };
-  console.log(questions[parseInt(params.id) - 1]?.questionId);
-  console.log(auth?.user?.firstName);
   useEffect(() => {
     if (questions?.length === 0) {
       handleStartQuiz();
     }
   }, []);
-  const handleSaveAndNext = () => {
-    if (parseInt(params.id) === questions.length) {
-      navigate(`/user/final-test/${params.params}/1`);
-    } else {
-      navigate(`/user/final-test/${params.params}/${parseInt(params.id) + 1}`);
-    }
+  const handleSaveAndNext = async () => {
+    let _payload = {
+      questionId: questions[parseInt(params.id) - 1]?.questionId?._id,
+      attemptId: allData?._id,
+      answer: answer,
+    };
+    const res = await attemptQuestion(_payload);
+    // if (parseInt(params.id) === questions.length) {
+    //   navigate(`/user/final-test/${params.params}/1`);
+    // } else {
+    navigate(`/user/final-test/${params.params}/${parseInt(params.id) + 1}`);
+    // }
   };
   const handleBack = () => {
     if (parseInt(params.id) === 1) {
@@ -43,13 +48,16 @@ const FinalTestPage: React.FC = () => {
       navigate(`/user/final-test/${params.params}/${parseInt(params.id) - 1}`);
     }
   };
-  const handleSelectAnswer = (ans: string, type: string) => {
+
+  const handleSelectAnswer = async (ans: string, type: string) => {
     if (type === "single") {
       setAnswer([ans]);
     }
   };
-  // {minutes}:{seconds.toString().padStart(2, "0")}
-  console.log(answer);
+  const finalSubmitQuiz = async () => {
+    let _payload = { attemptId: allData?._id };
+    const response = await finalSubmit(_payload);
+  };
   return (
     <div>
       <div className="min-h-[88vh] bg-primary flex flex-col  p-6 relative">
@@ -189,6 +197,12 @@ const FinalTestPage: React.FC = () => {
             className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
           >
             Next
+          </Button>
+          <Button
+            onClick={finalSubmitQuiz}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          >
+            Final Submit
           </Button>
         </div>
       </div>

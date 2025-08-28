@@ -49,4 +49,5 @@ export const authUrl = {
   SUBMIT_ANSWER: "/user/attempt/submit-answer",
   FINAL_SUBMIT: "/user/quiz/final-submit",
   LEADERBOARD: "/user/quiz/leaderboard",
+  USER_REPORT: "/user/quiz/reports",
 };

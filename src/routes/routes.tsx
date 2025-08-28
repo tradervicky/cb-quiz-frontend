@@ -20,6 +20,7 @@ import MyTests from "@/pages/users/dashboard/myTests";
 import SuccessPage from "@/components/custom/SuccessPage";
 import FailedPage from "@/components/custom/FailedPage";
 import PaymentStatus from "@/components/custom/paymentStatus";
+import UserReports from "@/pages/users/report";
 const AddCategory = lazy(() => import("@/pages/admin/addCategory"));
 const AddTypes = lazy(() => import("@/pages/admin/addTypes"));
 const AddQuestions = lazy(() => import("@/pages/admin/addQuestions"));
@@ -55,8 +56,8 @@ const usersRoutes: RouteConfig[] = [
   { path: "/dashboard", exact: true, element: <UserDashboard /> },
   { path: "/user/all-tests", exact: true, element: <AllTests /> },
   { path: "/user/my-tests", exact: true, element: <MyTests /> },
-  { path: "/user/reports", exact: true, element: <Reports /> },
-  { path: "user/test-info/:id", exact: true, element: <ExamInfoPage /> },
+  { path: "/user/test-info/:id", exact: true, element: <ExamInfoPage /> },
+  { path: "/user/reports", exact: true, element: <UserReports /> },
   {
     path: "/user/final-test/:params/:id",
     exact: true,

@@ -70,3 +70,34 @@ export const startQuiz = async (id: Params) => {
   });
   return response;
 };
+export const attemptQuestion = async (data: any) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.SUBMIT_ANSWER,
+    data: data,
+  });
+  return response;
+};
+export const finalSubmit = async (data: any) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.FINAL_SUBMIT,
+    data: data,
+  });
+  return response;
+};
+export const getLeaderboard = async (data: any) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.LEADERBOARD,
+    data: data,
+  });
+  return response;
+};
+export const getUserTestReport = async () => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.USER_REPORT,
+  });
+  return response;
+};
