@@ -18,6 +18,13 @@ export const updateCategory = async (data: Object, id: string) => {
   });
   return response;
 };
+export const deleteCategory = async (id: string) => {
+  const response = makeApiRequest({
+    method: "POST",
+    url: authUrl.DELETE_CATEGORY + id,
+  });
+  return response;
+};
 
 //get category
 export const getAdminCategory = async () => {
@@ -55,6 +62,14 @@ export const addQuestion = async (data: Object) => {
   });
   return response;
 };
+export const uploadQuestion = async (data: any) => {
+  const response = makeApiRequest({
+    method: "POST",
+    url: authUrl.UPLOAD_QUESTION,
+    data: data,
+  });
+  return response;
+};
 
 //get all admin's questions
 
@@ -63,6 +78,13 @@ export const getAllQuestions = async (data) => {
     method: "POST",
     url: authUrl.GET_ALL_QUESTION,
     data,
+  });
+  return response;
+};
+export const getQuestionById = async (data: string) => {
+  const response = makeApiRequest({
+    method: "GET",
+    url: authUrl.GET_QUESTION_BY_ID + data,
   });
   return response;
 };

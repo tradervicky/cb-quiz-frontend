@@ -1,5 +1,6 @@
-import { Edit } from 'lucide-react';
-import React from 'react';
+import { Edit, Trash2 } from "lucide-react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Option {
   text: string;
@@ -13,7 +14,9 @@ interface QuestionProps {
   questionNumber: number;
   category: string;
   type: string;
-  answer:[]
+  answer: [];
+  id: string;
+  setIsAddQuestion: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const SingleQuestion: React.FC<QuestionProps> = ({
@@ -22,40 +25,51 @@ const SingleQuestion: React.FC<QuestionProps> = ({
   options,
   category,
   type,
+  id,
+  setIsAddQuestion,
 }) => {
+  const navigate = useNavigate();
   const correctOptions = options
-    .map((option, index) => (option.isCorrect ? String.fromCharCode(65 + index) : ''))
-    .filter((char) => char !== '')
-    .join(', ');
+    .map((option, index) =>
+      option.isCorrect ? String.fromCharCode(65 + index) : ""
+    )
+    .filter((char) => char !== "")
+    .join(", ");
+  const handleNavigate = () => {
+    navigate(`/quiz/questions?id=${id}`);
+    setIsAddQuestion(true);
+  };
   return (
     <div className="p-4 bg-primary rounded-lg shadow-md mb-6">
-      <div className='flex gap-2 justify-between'>
+      <div className="flex gap-2 justify-between">
         <h3 className="text-btn text-lg font-semibold mb-4">{question}</h3>
-        <div className='text-sm font-normal'>
-          <Edit size={20} className='cursor-pointer' />
+        <div className="text-sm flex gap-2 font-normal">
+          <Edit size={20} className="cursor-pointer" onClick={handleNavigate} />
+          <Trash2
+            size={20}
+            className="cursor-pointer text-red-500 hover:text-red-600 ease-in-out duration-300 "
+          />
         </div>
       </div>
       <div className="space-y-2 mb-4">
         {options.map((option, index) => (
-          <div
-            key={index}
-            className="p-2 rounded-lg bg-secondary text-btn"
-          >
+          <div key={index} className="p-2 rounded-lg bg-secondary text-btn">
             {String.fromCharCode(65 + index)}. {option}
           </div>
         ))}
       </div>
-      <div className='flex justify-between gap-2'>
-        <p className='bg-secondary px-4 py-1 rounded'>
-          
-          Correct Ans: {answer.map((d, i)=><span>{d}{(type === "Multiple choice" && i !== answer.length-1) && ", "}</span>)}
+      <div className="flex justify-between gap-2">
+        <p className="bg-secondary px-4 py-1 rounded">
+          Correct Ans:{" "}
+          {answer.map((d, i) => (
+            <span>
+              {d}
+              {type === "Multiple choice" && i !== answer.length - 1 && ", "}
+            </span>
+          ))}
         </p>
-        <p className='bg-secondary px-4 py-1 rounded'>
-          Category: {category}
-        </p>
-        <p className='bg-secondary px-4 py-1 rounded'>
-          Question Type: {type}
-        </p>
+        <p className="bg-secondary px-4 py-1 rounded">Category: {category}</p>
+        <p className="bg-secondary px-4 py-1 rounded">Question Type: {type}</p>
       </div>
     </div>
   );

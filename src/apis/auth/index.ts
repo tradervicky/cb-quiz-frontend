@@ -13,12 +13,14 @@ export const authUrl = {
   //admin category CRUD
   CREATE_CATEGORY: "admin/create-category",
   UPDATE_CATEGORY: "/admin/update-category/",
+  DELETE_CATEGORY: "/admin/delete-category/",
   GET_CATEGORY: "/admin/get-category",
   CREATE_TYPE: "/admin/create-type",
   GET_TYPE: "/admin/get-type",
   GET_ADMIN_TYPES: "/admin/get-que-type",
   //admin questions
   ADD_QUESTION: "/admin/add-question",
+  UPLOAD_QUESTION: "/admin/upload-questions",
   GET_ALL_QUESTION: "/admin/get-questions",
   GET_QUESTION_BY_ID: "/admin/get-question/",
 

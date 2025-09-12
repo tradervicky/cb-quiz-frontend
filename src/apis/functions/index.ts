@@ -5,9 +5,6 @@ const baseUrl = import.meta.env.VITE_REACT_API_URL;
 
 const api = axios.create({
   baseURL: baseUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 export const makeApiRequest = async <T>({
@@ -26,10 +23,12 @@ export const makeApiRequest = async <T>({
   if (typeof additionalHeaders !== "object" || additionalHeaders === null) {
     throw new Error("additionalHeaders should be an object");
   }
+  const isFormData = data instanceof FormData;
 
   // Construct the headers object
   const headers = {
-    Token: token ? `${token}` : "", // Add token if available
+    Token: token ? `${token}` : "",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }), // Add token if available
     ...additionalHeaders, // Include any additional headers
   };
 

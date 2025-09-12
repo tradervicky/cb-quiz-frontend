@@ -9,7 +9,14 @@ import {
   getAdminCategory,
   getAdminTypes,
   getAllQuiz,
+  getQuestionById,
+  uploadQuestion,
 } from "../../apiCall";
+import { SAMPLE_UPLOAD_FILE } from "@/shared/constants";
+import Loader from "@/components/custom/Loader";
+import LoaderOverlay from "@/components/custom/LoaderOverlay";
+import { toast } from "sonner";
+import { useSearchParams } from "react-router-dom";
 interface Option {
   name: string;
   code: string;
@@ -28,6 +35,7 @@ export const quizFor: Option[] = [
 const AddNewQue = () => {
   const [types, setTypes] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
+  const [searchParam] = useSearchParams();
   const [quizes, setQuizes] = useState([]);
   const [questionData, setQuestionData] = useState<{
     title: string;
@@ -46,7 +54,9 @@ const AddNewQue = () => {
     QuestionFor: "paid",
     quizId: "",
   });
+  console.log(searchParam.get("id"));
   const [quizOption, setQuizOption] = useState<Option[]>([]);
+  const [loading, setLoading] = useState(false);
   const fetchQuiz = async () => {
     const res = await getAllQuiz();
     if (res) {
@@ -144,120 +154,200 @@ const AddNewQue = () => {
   }, []);
 
   const validOptions = questionData.options.filter((opt) => opt.trim() !== "");
+  const handleUploadFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return; // safety check
 
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setLoading(true);
+
+    try {
+      const res = await uploadQuestion(formData);
+
+      if (res?.status) {
+        // success
+        toast("File uploaded successfully");
+      } else {
+        toast(res?.msg || "Upload failed");
+      }
+    } catch (error: any) {
+      console.error("Upload error:", error);
+      toast("Something went wrong while uploading the file");
+    } finally {
+      setLoading(false); // always stop loader
+    }
+  };
+  const fetchSingleQuestion = async () => {
+    try {
+      const res = await getQuestionById(searchParam.get("id"));
+      console.log(res);
+      if (res && res.data) {
+        const _data = {
+          title: res.data.title || "",
+          type: res.data.type || "",
+          category: res.data.category || "",
+          options: Array.isArray(res.data.options)
+            ? res.data.options
+            : ["", "", "", ""], // fallback to 4 empty options
+          answer: Array.isArray(res.data.answer) ? res.data.answer : [],
+          QuestionFor: res.data.QuestionFor || "paid",
+          quizId: res.data.quizId || "",
+        };
+        console.log(_data);
+        // setQuestionData(_data);
+      }
+    } catch (error) {
+      console.error("Error fetching question:", error);
+    }
+  };
+  useEffect(() => {
+    fetchSingleQuestion();
+  }, [searchParam.get("id")]);
+  console.log(questionData);
   return (
     <>
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2">
-        <div>
-          <Label>Question Title</Label>
-          <Input
-            placeholder="Enter Question Title"
-            name="title"
-            onChange={handleChange}
-            value={questionData.title}
-          />
-        </div>
-
-        <div className="w-full">
-          <CustomSelect
-            name="type"
-            label="Select Question Type"
-            style="w-full"
-            options={types}
-            optionLabel="name"
-            optionValue="code"
-            onChange={(value) => handleSelectChange("type", value)}
-            value={questionData.type}
-            placeholder="Select Question Type"
-          />
-        </div>
-
-        <div className="w-full">
-          <CustomSelect
-            name="category"
-            label="Select Question Category"
-            style="w-full"
-            options={categories}
-            optionLabel="name"
-            optionValue="code"
-            onChange={(value) => handleSelectChange("category", value)}
-            value={questionData.category}
-            placeholder="Select Question Category"
-          />
-        </div>
-
-        {questionData.options.map((option, index) => (
-          <div key={index}>
-            <Label>Option {index + 1}</Label>
+      <LoaderOverlay visible={loading} />
+      <div className="relative">
+        <div className="absolute -top-10 right-4 flex flex-col ">
+          <div>
+            <Label>Upload File (Add Questions)</Label>
             <Input
-              placeholder={`Enter Option ${index + 1}`}
-              name={`option${index}`}
-              onChange={(e) => handleOptionChange(index, e)}
-              value={option}
+              type="file"
+              placeholder="Enter Question Title"
+              name="title"
+              onChange={(e) => handleUploadFile(e)}
+              value={questionData.title}
             />
           </div>
-        ))}
+          <a
+            className="absolute top-1 right-2 text-blue-500 underline italic text-xs"
+            target="_blank"
+            href={SAMPLE_UPLOAD_FILE}
+          >
+            Sample File
+          </a>
+        </div>
 
-        <div className="w-full">
-          {questionData.type === "Multiple choice" ? (
-            <CustomMultiSelect
-              name="answer"
-              label="Select Correct Options"
-              style="w-full"
-              options={validOptions.map((opt) => ({ name: opt, code: opt }))}
-              optionLabel="name"
-              optionValue="code"
-              onChange={handleMultiSelectChange}
-              value={questionData.answer}
-              placeholder="Select Correct Options"
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2">
+          <div>
+            <Label>Question Title</Label>
+            <Input
+              placeholder="Enter Question Title"
+              name="title"
+              onChange={handleChange}
+              value={questionData.title}
             />
-          ) : (
+          </div>
+
+          <div className="w-full">
             <CustomSelect
-              name="answer"
-              label="Select Correct Option"
+              name="type"
+              label="Select Question Type"
               style="w-full"
-              options={validOptions.map((opt) => ({ name: opt, code: opt }))}
+              options={types}
               optionLabel="name"
               optionValue="code"
-              onChange={(value) => handleAnsSelectChange("answer", value)}
-              value={questionData.answer[0]}
-              placeholder="Select Correct Option"
+              onChange={(value) => handleSelectChange("type", value)}
+              value={questionData.type}
+              placeholder="Select Question Type"
             />
-          )}
+          </div>
+
+          <div className="w-full">
+            <CustomSelect
+              name="category"
+              label="Select Question Category"
+              style="w-full"
+              options={categories}
+              optionLabel="name"
+              optionValue="code"
+              onChange={(value) => handleSelectChange("category", value)}
+              value={questionData.category}
+              placeholder="Select Question Category"
+            />
+          </div>
+
+          {questionData.options.map((option, index) => (
+            <div key={index}>
+              <Label>Option {index + 1}</Label>
+              <Input
+                placeholder={`Enter Option ${index + 1}`}
+                name={`option${index}`}
+                onChange={(e) => handleOptionChange(index, e)}
+                value={option}
+              />
+            </div>
+          ))}
+
+          <div className="w-full">
+            {questionData.type === "Multiple choice" ? (
+              <CustomMultiSelect
+                name="answer"
+                label="Select Correct Options"
+                style="w-full"
+                options={validOptions.map((opt) => ({
+                  name: opt,
+                  code: opt,
+                }))}
+                optionLabel="name"
+                optionValue="code"
+                onChange={handleMultiSelectChange}
+                value={questionData.answer}
+                placeholder="Select Correct Options"
+              />
+            ) : (
+              <CustomSelect
+                name="answer"
+                label="Select Correct Option"
+                style="w-full"
+                options={validOptions.map((opt) => ({
+                  name: opt,
+                  code: opt,
+                }))}
+                optionLabel="name"
+                optionValue="code"
+                onChange={(value) => handleAnsSelectChange("answer", value)}
+                value={questionData.answer[0]}
+                placeholder="Select Correct Option"
+              />
+            )}
+          </div>
+
+          <div className="w-full">
+            <CustomSelect
+              name="quizId"
+              label="Select Quiz"
+              style="w-full"
+              options={quizOption}
+              optionLabel="name"
+              optionValue="code"
+              onChange={(value) => handleSelectChange("quizId", value)}
+              value={questionData.quizId}
+              placeholder="Select Quiz"
+            />
+          </div>
+
+          <div className="w-full">
+            <CustomSelect
+              name="QuestionFor"
+              label="Paid or Free"
+              style="w-full"
+              options={quizFor}
+              optionLabel="name"
+              optionValue="code"
+              disabled
+              onChange={(value) => handleSelectChange("QuestionFor", value)}
+              value={"paid"}
+              placeholder="Select Paid/Free"
+            />
+          </div>
         </div>
 
-        <div className="w-full">
-          <CustomSelect
-            name="quizId"
-            label="Select Quiz"
-            style="w-full"
-            options={quizOption}
-            optionLabel="name"
-            optionValue="code"
-            onChange={(value) => handleSelectChange("quizId", value)}
-            value={questionData.quizId}
-            placeholder="Select Quiz"
-          />
+        <div className="w-full flex justify-end pr-4">
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
-
-        <div className="w-full">
-          <CustomSelect
-            name="QuestionFor"
-            label="Paid or Free"
-            style="w-full"
-            options={quizFor}
-            optionLabel="name"
-            optionValue="code"
-            disabled
-            onChange={(value) => handleSelectChange("QuestionFor", value)}
-            value={"paid"}
-            placeholder="Select Paid/Free"
-          />
-        </div>
-      </div>
-
-      <div className="w-full flex justify-end pr-4">
-        <Button onClick={handleSubmit}>Submit</Button>
       </div>
     </>
   );

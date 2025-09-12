@@ -3,68 +3,7 @@ import SingleQuestion from "./singleQuestion";
 import CustomSelect from "@/components/custom/CustomSelect";
 import AddNewQue from "./addNewQue/AddNewQue";
 import { getAllQuestions } from "../apiCall";
-// const questions = [
-//   {
-//     question: 'What is the capital of France?',
-//     options: [
-//       { text: 'Berlin', isCorrect: false },
-//       { text: 'Madrid', isCorrect: false },
-//       { text: 'Paris', isCorrect: true },
-//       { text: 'Rome', isCorrect: false },
-//     ],
-//     allowMultiple: false,
-//   },
-//   {
-//     question: 'Which planet is known as the Red Planet?',
-//     options: [
-//       { text: 'Earth', isCorrect: false },
-//       { text: 'Mars', isCorrect: true },
-//       { text: 'Jupiter', isCorrect: false },
-//       { text: 'Venus', isCorrect: false },
-//     ],
-//     allowMultiple: false,
-//   },
-//   {
-//     question: 'Which is the largest ocean on Earth?',
-//     options: [
-//       { text: 'Atlantic Ocean', isCorrect: false },
-//       { text: 'Indian Ocean', isCorrect: false },
-//       { text: 'Arctic Ocean', isCorrect: false },
-//       { text: 'Pacific Ocean', isCorrect: true },
-//     ],
-//     allowMultiple: false,
-//   },
-//   {
-//     question: 'Who developed the theory of relativity?',
-//     options: [
-//       { text: 'Isaac Newton', isCorrect: false },
-//       { text: 'Albert Einstein', isCorrect: true },
-//       { text: 'Galileo Galilei', isCorrect: false },
-//       { text: 'Nikola Tesla', isCorrect: false },
-//     ],
-//     allowMultiple: false,
-//   },
-//   {
-//     question: 'Which is the smallest country in the world by area?',
-//     options: [
-//       { text: 'Monaco', isCorrect: false },
-//       { text: 'Vatican City', isCorrect: true },
-//       { text: 'Liechtenstein', isCorrect: false },
-//       { text: 'San Marino', isCorrect: false },
-//     ],
-//     allowMultiple: false,
-//   },
-//   {
-//     question: 'Which state has capital chandigadh?',
-//     options: [
-//       { text: 'Bihar', isCorrect: false },
-//       { text: 'Punjab', isCorrect: true },
-//       { text: 'Uttar Pradesh', isCorrect: false },
-//       { text: 'Haryana', isCorrect: true },
-//     ],
-//     allowMultiple: true,
-//   },
-// ];
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 //select options
 
@@ -85,6 +24,9 @@ const AddQuestions = () => {
   const [selectedCountry, setSelectedCountry] = useState<string>("");
   const [isAddQuestion, setIsAddQuestion] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate();
+  const [searchParam] = useSearchParams();
+  console.log(searchParam);
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
     console.log("Selected Country Code:", value);
@@ -104,12 +46,16 @@ const AddQuestions = () => {
       fetchQuestions();
     }
   }, [isAddQuestion]);
+
   return (
     <div>
       <div className="flex justify-between px-6 pt-2">
         <div className="flex gap-4 pl-4 pt-2 pb-4">
           <p
-            onClick={() => setIsAddQuestion(false)}
+            onClick={() => {
+              setIsAddQuestion(false);
+              navigate("/quiz/questions");
+            }}
             className={`${
               !isAddQuestion && "border-highlight border-b-[4px]"
             } cursor-pointer  rounded-lg text-medium font-medium text-highlight`}
@@ -117,7 +63,10 @@ const AddQuestions = () => {
             Questions
           </p>
           <p
-            onClick={() => setIsAddQuestion(true)}
+            onClick={() => {
+              setIsAddQuestion(true);
+              navigate("/quiz/questions");
+            }}
             className={`${
               isAddQuestion && "border-highlight border-b-[4px]"
             } cursor-pointer  rounded-lg text-medium font-medium text-highlight`}
@@ -147,7 +96,9 @@ const AddQuestions = () => {
               options={q.options}
               category={q.category}
               type={q.type}
+              id={q._id}
               answer={q.answer}
+              setIsAddQuestion={setIsAddQuestion}
             />
           ))}
         </div>

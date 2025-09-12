@@ -40,7 +40,7 @@ const AddTypes = () => {
     { title: "SL No.", key: "serialNo" as const },
     { title: "Question Type", key: "queType" as const },
     { title: "No. of Questions", key: "noOfQue" as const },
-    { title: "Actions", key: "actions" as const },
+    // { title: "Actions", key: "actions" as const },
   ];
 
   const fetchQuestionTypes = async () => {

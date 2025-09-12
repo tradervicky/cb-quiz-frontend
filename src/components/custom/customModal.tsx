@@ -9,7 +9,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
+import Loader from "./Loader";
 
 interface CustomModalProps {
   children: ReactNode;
@@ -19,7 +20,7 @@ interface CustomModalProps {
   dialogDescription: string;
   placeholder: string;
   label: string;
-  onClick: () => void;
+  onClick: () => Promise<void> | void;
   categoryTitle: string;
   setCategoryTitle: (value: string) => void;
 }
@@ -36,6 +37,19 @@ const CustomModal = ({
   categoryTitle,
   setCategoryTitle,
 }: CustomModalProps) => {
+  const [loading, setLoading] = useState(false);
+  const handleContinue = async () => {
+    if (!onClick) return;
+    setLoading(true);
+    try {
+      await onClick();
+      handleOpen(false);
+    } catch (err) {
+      console.error("Error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Dialog open={isOpen} onOpenChange={handleOpen}>
       {children}
@@ -58,7 +72,13 @@ const CustomModal = ({
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={onClick}>Save changes</Button>
+          <Button disabled={loading} onClick={handleContinue}>
+            {loading ? (
+              <Loader size="h-4 w-4" color="text-white" />
+            ) : (
+              "Save changes"
+            )}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

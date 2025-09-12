@@ -59,51 +59,51 @@ const FinalTestPage: React.FC = () => {
     let _payload = { attemptId: allData?._id };
     const response = await finalSubmit(_payload);
   };
-  // useEffect(() => {
-  //   const onFullScreenChange = () => {
-  //     if (!document.fullscreenElement) {
-  //       alert("You must stay in full screen during the test!");
-  //       goFullScreen();
-  //     }
-  //   };
-  //   document.addEventListener("fullscreenchange", onFullScreenChange);
-  //   return () =>
-  //     document.removeEventListener("fullscreenchange", onFullScreenChange);
-  // }, []);
-  // useEffect(() => {
-  //   const disableRightClick = (e: MouseEvent) => e.preventDefault();
-  //   document.addEventListener("contextmenu", disableRightClick);
-  //   return () => document.removeEventListener("contextmenu", disableRightClick);
-  // }, []);
-  // useEffect(() => {
-  //   const disableRightClick = (e: MouseEvent) => e.preventDefault();
-  //   document.addEventListener("contextmenu", disableRightClick);
-  //   return () => document.removeEventListener("contextmenu", disableRightClick);
-  // }, []);
-  // useEffect(() => {
-  //   const blockKeys = (e: KeyboardEvent) => {
-  //     if (
-  //       e.key === "F12" ||
-  //       (e.ctrlKey &&
-  //         e.shiftKey &&
-  //         (e.key === "I" || e.key === "J" || e.key === "C")) ||
-  //       (e.ctrlKey && e.key === "U")
-  //     ) {
-  //       e.preventDefault();
-  //     }
-  //   };
-  //   document.addEventListener("keydown", blockKeys);
-  //   return () => document.removeEventListener("keydown", blockKeys);
-  // }, []);
-  // useEffect(() => {
-  //   const beforeUnload = (e: BeforeUnloadEvent) => {
-  //     e.preventDefault();
-  //     e.returnValue =
-  //       "Are you sure you want to leave? Your test is not submitted!";
-  //   };
-  //   window.addEventListener("beforeunload", beforeUnload);
-  //   return () => window.removeEventListener("beforeunload", beforeUnload);
-  // }, []);
+  useEffect(() => {
+    const onFullScreenChange = () => {
+      if (!document.fullscreenElement) {
+        alert("You must stay in full screen during the test!");
+        goFullScreen();
+      }
+    };
+    document.addEventListener("fullscreenchange", onFullScreenChange);
+    return () =>
+      document.removeEventListener("fullscreenchange", onFullScreenChange);
+  }, []);
+  useEffect(() => {
+    const disableRightClick = (e: MouseEvent) => e.preventDefault();
+    document.addEventListener("contextmenu", disableRightClick);
+    return () => document.removeEventListener("contextmenu", disableRightClick);
+  }, []);
+  useEffect(() => {
+    const disableRightClick = (e: MouseEvent) => e.preventDefault();
+    document.addEventListener("contextmenu", disableRightClick);
+    return () => document.removeEventListener("contextmenu", disableRightClick);
+  }, []);
+  useEffect(() => {
+    const blockKeys = (e: KeyboardEvent) => {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey &&
+          e.shiftKey &&
+          (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener("keydown", blockKeys);
+    return () => document.removeEventListener("keydown", blockKeys);
+  }, []);
+  useEffect(() => {
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue =
+        "Are you sure you want to leave? Your test is not submitted!";
+    };
+    window.addEventListener("beforeunload", beforeUnload);
+    return () => window.removeEventListener("beforeunload", beforeUnload);
+  }, []);
 
   return (
     <div>
