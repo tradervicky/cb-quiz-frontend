@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SingleQuestion from "./singleQuestion";
 import CustomSelect from "@/components/custom/CustomSelect";
 import AddNewQue from "./addNewQue/AddNewQue";
 import { getAllQuestions } from "../apiCall";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomPagination from "@/components/custom/CustomPagination";
 
 //select options
@@ -26,7 +26,7 @@ const AddQuestions = () => {
   const [isAddQuestion, setIsAddQuestion] = useState(false);
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
-  const [searchParam] = useSearchParams();
+
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
@@ -36,7 +36,6 @@ const AddQuestions = () => {
 
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
-    console.log("Selected Country Code:", value);
   };
   const fetchQuestions = async (page = 1, search = "", filter = "") => {
     let _payload = {

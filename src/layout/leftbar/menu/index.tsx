@@ -49,7 +49,7 @@ const MenuSidebar: React.FC<MenuSideBarProps> = ({
           toLink: "/quiz/questions",
         },
         {
-          title: "createQuiz",
+          title: "Quizzes",
           toLink: "/create-quiz",
         },
       ],

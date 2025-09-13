@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
-import { addQuiz } from "../../apiCall";
+import { addQuiz, getQuizById } from "../../apiCall";
 import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 interface Description {
   title: string;
@@ -21,6 +22,7 @@ const AddQuiz = () => {
   const [title, setTitle] = useState<string>("");
   const [instructorBio, setInstructorBio] = useState<string>("");
   const [price, setPrice] = useState<string>("");
+  const [searchParam] = useSearchParams();
   const [shortDescriptions, setShortDescriptions] = useState<Description[]>([
     { title: "", content: "" },
   ]);
@@ -62,10 +64,12 @@ const AddQuiz = () => {
       quizFullDesc: fullDescriptions,
       price,
     };
-    console.log(quizData);
-    console.log(title);
     const response = await addQuiz(quizData);
-    console.log(response);
+  };
+  const fetchQuizById = async () => {
+    searchParam.get("id") {
+      const res = await getQuizById(searchParam.get("id"));
+    }
   };
 
   return (

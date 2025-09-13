@@ -13,11 +13,13 @@ import { useEffect, useState } from "react";
 import { getAllQuiz } from "../apiCall";
 import LoaderTable from "@/components/custom/LoaderTable";
 import { copyToClipboard } from "@/shared/function";
+import { useNavigate } from "react-router-dom";
 
 const CreateQuiz = () => {
   const [isAddQuiz, setIsAddQuiz] = useState(false);
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
   const headerData = [
     { title: "SL No.", key: "serialNo" as const },
     { title: "Quiz Name", key: "name" as const },
@@ -49,7 +51,7 @@ const CreateQuiz = () => {
           actions: (
             <div className="flex gap-2">
               <PenLine
-                // onClick={() => handleSelect(d)}
+                onClick={() => handleEdit(item)}
                 size={20}
                 className="cursor-pointer text-yellow-500 hover:text-yellow-700"
               />
@@ -75,6 +77,11 @@ const CreateQuiz = () => {
   }, [isAddQuiz]);
   const handleClick = () => {
     setIsAddQuiz(true);
+    navigate("/create-quiz");
+  };
+  const handleEdit = (d: any) => {
+    setIsAddQuiz(true);
+    navigate("/create-quiz?id=" + d?._id);
   };
   return (
     <div>
