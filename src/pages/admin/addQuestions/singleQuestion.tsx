@@ -1,6 +1,9 @@
+import CustomAlert from "@/components/custom/CustomAlert";
 import { Edit, Trash2 } from "lucide-react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { deleteQuestion } from "../apiCall";
+import { toast } from "sonner";
 
 interface Option {
   text: string;
@@ -17,6 +20,8 @@ interface QuestionProps {
   answer: [];
   id: string;
   setIsAddQuestion: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsSelected: React.Dispatch<React.SetStateAction<boolean | string>>;
+  fetchQuestions: () => void;
 }
 
 const SingleQuestion: React.FC<QuestionProps> = ({
@@ -27,6 +32,8 @@ const SingleQuestion: React.FC<QuestionProps> = ({
   type,
   id,
   setIsAddQuestion,
+  setIsSelected,
+  fetchQuestions,
 }) => {
   const navigate = useNavigate();
   const correctOptions = options
@@ -39,16 +46,35 @@ const SingleQuestion: React.FC<QuestionProps> = ({
     navigate(`/quiz/questions?id=${id}`);
     setIsAddQuestion(true);
   };
+  const handleDelete = async () => {
+    try {
+      const res = await deleteQuestion(id);
+      if (res.status) {
+        toast("Question deleted successfully");
+        fetchQuestions();
+      }
+    } catch (error) {
+    } finally {
+      setIsSelected(false);
+    }
+  };
   return (
     <div className="p-4 bg-primary rounded-lg shadow-md mb-6">
       <div className="flex gap-2 justify-between">
         <h3 className="text-btn text-lg font-semibold mb-4">{question}</h3>
         <div className="text-sm flex gap-2 font-normal">
           <Edit size={20} className="cursor-pointer" onClick={handleNavigate} />
-          <Trash2
-            size={20}
-            className="cursor-pointer text-red-500 hover:text-red-600 ease-in-out duration-300 "
-          />
+          <CustomAlert
+            title="Delete Question"
+            description="Are you sure you want to delete this question?"
+            onContinue={handleDelete}
+          >
+            <Trash2
+              onClick={() => setIsSelected(id)}
+              size={20}
+              className="cursor-pointer text-red-500 hover:text-red-600 ease-in-out duration-300 "
+            />
+          </CustomAlert>
         </div>
       </div>
       <div className="space-y-2 mb-4">

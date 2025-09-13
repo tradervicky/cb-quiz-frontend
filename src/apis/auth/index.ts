@@ -20,6 +20,8 @@ export const authUrl = {
   GET_ADMIN_TYPES: "/admin/get-que-type",
   //admin questions
   ADD_QUESTION: "/admin/add-question",
+  UPDATE_QUESTION: "/admin/update-question/",
+  DELETE_QUESTION: "/admin/delete-question/",
   UPLOAD_QUESTION: "/admin/upload-questions",
   GET_ALL_QUESTION: "/admin/get-questions",
   GET_QUESTION_BY_ID: "/admin/get-question/",

@@ -6,10 +6,12 @@ import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import {
   addQuestion,
+  deleteQuestion,
   getAdminCategory,
   getAdminTypes,
   getAllQuiz,
   getQuestionById,
+  updateQuestion,
   uploadQuestion,
 } from "../../apiCall";
 import { SAMPLE_UPLOAD_FILE } from "@/shared/constants";
@@ -36,7 +38,6 @@ const AddNewQue = () => {
   const [types, setTypes] = useState<Option[]>([]);
   const [categories, setCategories] = useState<Option[]>([]);
   const [searchParam] = useSearchParams();
-  const [quizes, setQuizes] = useState([]);
   const [questionData, setQuestionData] = useState<{
     title: string;
     type: string;
@@ -54,7 +55,6 @@ const AddNewQue = () => {
     QuestionFor: "paid",
     quizId: "",
   });
-  console.log(searchParam.get("id"));
   const [quizOption, setQuizOption] = useState<Option[]>([]);
   const [loading, setLoading] = useState(false);
   const fetchQuiz = async () => {
@@ -69,7 +69,14 @@ const AddNewQue = () => {
   };
 
   const handleSubmit = async () => {
-    addQuestion(questionData);
+    if (searchParam.get("id")) {
+      const res = await updateQuestion(
+        questionData,
+        searchParam.get("id") || ""
+      );
+    } else {
+      await addQuestion(questionData);
+    }
   };
 
   const handleChange = (
@@ -195,8 +202,7 @@ const AddNewQue = () => {
           QuestionFor: res.data.QuestionFor || "paid",
           quizId: res.data.quizId || "",
         };
-        console.log(_data);
-        // setQuestionData(_data);
+        setQuestionData(_data);
       }
     } catch (error) {
       console.error("Error fetching question:", error);
@@ -205,7 +211,7 @@ const AddNewQue = () => {
   useEffect(() => {
     fetchSingleQuestion();
   }, [searchParam.get("id")]);
-  console.log(questionData);
+
   return (
     <>
       <LoaderOverlay visible={loading} />
@@ -216,9 +222,7 @@ const AddNewQue = () => {
             <Input
               type="file"
               placeholder="Enter Question Title"
-              name="title"
               onChange={(e) => handleUploadFile(e)}
-              value={questionData.title}
             />
           </div>
           <a
@@ -269,7 +273,7 @@ const AddNewQue = () => {
             />
           </div>
 
-          {questionData.options.map((option, index) => (
+          {questionData?.options?.map((option, index) => (
             <div key={index}>
               <Label>Option {index + 1}</Label>
               <Input
@@ -346,7 +350,9 @@ const AddNewQue = () => {
         </div>
 
         <div className="w-full flex justify-end pr-4">
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button onClick={handleSubmit}>
+            {searchParam.get("id") ? "Update" : "Submit"}
+          </Button>
         </div>
       </div>
     </>

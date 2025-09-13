@@ -4,6 +4,7 @@ import CustomSelect from "@/components/custom/CustomSelect";
 import AddNewQue from "./addNewQue/AddNewQue";
 import { getAllQuestions } from "../apiCall";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import CustomPagination from "@/components/custom/CustomPagination";
 
 //select options
 
@@ -26,30 +27,43 @@ const AddQuestions = () => {
   const [questions, setQuestions] = useState([]);
   const navigate = useNavigate();
   const [searchParam] = useSearchParams();
-  console.log(searchParam);
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    totalPages: 1,
+  });
+  const [isSelected, setIsSelected] = useState<Boolean | string>(false);
+
   const handleCountryChange = (value: string) => {
     setSelectedCountry(value);
     console.log("Selected Country Code:", value);
   };
-  const fetchQuestions = async () => {
+  const fetchQuestions = async (page = 1, search = "", filter = "") => {
     let _payload = {
-      page: 2,
+      page: page,
       limit: 10,
-      filter: "",
-      search: "",
+      filter: filter,
+      search: search,
     };
     const response = await getAllQuestions(_payload);
     setQuestions(response?.Allquestions);
+    setPagination({
+      total: response?.total,
+      page: response?.page,
+      totalPages: response?.totalPages,
+    });
   };
   useEffect(() => {
     if (!isAddQuestion) {
       fetchQuestions();
     }
   }, [isAddQuestion]);
-
+  useEffect(() => {
+    fetchQuestions(pagination.page);
+  }, [pagination.page]);
   return (
     <div>
-      <div className="flex justify-between px-6 pt-2">
+      <div className="flex justify-between px-6 pt-2 relative">
         <div className="flex gap-4 pl-4 pt-2 pb-4">
           <p
             onClick={() => {
@@ -88,7 +102,7 @@ const AddQuestions = () => {
         )}
       </div>
       {!isAddQuestion ? (
-        <div className="grid grid-cols-2 gap-4 px-4 overflow-y-auto h-[82vh] ">
+        <div className="grid grid-cols-2 gap-4 px-4 overflow-y-auto h-[72vh]  ">
           {questions.map((q, index) => (
             <SingleQuestion
               key={index}
@@ -99,8 +113,19 @@ const AddQuestions = () => {
               id={q._id}
               answer={q.answer}
               setIsAddQuestion={setIsAddQuestion}
+              setIsSelected={setIsSelected}
+              fetchQuestions={fetchQuestions}
             />
           ))}
+          <div className="absolute bottom-0 right-0 pb-1 pr-4">
+            <CustomPagination
+              totalPages={pagination.totalPages}
+              currentPage={pagination.page}
+              onPageChange={(newPage) =>
+                setPagination((prev) => ({ ...prev, page: newPage }))
+              }
+            />
+          </div>
         </div>
       ) : (
         <AddNewQue />

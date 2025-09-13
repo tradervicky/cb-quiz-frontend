@@ -62,6 +62,22 @@ export const addQuestion = async (data: Object) => {
   });
   return response;
 };
+//update question
+export const updateQuestion = async (data: Object, id: string) => {
+  const response = makeApiRequest({
+    method: "PUT",
+    url: authUrl.UPDATE_QUESTION + id,
+    data: data,
+  });
+  return response;
+};
+export const deleteQuestion = async (id: string) => {
+  const response = makeApiRequest({
+    method: "DELETE",
+    url: authUrl.DELETE_QUESTION + id,
+  });
+  return response;
+};
 export const uploadQuestion = async (data: any) => {
   const response = makeApiRequest({
     method: "POST",
