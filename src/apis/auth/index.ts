@@ -31,7 +31,7 @@ export const authUrl = {
   UPDATE_QUIZ: "/admin/quiz-update/",
   GET_ALL_QUIZ: "/admin/get-all-quiz",
   GET_QUIZ_BY_ID: "/admin/get-quiz/",
-  DELETE_QUIZ: "/admin/delete-quiz",
+  DELETE_QUIZ: "/admin/delete-quiz/",
   RETRIVE_QUIZ: "/admin/retrive-quiz",
   //user
   USER_SIGNUP: "user/signup",

@@ -10,10 +10,12 @@ import {
 import { Button } from "@/components/ui/button";
 import AddQuiz from "./AddQuiz";
 import { useEffect, useState } from "react";
-import { getAllQuiz } from "../apiCall";
+import { deleteQuiz, getAllQuiz } from "../apiCall";
 import LoaderTable from "@/components/custom/LoaderTable";
 import { copyToClipboard } from "@/shared/function";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import CustomAlert from "@/components/custom/CustomAlert";
 
 const CreateQuiz = () => {
   const [isAddQuiz, setIsAddQuiz] = useState(false);
@@ -24,6 +26,7 @@ const CreateQuiz = () => {
     { title: "SL No.", key: "serialNo" as const },
     { title: "Quiz Name", key: "name" as const },
     { title: "Quiz Id", key: "_id" as const },
+    { title: "Total Questions", key: "totalQuestions" as const },
     { title: "Price", key: "price" as const },
     { title: "Actions", key: "actions" as const },
   ];
@@ -55,10 +58,16 @@ const CreateQuiz = () => {
                 size={20}
                 className="cursor-pointer text-yellow-500 hover:text-yellow-700"
               />
-              <Trash2
-                size={20}
-                className="text-red-500 hover:text-red-700 cursor-pointer"
-              />
+              <CustomAlert
+                title="Delete Quiz"
+                description="Are you sure you want to delete this question?"
+                onContinue={() => handleDelete(item?._id)}
+              >
+                <Trash2
+                  size={20}
+                  className="text-red-500 hover:text-red-700 cursor-pointer"
+                />
+              </CustomAlert>
             </div>
           ),
         }));
@@ -68,6 +77,17 @@ const CreateQuiz = () => {
     } finally {
       setLoading(false);
     }
+  };
+  const handleDelete = async (id: string) => {
+    try {
+      setLoading(true);
+      const res = await deleteQuiz(id);
+      if (res.status) {
+        toast("Quiz deleted successfully");
+        fetchQuizes();
+        setLoading(false);
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {

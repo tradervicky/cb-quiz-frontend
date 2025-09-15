@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Minus, Plus } from "lucide-react";
-import React, { useState } from "react";
-import { addQuiz, getQuizById } from "../../apiCall";
+import React, { useEffect, useState } from "react";
+import { addQuiz, getQuizById, updateQuiz } from "../../apiCall";
 import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import LoaderOverlay from "@/components/custom/LoaderOverlay";
+import { toast } from "sonner";
 
 interface Description {
   title: string;
@@ -23,6 +25,7 @@ const AddQuiz = () => {
   const [instructorBio, setInstructorBio] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [searchParam] = useSearchParams();
+  const [loading, setLoading] = useState(false);
   const [shortDescriptions, setShortDescriptions] = useState<Description[]>([
     { title: "", content: "" },
   ]);
@@ -64,18 +67,44 @@ const AddQuiz = () => {
       quizFullDesc: fullDescriptions,
       price,
     };
-    const response = await addQuiz(quizData);
-  };
-  const fetchQuizById = async () => {
-    searchParam.get("id") {
-      const res = await getQuizById(searchParam.get("id"));
+    setLoading(true);
+    if (searchParam.get("id")) {
+      const res = await updateQuiz(quizData, searchParam.get("id"));
+      if (res.status) {
+        setLoading(false);
+        toast("Quiz updated successfully");
+      }
+    } else {
+      const res = await addQuiz(quizData);
+      if (res.status) {
+        setLoading(false);
+        toast("Quiz added successfully");
+      }
     }
   };
+  const fetchQuizById = async () => {
+    if (searchParam.get("id")) {
+      const res = await getQuizById(searchParam.get("id"));
+      if (res.status) {
+        console.log(res.data);
+        setTitle(res.data.title);
+        setInstructorBio(res.data.instructorBio);
+        setInstructorName(res.data.instructorName);
+        setPrice(res.data.price);
+        setFullDescriptions(res.data.quizFullDesc);
+        setShortDescriptions(res.data.quizShortDesc);
+      }
+    }
+  };
+  useEffect(() => {
+    fetchQuizById();
+  }, [searchParam.get("id")]);
 
   return (
     <>
       <div className="grid sm:grid-cols-2 grid-cols-1 gap-2 sm:gap-4 sm:p-4 p-2 sm:pb-0pb-0">
         {/* Instructor Name and Bio */}
+        <LoaderOverlay visible={loading} />
         <div>
           <Label>Quiz Title</Label>
           <Input
@@ -205,7 +234,9 @@ const AddQuiz = () => {
 
       {/* Submit Button */}
       <div className="w-full flex justify-end pr-4">
-        <Button onClick={handleSubmit}>Submit</Button>
+        <Button onClick={handleSubmit}>
+          {searchParam.get("id") ? "Update" : "Submit"}
+        </Button>
       </div>
     </>
   );
