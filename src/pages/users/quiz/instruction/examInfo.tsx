@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Params, useNavigate, useParams } from "react-router-dom";
 import { getQuizById } from "../../apiCall";
 import { useSelector } from "react-redux";
+import { toast } from "sonner";
 
 const ExamInfoPage = () => {
   const { id }: Params = useParams();
   const navigate = useNavigate();
   const [state, setState] = useState<any>(null);
+  const [allData, setAllData] = useState<any>(null);
   const user = useSelector((state: any) => state?.auth?.user);
   const [quizInfo, setQuizInfo] = useState<any>({
     quizId: "",
@@ -17,6 +19,7 @@ const ExamInfoPage = () => {
       const res = await getQuizById(id);
       if (res) {
         setState(res.data);
+        setAllData(res);
       }
     } catch (error) {
     } finally {
@@ -30,6 +33,10 @@ const ExamInfoPage = () => {
   }, [id]);
 
   const handleAttempt = () => {
+    if (allData?.remainingQuestions < 10) {
+      toast("No Enough Questions. Please try another quiz.");
+      return;
+    }
     if (quizInfo.quiestionId && quizInfo.quizId) {
       navigate(
         `/user/final-test/${state?._id}/${sessionStorage.getItem(
@@ -37,7 +44,7 @@ const ExamInfoPage = () => {
         )}`
       );
     } else {
-      navigate(`/user/final-test/1`);
+      navigate(`/user/final-test/${state?._id}/1`);
       sessionStorage.setItem("attemptedQuestionId", "1");
       sessionStorage.setItem("attemptedQuizId", id);
     }

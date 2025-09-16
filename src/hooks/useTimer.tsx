@@ -1,27 +1,36 @@
 import { useEffect, useState } from "react";
 
-// time is passed in seconds (default 15 minutes = 900s)
-const useTimer = (initialTime = 15, onExpire: any) => {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
+export function useTimer(durationInMinutes: number, onTimeUp: () => void) {
+  const initialSeconds =
+    parseInt(sessionStorage.getItem("quizRemainingSeconds") || "0", 10) ||
+    durationInMinutes * 60;
+
+  const [timeLeft, setTimeLeft] = useState<number>(initialSeconds);
 
   useEffect(() => {
     if (timeLeft <= 0) {
-      if (onExpire) onExpire();
+      onTimeUp();
       return;
     }
 
     const interval = setInterval(() => {
-      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          sessionStorage.removeItem("quizRemainingSeconds");
+          onTimeUp();
+          return 0;
+        }
+        const updated = prev - 1;
+        sessionStorage.setItem("quizRemainingSeconds", updated.toString());
+        return updated;
+      });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timeLeft, onExpire]);
+  }, [timeLeft, onTimeUp]);
 
-  // Convert seconds → minutes:seconds
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
-  return { timeLeft, minutes, seconds };
-};
-
-export default useTimer;
+  return { minutes, seconds, timeLeft };
+}
