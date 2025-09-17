@@ -94,10 +94,11 @@ export const getLeaderboard = async (data: any) => {
   });
   return response;
 };
-export const getUserTestReport = async () => {
+export const getUserTestReport = async (data: any) => {
   const response = await makeApiRequest({
     method: "POST",
     url: authUrl.USER_REPORT,
+    data: data,
   });
   return response;
 };

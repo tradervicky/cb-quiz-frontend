@@ -30,6 +30,12 @@ export function useBlockKeys() {
         e.preventDefault();
         alert("Copy/Paste is disabled during the test.");
       }
+
+      // Block Esc (exit fullscreen)
+      if (e.key === "Escape") {
+        e.preventDefault();
+        alert("Escape key is disabled during the test.");
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);

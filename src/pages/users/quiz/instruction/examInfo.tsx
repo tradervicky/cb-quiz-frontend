@@ -3,6 +3,7 @@ import { Params, useNavigate, useParams } from "react-router-dom";
 import { getQuizById } from "../../apiCall";
 import { useSelector } from "react-redux";
 import { toast } from "sonner";
+import { useDetectDevTools } from "@/hooks/useDetectDevTools";
 
 const ExamInfoPage = () => {
   const { id }: Params = useParams();
@@ -10,6 +11,8 @@ const ExamInfoPage = () => {
   const [state, setState] = useState<any>(null);
   const [allData, setAllData] = useState<any>(null);
   const user = useSelector((state: any) => state?.auth?.user);
+  const isDevToolsOpen = useDetectDevTools();
+
   const [quizInfo, setQuizInfo] = useState<any>({
     quizId: "",
     quiestionId: "",
@@ -38,12 +41,20 @@ const ExamInfoPage = () => {
       return;
     }
     if (quizInfo.quiestionId && quizInfo.quizId) {
+      if (isDevToolsOpen) {
+        alert("Please close your dev tools");
+        return;
+      }
       navigate(
         `/user/final-test/${state?._id}/${sessionStorage.getItem(
           "attemptedQuestionId"
         )}`
       );
     } else {
+      if (isDevToolsOpen) {
+        alert("Please close your dev tools");
+        return;
+      }
       navigate(`/user/final-test/${state?._id}/1`);
       sessionStorage.setItem("attemptedQuestionId", "1");
       sessionStorage.setItem("attemptedQuizId", id);
@@ -62,7 +73,7 @@ const ExamInfoPage = () => {
   };
   return (
     <div>
-      <div className="max-h-[88vh] bg-primary sm:p-8 p-4 overflow-y-scroll">
+      <div className="h-[88vh] bg-primary sm:p-8 p-4 overflow-y-scroll">
         <div className="bg-secondary shadow-lg rounded-lg sm:p-8 p-2   ">
           <header className="flex justify-between items-center border-b pb-4">
             <h1 className="text-lg font-bold text-btn ">Exam Information</h1>

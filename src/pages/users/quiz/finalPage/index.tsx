@@ -37,6 +37,7 @@ const FinalTestPage: React.FC = () => {
       const res = await startQuiz(params.params);
       setQuestions(res?.attempt?.questions || []);
       setAllData(res?.attempt || {});
+      sessionStorage.setItem("id", JSON.stringify(res?.attempt?._id));
     } catch (error) {
       console.error("Error starting quiz:", error);
     }
@@ -69,15 +70,17 @@ const FinalTestPage: React.FC = () => {
   };
 
   const finalSubmitQuiz = async () => {
+    let _attemptedId = sessionStorage.getItem("id");
     try {
-      await finalSubmit({ attemptId: allData?._id });
+      await finalSubmit({ attemptId: allData?._id || _attemptedId });
       alert("Your test has been submitted successfully!");
-      navigate("/user/test-summary"); // redirect after submission
+      sessionStorage.clear();
+      navigate("/user/test-summary");
     } catch (error) {
       console.error("Error submitting quiz:", error);
     }
   };
-  const { minutes, seconds } = useTimer(10, () => finalSubmitQuiz());
+  const { minutes, seconds } = useTimer(15, () => finalSubmitQuiz());
   // ===================== HANDLERS =====================
   const handleBack = () => {
     const currentIndex = parseInt(params.id);
