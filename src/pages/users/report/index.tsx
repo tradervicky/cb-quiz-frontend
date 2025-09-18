@@ -7,6 +7,8 @@ import CustomPagination from "@/components/custom/CustomPagination";
 import { Download, Eye, Play } from "lucide-react";
 import { getFinalStatus } from "@/shared/function";
 import { formatShortMonthDate } from "@/shared/date";
+import { useNavigate } from "react-router-dom";
+import { useDetectDevTools } from "@/hooks/useDetectDevTools";
 const headerData = [
   { title: "SL No.", key: "sNo" as const },
   { title: "Quiz Name", key: "title" as const },
@@ -21,10 +23,17 @@ const headerData = [
 const UserReports = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const [state, setState] = useState<any>(null);
+  const isDevToolsOpen = useDetectDevTools();
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
     totalPages: 1,
+  });
+  const [quizInfo, setQuizInfo] = useState<any>({
+    quizId: "",
+    quiestionId: "",
   });
   const getAllTestReports = async (page) => {
     try {
@@ -47,6 +56,7 @@ const UserReports = () => {
             {getFinalStatus(d.expiresAt, d.status) === "Ongoing" && (
               <div className="flex gap-2">
                 <Play
+                  onClick={() => handleAttempt(d.quizId)}
                   size={18}
                   className="cursor-pointer hover:scale-110 ease-in-out"
                 />
@@ -73,7 +83,31 @@ const UserReports = () => {
   useEffect(() => {
     getAllTestReports(pagination.page);
   }, [pagination.page]);
-  console.log(pagination);
+  const handleAttempt = (id: string) => {
+    // if (allData?.remainingQuestions < 10) {
+    //   toast("No Enough Questions. Please try another quiz.");
+    //   return;
+    // }
+    // if (quizInfo.quiestionId && quizInfo.quizId) {
+    //   if (isDevToolsOpen) {
+    //     alert("Please close your dev tools");
+    //     return;
+    //   }
+    //   navigate(
+    //     `/user/final-test/${state?._id}/${sessionStorage.getItem(
+    //       "attemptedQuestionId"
+    //     )}`
+    //   );
+    // } else {
+    //   if (isDevToolsOpen) {
+    //     alert("Please close your dev tools");
+    //     return;
+    //   }
+    navigate(`/user/final-test/${id}/1`);
+    //   sessionStorage.setItem("attemptedQuestionId", "1");
+    //   sessionStorage.setItem("attemptedQuizId", id);
+    // }
+  };
   return (
     <div>
       <div>
