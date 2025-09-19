@@ -42,6 +42,7 @@ export const authUrl = {
   USER_ALL_PRIVATE_QUIZES: "/user/get-all-quiz",
   USER_MY_QUIZES: "/user/get-my-quiz",
   USER_QUIZ_BY_ID: "/user/get-quiz/",
+  GET_RESULT: "/user/quiz/result",
 
   //payment
   GET_SESSION_ID: "user/payment",

@@ -1,7 +1,12 @@
 import React from "react";
+import InvoicePage from "../invoice";
 
 const UserDashboard = () => {
-  return <div>UserDashboard</div>;
+  return (
+    <div>
+      <InvoicePage />
+    </div>
+  );
 };
 
 export default UserDashboard;

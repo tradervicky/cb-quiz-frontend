@@ -102,3 +102,11 @@ export const getUserTestReport = async (data: any) => {
   });
   return response;
 };
+export const getResult = async (data: any) => {
+  const response = await makeApiRequest({
+    method: "POST",
+    url: authUrl.GET_RESULT,
+    data: data,
+  });
+  return response;
+};
