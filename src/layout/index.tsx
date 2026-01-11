@@ -33,7 +33,7 @@ const Layout: React.FC<childrenProps> = ({ children }) => {
       {isAuthenticated && (role === "admin" || role === "user") ? (
         <div className="flex gap-1">
           {!shouldHideBars && <Leftbar />}
-          <div className="flex  flex-col flex-grow">
+          <div className="flex  flex-col flex-grow ">
             {!shouldHideBars && <Topbar />}
             <Rightbar>{children}</Rightbar>
           </div>
