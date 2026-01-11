@@ -55,4 +55,19 @@ export const authUrl = {
   FINAL_SUBMIT: "/user/quiz/final-submit",
   LEADERBOARD: "/user/quiz/leaderboard",
   USER_REPORT: "/user/quiz/reports",
+  
+  // User Profile
+  USER_PROFILE: "/user/profile",
+  USER_UPDATE_PROFILE: "/user/update-profile",
+
+  // Admin Profile
+  ADMIN_PROFILE: "/admin/profile",
+  ADMIN_UPDATE_PROFILE: "/admin/update-profile",
+  ADMIN_DASHBOARD: "/admin/dashboard",
+
+  // User Dashboard
+  USER_DASHBOARD: "/user/dashboard",
+
+  // Admin Students
+  ADMIN_STUDENTS: "/admin/students",
 };

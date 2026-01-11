@@ -1,5 +1,4 @@
 import { authUrl } from "@/apis/auth";
-import { toast } from "sonner";
 import { makeApiRequest } from "../../../apis/functions";
 import { Params } from "react-router-dom";
 
@@ -95,7 +94,7 @@ export const getLeaderboard = async (data: any) => {
   return response;
 };
 export const getUserTestReport = async (data: any) => {
-  const response = await makeApiRequest({
+  const response = await makeApiRequest<any>({
     method: "POST",
     url: authUrl.USER_REPORT,
     data: data,
@@ -103,10 +102,18 @@ export const getUserTestReport = async (data: any) => {
   return response;
 };
 export const getResult = async (data: any) => {
-  const response = await makeApiRequest({
+  const response = await makeApiRequest<any>({
     method: "POST",
     url: authUrl.GET_RESULT,
     data: data,
+  });
+  return response;
+};
+
+export const getUserDashboardStats = async () => {
+  const response = await makeApiRequest<any>({
+    method: "GET",
+    url: authUrl.USER_DASHBOARD,
   });
   return response;
 };

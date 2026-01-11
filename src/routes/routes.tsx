@@ -27,9 +27,15 @@ const AddQuestions = lazy(() => import("@/pages/admin/addQuestions"));
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 const UserLogin = lazy(() => import("@/pages/users/login"));
 const UserContainer = lazy(() => import("@/container/users"));
+const TestSummary = lazy(() => import("@/pages/users/quiz/result"));
 const Pricing = lazy(() => import("@/pages/users/pricing"));
 const MyTest = lazy(() => import("@/pages/users/mytest"));
 const CreateQuiz = lazy(() => import("@/pages/admin/createQuiz"));
+const UserProfile = lazy(() => import("@/pages/users/profile"));
+const AdminProfile = lazy(() => import("@/pages/admin/profile"));
+const AdminStudents = lazy(() => import("@/pages/admin/students"));
+
+const QuizReport = lazy(() => import("@/pages/users/report/QuizReport"));
 
 // Open Routes
 const openRoutes: RouteConfig[] = [
@@ -57,7 +63,9 @@ const usersRoutes: RouteConfig[] = [
   { path: "/user/all-tests", exact: true, element: <AllTests /> },
   { path: "/user/my-tests", exact: true, element: <MyTests /> },
   { path: "/user/test-info/:id", exact: true, element: <ExamInfoPage /> },
+  { path: "/user/test-summary", exact: true, element: <TestSummary /> },
   { path: "/user/reports", exact: true, element: <UserReports /> },
+  { path: "/user/report/view", exact: true, element: <QuizReport /> },
   {
     path: "/user/final-test/:params/:id",
     exact: true,
@@ -69,6 +77,7 @@ const usersRoutes: RouteConfig[] = [
   //payment
   { path: "/user/payment-success", exact: true, element: <SuccessPage /> },
   { path: "/user/payment-failed", exact: true, element: <FailedPage /> },
+  { path: "/profile", exact: true, element: <UserProfile /> },
   { path: "/user/payment-status", exact: true, element: <PaymentStatus /> },
   { path: "/", exact: true, element: <UserDashboard /> },
   { path: "*", exact: true, element: <UserDashboard /> },
@@ -101,7 +110,9 @@ const adminRoutes: RouteConfig[] = [
   { path: "/quiz/category", exact: true, element: <AddCategory /> },
   { path: "/quiz/type", exact: true, element: <AddTypes /> },
   { path: "/quiz/questions", exact: true, element: <AddQuestions /> },
+  { path: "/profile", exact: true, element: <AdminProfile /> },
   { path: "/create-quiz", exact: true, element: <CreateQuiz /> },
+  { path: "/admin/students", exact: true, element: <AdminStudents /> },
   { path: "*", exact: true, element: <AdminDashboard /> },
 ];
 

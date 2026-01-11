@@ -51,6 +51,7 @@ const UserReports = () => {
               <Download
                 size={18}
                 className="cursor-pointer hover:scale-110 ease-in-out"
+                onClick={() => navigate("/user/report/view", { state: { attemptId: d._id } })}
               />
             )}
             {getFinalStatus(d.expiresAt, d.status) === "Ongoing" && (
@@ -66,6 +67,7 @@ const UserReports = () => {
               <Eye
                 size={18}
                 className="cursor-pointer hover:scale-110 ease-in-out"
+                onClick={() => navigate("/user/report/view", { state: { attemptId: d._id } })}
               />
             )}
           </div>
